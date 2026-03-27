@@ -26,7 +26,11 @@ api.interceptors.response.use(
       // Token expired or invalid - clear localStorage
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
-        window.location.href = '/login';
+        // Extract current locale from pathname (e.g., /pl/dashboard -> pl)
+        const currentLocale = window.location.pathname.split('/')[1];
+        const validLocales = ['pl', 'en'];
+        const locale = validLocales.includes(currentLocale) ? currentLocale : 'pl';
+        window.location.href = `/${locale}/login`;
       }
     }
     return Promise.reject(error);

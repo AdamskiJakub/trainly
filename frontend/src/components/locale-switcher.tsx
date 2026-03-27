@@ -1,7 +1,7 @@
 'use client';
 
 import { useTransition } from 'react';
-import { useRouter, usePathname } from '@/i18n/routing';
+import { useRouter, usePathname, type Locale } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +18,7 @@ export function LocaleSwitcher() {
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
 
-  const onSelectChange = (nextLocale: string) => {
+  const onSelectChange = (nextLocale: Locale) => {
     startTransition(() => {
       router.replace(pathname, { locale: nextLocale });
     });
