@@ -1,0 +1,38 @@
+{
+  "HomePage": {
+    "hero": {
+      "title": "Znajdź Idealnego",
+      "titleHighlight": "Trenera",
+      "description": "Połącz się z profesjonalnymi trenerami, instruktorami i ekspertami wellness. Rezerwuj sesje, śledź postępy i osiągaj swoje cele fitness.",
+      "browseButton": "Przeglądaj Trenerów",
+      "signUpButton": "Zarejestruj się"
+    },
+    "features": {
+      "findExperts": {
+        "title": "🔍 Znajdź Ekspertów",
+        "description": "Przeglądaj zweryfikowanych trenerów, instruktorów i profesjonalistów wellness",
+        "content": "Szukaj według specjalizacji, lokalizacji i ocen, aby znaleźć idealne dopasowanie."
+      },
+      "easyBooking": {
+        "title": "📅 Łatwa Rezerwacja",
+        "description": "Rezerwuj sesje bezpośrednio przez naszą platformę",
+        "content": "Prosty interfejs kalendarza z natychmiastowym potwierdzeniem i przypomnieniami."
+      },
+      "reviews": {
+        "title": "⭐ Recenzje i Oceny",
+        "description": "Podejmuj świadome decyzje dzięki prawdziwym opiniom klientów",
+        "content": "Czytaj autentyczne recenzje i zobacz oceny od zweryfikowanych klientów."
+      }
+    },
+    "stats": {
+      "trainers": "Zweryfikowanych Trenerów",
+      "sessions": "Zarezerwowanych Sesji",
+      "rating": "Średnia Ocena"
+    }
+  },
+  "Common": {
+    "language": "Język",
+    "polish": "Polski",
+    "english": "English"
+  }
+}
