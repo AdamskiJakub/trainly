@@ -1,4 +1,12 @@
 import axios from 'axios';
+import { routing } from '@/i18n/routing';
+
+// Validate API URL at module init
+if (!process.env.NEXT_PUBLIC_API_URL) {
+  throw new Error(
+    'NEXT_PUBLIC_API_URL is not defined. Please set it in your .env.local file.'
+  );
+}
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -26,10 +34,11 @@ api.interceptors.response.use(
       // Token expired or invalid - clear localStorage
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
-        // Extract current locale from pathname (e.g., /pl/dashboard -> pl)
+        // Extract current locale from pathname and validate against routing.locales
         const currentLocale = window.location.pathname.split('/')[1];
-        const validLocales = ['pl', 'en'];
-        const locale = validLocales.includes(currentLocale) ? currentLocale : 'pl';
+        const locale = routing.locales.includes(currentLocale as any) 
+          ? currentLocale 
+          : routing.defaultLocale;
         window.location.href = `/${locale}/login`;
       }
     }

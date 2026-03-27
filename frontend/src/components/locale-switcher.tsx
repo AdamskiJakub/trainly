@@ -28,15 +28,15 @@ export function LocaleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" disabled={isPending}>
-          🌍 {locale.toUpperCase()}
+          <span aria-hidden="true">🌍</span> {locale.toUpperCase()}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onSelectChange('pl')}>
-          🇵🇱 {t('polish')}
+          <span aria-hidden="true">🇵🇱</span> {t('polish')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onSelectChange('en')}>
-          🇬🇧 {t('english')}
+          <span aria-hidden="true">🇬🇧</span> {t('english')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
