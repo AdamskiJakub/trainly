@@ -12,39 +12,38 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: dto.email },
-    });
-
-    if (existingUser) {
-      throw new ConflictException('User with this email already exists');
-    }
-
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        password: hashedPassword,
-        firstName: dto.firstName,
-        lastName: dto.lastName,
-        phone: dto.phone,
-        role: dto.role || 'CLIENT',
-      },
-    });
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          password: hashedPassword,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          phone: dto.phone,
+          role: 'CLIENT',
+        },
+      });
 
-    const token = await this.generateToken(user.id, user.email, user.role);
+      const token = await this.generateToken(user.id, user.email, user.role);
 
-    return {
-      access_token: token,
-      user: {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
-    };
+      return {
+        access_token: token,
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      };
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('User with this email already exists');
+      }
+      throw error;
+    }
   }
 
   async login(dto: LoginDto) {

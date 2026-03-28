@@ -10,12 +10,18 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     PassportModule,
     JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'fallback-secret',
-        signOptions: {
-          expiresIn: configService.get('JWT_EXPIRATION') || '7d',
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const secret = configService.get<string>('JWT_SECRET');
+        if (!secret) {
+          throw new Error('JWT_SECRET must be defined in environment variables');
+        }
+        return {
+          secret,
+          signOptions: {
+            expiresIn: configService.get('JWT_EXPIRATION') || '7d',
+          },
+        };
+      },
       inject: [ConfigService],
     }),
   ],
