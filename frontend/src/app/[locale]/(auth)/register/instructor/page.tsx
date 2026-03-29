@@ -1,115 +1,55 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { Link, useRouter } from '@/i18n/routing';
-import { z } from 'zod';
-import { apiClient } from '@/lib/api-client';
-import { useAuthStore } from '@/stores/auth-store';
-
-// Instructor registration schema - phone is REQUIRED
-const createInstructorRegisterSchema = (t: any) =>
-  z.object({
-    firstName: z.string().min(1, { message: t('firstNameRequired') }),
-    lastName: z.string().min(1, { message: t('lastNameRequired') }),
-    email: z.string().email({ message: t('invalidEmail') }),
-    phone: z
-      .string()
-      .min(1, { message: t('phoneRequired') })
-      .refine(
-        (val) => {
-          if (!val) return false;
-          const digitsOnly = val.replace(/[\s-]/g, '');
-          return /^(\+48)?[0-9]{9}$/.test(digitsOnly);
-        },
-        { message: t('phoneInvalid') }
-      ),
-    password: z
-      .string()
-      .min(8, { message: t('passwordMin') })
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        { message: t('passwordRegex') }
-      ),
-    confirmPassword: z.string().min(1, { message: t('confirmPasswordRequired') }),
-  }).refine((data) => data.password === data.confirmPassword, {
-    message: t('passwordMatch'),
-    path: ['confirmPassword'],
-  });
+import { Link } from '@/i18n/routing';
+import { useRegisterInstructorForm } from '@/hooks/useRegisterInstructorForm';
 
 export default function RegisterInstructorPage() {
   const t = useTranslations('auth');
-  const router = useRouter();
-  const setAuth = useAuthStore((state) => state.setAuth);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const registerSchema = createInstructorRegisterSchema(t);
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(registerSchema),
-  });
-
-  const onSubmit = async (data: any) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Remove confirmPassword before sending to backend
-      const { confirmPassword, ...registerData } = data;
-      
-      const response = await apiClient.post('/auth/register-instructor', registerData);
-
-      const { user, access_token } = response.data;
-      
-      setAuth(user, access_token);
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || 'Registration failed. Please try again.'
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { form, isLoading, error, onSubmit } = useRegisterInstructorForm();
+  const { register, formState: { errors } } = form;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        {/* Header */}
-        <div>
-          <div className="flex items-center justify-center mb-4">
-            <div className="text-5xl">💪</div>
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {t('createAccount')} - {t('instructorRole')}
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            {t('haveAccount')}{' '}
-            <Link href="/login" className="font-medium text-purple-600 hover:text-purple-500">
-              {t('loginLink')}
-            </Link>
-          </p>
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <Link href="/">
+            <h1 className="text-4xl font-bold text-gradient-trainly mb-2 cursor-pointer hover:opacity-90 transition-opacity">
+              Trainly
+            </h1>
+          </Link>
         </div>
 
-        {/* Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          {error && (
-            <div className="rounded-md bg-red-50 p-4">
-              <p className="text-sm text-red-800">{error}</p>
+        {/* Card */}
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 shadow-2xl space-y-6">
+          {/* Header */}
+          <div>
+            <div className="flex items-center justify-center mb-4">
+              <div className="text-5xl">💪</div>
             </div>
+            <h2 className="text-center text-3xl font-extrabold text-white">
+              {t('createAccount')} - {t('instructorRole')}
+            </h2>
+            <p className="mt-2 text-center text-sm text-slate-400">
+              {t('haveAccount')}{' '}
+              <Link href="/login" className="font-medium text-purple-400 hover:text-purple-300 transition-colors">
+                {t('loginLink')}
+              </Link>
+            </p>
+          </div>
+
+          {/* Form */}
+          <form className="space-y-6" onSubmit={onSubmit}>
+            {error && (
+              <div className="rounded-lg bg-red-500/10 border border-red-500/50 p-4">
+                <p className="text-sm text-red-400">{error}</p>
+              </div>
           )}
 
           <div className="space-y-4">
-            {/* First Name */}
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="firstName" className="block text-sm font-medium text-slate-200">
                 {t('firstName')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -117,16 +57,15 @@ export default function RegisterInstructorPage() {
                 type="text"
                 {...register('firstName')}
                 placeholder={t('firstNamePlaceholder')}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-600 placeholder-slate-500 text-slate-100 bg-slate-900/50 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
               />
               {errors.firstName && (
-                <p className="mt-1 text-sm text-red-600">{errors.firstName.message as string}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.firstName.message as string}</p>
               )}
             </div>
 
-            {/* Last Name */}
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="lastName" className="block text-sm font-medium text-slate-200">
                 {t('lastName')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -134,16 +73,15 @@ export default function RegisterInstructorPage() {
                 type="text"
                 {...register('lastName')}
                 placeholder={t('lastNamePlaceholder')}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-600 placeholder-slate-500 text-slate-100 bg-slate-900/50 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
               />
               {errors.lastName && (
-                <p className="mt-1 text-sm text-red-600">{errors.lastName.message as string}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.lastName.message as string}</p>
               )}
             </div>
 
-            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-slate-200">
                 {t('email')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -151,16 +89,15 @@ export default function RegisterInstructorPage() {
                 type="email"
                 {...register('email')}
                 placeholder={t('emailPlaceholder')}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-600 placeholder-slate-500 text-slate-100 bg-slate-900/50 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message as string}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.email.message as string}</p>
               )}
             </div>
 
-            {/* Phone (REQUIRED for instructors) */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="phone" className="block text-sm font-medium text-slate-200">
                 {t('phone')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -168,17 +105,16 @@ export default function RegisterInstructorPage() {
                 type="tel"
                 {...register('phone')}
                 placeholder="123456789"
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-600 placeholder-slate-500 text-slate-100 bg-slate-900/50 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
               />
               <p className="mt-1 text-xs text-gray-500">{t('phoneRequiredForInstructor')}</p>
               {errors.phone && (
-                <p className="mt-1 text-sm text-red-600">{errors.phone.message as string}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.phone.message as string}</p>
               )}
             </div>
 
-            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-slate-200">
                 {t('password')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -186,60 +122,60 @@ export default function RegisterInstructorPage() {
                 type="password"
                 {...register('password')}
                 placeholder={t('passwordHint')}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-600 placeholder-slate-500 text-slate-100 bg-slate-900/50 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
               />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password.message as string}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.password.message as string}</p>
               )}
             </div>
 
-            {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-200">
                 {t('confirmPassword')} <span className="text-red-500">*</span>
               </label>
               <input
                 id="confirmPassword"
                 type="password"
                 {...register('confirmPassword')}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-600 placeholder-slate-500 text-slate-100 bg-slate-900/50 rounded-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
               />
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message as string}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.confirmPassword.message as string}</p>
               )}
             </div>
           </div>
 
-          <div>
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full gradient-trainly-primary text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 disabled:opacity-50 transition-all shadow-lg hover:shadow-xl cursor-pointer disabled:cursor-not-allowed"
             >
               {isLoading ? t('creatingAccount') : t('createAccount')}
             </button>
-          </div>
 
-          {/* Link to client registration */}
-          <div className="text-center">
-            <Link 
-              href="/register/client"
-              className="text-sm text-orange-600 hover:text-orange-500"
-            >
-              {t('registerAsClientInstead')}
-            </Link>
-          </div>
+            {/* Footer links */}
+            <div className="space-y-2">
+              <div className="text-center">
+                <Link 
+                  href="/register/client"
+                  className="text-sm text-orange-400 hover:text-orange-300 transition-colors"
+                >
+                  {t('registerAsClientInstead')}
+                </Link>
+              </div>
 
-          {/* Back to role selection */}
-          <div className="text-center">
-            <Link 
-              href="/register"
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              ← {t('backToRoleSelection')}
-            </Link>
-          </div>
-        </form>
+              <div className="text-center">
+                <Link 
+                  href="/register"
+                  className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                >
+                  ← {t('backToRoleSelection')}
+                </Link>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

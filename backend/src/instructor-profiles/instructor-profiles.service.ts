@@ -6,11 +6,11 @@ import { CreateInstructorProfileDto } from './dto/create-instructor-profile.dto'
 export class InstructorProfilesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateInstructorProfileDto) {
+  async create(userId: string, dto: CreateInstructorProfileDto) {
     try {
       const profile = await this.prisma.instructorProfile.create({
         data: {
-          userId: dto.userId,
+          userId: userId,
           bio: dto.bio,
           specializations: dto.specializations || [],
           city: dto.city,

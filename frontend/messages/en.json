@@ -61,6 +61,8 @@
     "phoneHint": "Optional: 9 digits (spaces OK)",
     "login": "Log In",
     "loggingIn": "Logging in...",
+    "loginFailed": "Login failed. Please try again.",
+    "registrationFailed": "Registration failed. Please try again.",
     "createAccount": "Create Account",
     "creatingAccount": "Creating account...",
     "noAccount": "Don't have an account?",

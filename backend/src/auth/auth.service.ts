@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto, LoginDto } from './dto';
@@ -51,7 +51,7 @@ export class AuthService {
 
     // Validate phone is provided for instructors
     if (!dto.phone) {
-      throw new ConflictException('Phone number is required for instructors');
+      throw new BadRequestException('Phone number is required for instructors');
     }
 
     try {

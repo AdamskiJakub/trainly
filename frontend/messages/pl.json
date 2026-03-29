@@ -61,6 +61,8 @@
     "phoneHint": "Opcjonalnie: 9 cyfr (spacje OK)",
     "login": "Zaloguj się",
     "loggingIn": "Logowanie...",
+    "loginFailed": "Logowanie nie powiodło się. Spróbuj ponownie.",
+    "registrationFailed": "Rejestracja nie powiodła się. Spróbuj ponownie.",
     "createAccount": "Stwórz konto",
     "creatingAccount": "Tworzenie konta...",
     "noAccount": "Nie masz konta?",

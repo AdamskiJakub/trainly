@@ -11,15 +11,15 @@ export class InstructorProfilesController {
   @Post()
   @UseGuards(JwtAuthGuard)
   async create(@Body() dto: CreateInstructorProfileDto, @Req() req: Request) {
-    // Use authenticated user's ID if not provided
-    const userId = dto.userId || (req.user as any).userId;
-    return this.profilesService.create({ ...dto, userId });
+    // Always use authenticated user's ID (security - prevent creating profiles for other users)
+    const userId = (req.user as any).id;
+    return this.profilesService.create(userId, dto);
   }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getMyProfile(@Req() req: Request) {
-    const userId = (req.user as any).userId;
+    const userId = (req.user as any).id;
     return this.profilesService.findByUserId(userId);
   }
 }
