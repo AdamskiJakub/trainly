@@ -38,7 +38,7 @@ export default function LoginPage() {
                 {...register('email')}
                 id="email"
                 type="email"
-                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[--color-trainly-orange] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-(--color-trainly-orange) focus:border-transparent transition-all"
                 placeholder="you@example.com"
               />
               {errors.email && (
@@ -59,7 +59,7 @@ export default function LoginPage() {
                 {...register('password')}
                 id="password"
                 type="password"
-                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[--color-trainly-orange] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-(--color-trainly-orange) focus:border-transparent transition-all"
                 placeholder="••••••••"
               />
               {errors.password && (

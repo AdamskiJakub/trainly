@@ -44,7 +44,7 @@ export default function RegisterClientPage() {
           <div className="space-y-4">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-slate-200">
-                {t('firstName')}
+                {t('firstName')} <span className="text-red-400">*</span>
               </label>
               <input
                 id="firstName"
@@ -60,7 +60,7 @@ export default function RegisterClientPage() {
 
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium text-slate-200">
-                {t('lastName')}
+                {t('lastName')} <span className="text-red-400">*</span>
               </label>
               <input
                 id="lastName"

@@ -1,24 +1,23 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface User {
+// Minimal user data returned by auth endpoints (login/register)
+// Note: Does not include phone/createdAt/updatedAt (those are in full User type)
+export interface AuthUser {
   id: string;
   email: string;
   role: 'CLIENT' | 'INSTRUCTOR' | 'ADMIN';
   firstName: string | null;
   lastName: string | null;
-  phone: string | null;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 interface AuthState {
-  user: User | null;
+  user: AuthUser | null;
   token: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, token: string) => void;
+  setAuth: (user: AuthUser, token: string) => void;
   logout: () => void;
-  updateUser: (user: Partial<User>) => void;
+  updateUser: (user: Partial<AuthUser>) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
