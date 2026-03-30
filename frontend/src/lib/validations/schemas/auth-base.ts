@@ -49,9 +49,10 @@ export const createOptionalPhoneSchema = (t: (key: string) => string) =>
   z
     .string()
     .optional()
+    .transform((val) => (val && val.trim() === '' ? undefined : val)) // Normalize empty string to undefined
     .refine(
       (val) => {
-        if (!val || val.trim() === '') return true; // Phone is optional
+        if (!val) return true; // Phone is optional
         const digitsOnly = val.replace(/[\s-]/g, '');
         // Accept 9 digits OR +48 followed by 9 digits
         return /^(\+48)?[0-9]{9}$/.test(digitsOnly);

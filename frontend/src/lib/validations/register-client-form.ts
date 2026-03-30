@@ -6,7 +6,6 @@ import {
   createFirstNameSchema,
   createLastNameSchema,
   createOptionalPhoneSchema,
-  passwordMatchRefiner,
 } from './schemas/auth-base';
 
 export const createRegisterClientSchema = (t: (key: string) => string) => {

@@ -103,5 +103,16 @@
     "specializationsRequired": "Provide at least one specialization",
     "specializationsPlaceholder": "Personal Training, Yoga, Dance",
     "specializationsHint": "Separate with commas (e.g. Strength Training, Yoga, Stretching)"
+  },
+  "Dashboard": {
+    "welcomeBack": "Welcome back",
+    "logout": "Logout",
+    "yourProfile": "Your Profile",
+    "id": "ID",
+    "name": "Name",
+    "comingSoon": "Coming Soon",
+    "phase4": "PHASE 4: Instructor Profiles",
+    "phase5": "PHASE 5: Booking System",
+    "phase6": "PHASE 6: Reviews & Ratings"
   }
 }

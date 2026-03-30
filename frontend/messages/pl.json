@@ -103,5 +103,16 @@
     "specializationsRequired": "Podaj przynajmniej jedną specjalizację",
     "specializationsPlaceholder": "Trening personalny, Yoga, Taniec",
     "specializationsHint": "Oddziel przecinkami (np. Trening siłowy, Yoga, Stretching)"
+  },
+  "Dashboard": {
+    "welcomeBack": "Witaj ponownie",
+    "logout": "Wyloguj",
+    "yourProfile": "Twój Profil",
+    "id": "ID",
+    "name": "Imię",
+    "comingSoon": "Wkrótce",
+    "phase4": "FAZA 4: Profile Instruktorów",
+    "phase5": "FAZA 5: System Rezerwacji",
+    "phase6": "FAZA 6: Recenzje i Oceny"
   }
 }
