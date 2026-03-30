@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
 import { createRegisterClientSchema, type RegisterClientFormData } from '@/lib/validations/register-client-form';
-import { apiClient } from '@/lib/api-client';
+import { apiClient } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth-store';
 import { normalizeApiError } from '@/lib/utils/error-handlers';
 

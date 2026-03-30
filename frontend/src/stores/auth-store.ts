@@ -5,8 +5,11 @@ export interface User {
   id: string;
   email: string;
   role: 'CLIENT' | 'INSTRUCTOR' | 'ADMIN';
-  firstName?: string;
-  lastName?: string;
+  firstName: string | null;
+  lastName: string | null;
+  phone: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface AuthState {
