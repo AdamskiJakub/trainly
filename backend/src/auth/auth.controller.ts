@@ -14,6 +14,12 @@ export class AuthController {
     return this.authService.register(dto);
   }
 
+  @Post('register-instructor')
+  @HttpCode(HttpStatus.CREATED)
+  async registerInstructor(@Body() dto: RegisterDto) {
+    return this.authService.registerInstructor(dto);
+  }
+
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginDto) {

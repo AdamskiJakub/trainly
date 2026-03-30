@@ -10,6 +10,38 @@ export const routing = defineRouting({
   
   // Always show locale prefix in URL
   localePrefix: 'always',
+  
+  // Localized pathnames (folder names stay in English!)
+  pathnames: {
+    '/': {
+      pl: '/',
+      en: '/',
+    },
+    '/login': {
+      pl: '/logowanie',
+      en: '/login',
+    },
+    '/register': {
+      pl: '/rejestracja',
+      en: '/register',
+    },
+    '/register/client': {
+      pl: '/rejestracja/klient',
+      en: '/register/client',
+    },
+    '/register/instructor': {
+      pl: '/rejestracja/instruktor',
+      en: '/register/instructor',
+    },
+    '/dashboard': {
+      pl: '/panel',
+      en: '/dashboard',
+    },
+    '/instructors': {
+      pl: '/instruktorzy',
+      en: '/instructors',
+    },
+  },
 });
 
 export type Locale = (typeof routing.locales)[number];

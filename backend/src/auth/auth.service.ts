@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto, LoginDto } from './dto';
@@ -22,7 +22,47 @@ export class AuthService {
           firstName: dto.firstName,
           lastName: dto.lastName,
           phone: dto.phone,
-          role: 'CLIENT',
+          role: 'CLIENT', // Force CLIENT role for public registration
+        },
+      });
+
+      const token = await this.generateToken(user.id, user.email, user.role);
+
+      return {
+        access_token: token,
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      };
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('User with this email already exists');
+      }
+      throw error;
+    }
+  }
+
+  async registerInstructor(dto: RegisterDto) {
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+    // Validate phone is provided for instructors
+    if (!dto.phone) {
+      throw new BadRequestException('Phone number is required for instructors');
+    }
+
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          password: hashedPassword,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          phone: dto.phone,
+          role: 'INSTRUCTOR', // Force INSTRUCTOR role
         },
       });
 
