@@ -34,6 +34,13 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       useAuthStore.getState().logout();
+      if (typeof window !== 'undefined') {
+        setTimeout(() => {
+          if (!useAuthStore.getState().isAuthenticated) {
+            window.location.href = '/login';
+          }
+        }, 100);
+      }
     }
     return Promise.reject(error);
   }
