@@ -1,8 +1,16 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth-store';
 
+const baseURL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : undefined);
+
+if (!baseURL) {
+  throw new Error('NEXT_PUBLIC_API_URL is not defined');
+}
+
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },

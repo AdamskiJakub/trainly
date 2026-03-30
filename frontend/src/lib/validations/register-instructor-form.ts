@@ -6,9 +6,12 @@ import {
   createFirstNameSchema,
   createLastNameSchema,
   createRequiredPhoneSchema,
+  passwordMatchRefiner,
 } from './schemas/auth-base';
 
 export const createRegisterInstructorSchema = (t: (key: string) => string) => {
+  const refiner = passwordMatchRefiner(t);
+  
   return z
     .object({
       email: createEmailSchema(t),
@@ -18,13 +21,10 @@ export const createRegisterInstructorSchema = (t: (key: string) => string) => {
       lastName: createLastNameSchema(t),
       phone: createRequiredPhoneSchema(t),
     })
-    .refine(
-      (data) => data.password === data.confirmPassword,
-      {
-        message: t('passwordMatch'),
-        path: ['confirmPassword'],
-      }
-    );
+    .refine(refiner.refine, {
+      message: refiner.message,
+      path: ['confirmPassword'],
+    });
 };
 
 export type RegisterInstructorFormData = z.infer<ReturnType<typeof createRegisterInstructorSchema>>;
