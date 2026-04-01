@@ -29,8 +29,8 @@ export function WordCloud() {
   }, []);
 
   return (
-    <div className="relative w-full h-125 overflow-hidden flex items-center justify-center">
-        
+    <div className="relative w-full h-128 overflow-hidden flex items-center justify-center">
+
       <div className="relative z-10 flex flex-wrap items-center justify-center gap-4 max-w-xl">
         {words.map((word, index) => (
           <span

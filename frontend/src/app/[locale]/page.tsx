@@ -41,17 +41,19 @@ export default function Home() {
                   <div className="flex-1">
                     <input
                       type="text"
-                      placeholder="🔍 Miasto..."
+                      placeholder={t('hero.citySearchPlaceholder')}
+                      aria-label={t('hero.citySearchLabel')}
                       className="w-full px-4 py-4 rounded-lg bg-slate-800/50 border-2 border-slate-700 text-white placeholder-slate-400 focus:border-orange-500 focus:outline-none transition-colors text-base"
                     />
                   </div>
 
                   <div className="flex-1">
                     <select
+                      aria-label={t('hero.specializationLabel')}
                       className="w-full px-4 py-4 rounded-lg bg-slate-800/50 border-2 border-slate-700 text-white focus:border-orange-500 focus:outline-none transition-colors text-base appearance-none cursor-pointer"
                       defaultValue=""
                     >
-                      <option value="" disabled>💪 Specjalizacja...</option>
+                      <option value="" disabled>{t('hero.specializationPlaceholder')}</option>
                       <option value="personal-trainer">Trener personalny</option>
                       <option value="yoga">Yoga</option>
                       <option value="nutrition">Dietetyk</option>
@@ -67,7 +69,7 @@ export default function Home() {
                   className="w-full bg-linear-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-semibold px-10 py-7 text-xl shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 transition-all"
                   asChild
                 >
-                  <Link href="/instructors">Szukaj Trenerów</Link>
+                  <Link href="/instructors">{t('hero.primaryCta')}</Link>
                 </Button>
               </div>
             </div>

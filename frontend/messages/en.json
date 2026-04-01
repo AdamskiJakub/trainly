@@ -4,6 +4,11 @@
       "title": "Find Your Perfect",
       "titleHighlight": "Trainer",
       "description": "Connect with professional trainers, instructors, and wellness experts. Book sessions, track progress, and achieve your fitness goals.",
+      "primaryCta": "Search Trainers",
+      "citySearchLabel": "Search city",
+      "citySearchPlaceholder": "🔍 City...",
+      "specializationLabel": "Select specialization",
+      "specializationPlaceholder": "💪 Specialization...",
       "browseButton": "Browse Trainers",
       "signUpButton": "Sign Up"
     },
@@ -33,7 +38,11 @@
   "Common": {
     "language": "Language",
     "polish": "Polski",
-    "english": "English"
+    "english": "English",
+    "login": "Log In",
+    "register": "Sign Up",
+    "homeAriaLabel": "Trainly - home page",
+    "changeLanguage": "Change language. Current language"
   },
   "auth": {
     "loginSubtitle": "Sign in to your account",

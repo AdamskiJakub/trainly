@@ -32,7 +32,7 @@ export function LocaleSwitcher() {
           size="lg"
           disabled={isPending}
           className="text-slate-300 hover:text-white hover:bg-slate-800 text-2xl px-3"
-          aria-label={`Zmień język. Aktualny język: ${locale === 'pl' ? 'Polski' : 'English'}`}
+          aria-label={`${t('changeLanguage')}: ${locale === 'pl' ? t('polish') : t('english')}`}
         >
           {locale === 'pl' ? '🇵🇱' : '🇬🇧'}
         </Button>
@@ -43,14 +43,14 @@ export function LocaleSwitcher() {
           className="hover:bg-slate-800 cursor-pointer text-slate-300 text-base"
           role="menuitem"
         >
-          <span className="mr-2" aria-hidden="true">🇵🇱</span> Polski
+          <span className="mr-2" aria-hidden="true">🇵🇱</span> {t('polish')}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => onSelectChange('en')}
           className="hover:bg-slate-800 cursor-pointer text-slate-300 text-base"
           role="menuitem"
         >
-          <span className="mr-2" aria-hidden="true">🇬🇧</span> English
+          <span className="mr-2" aria-hidden="true">🇬🇧</span> {t('english')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

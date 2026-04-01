@@ -4,6 +4,11 @@
       "title": "Znajdź Idealnego",
       "titleHighlight": "Trenera",
       "description": "Połącz się z profesjonalnymi trenerami, instruktorami i ekspertami wellness. Rezerwuj sesje, śledź postępy i osiągaj swoje cele fitness.",
+      "primaryCta": "Szukaj Trenerów",
+      "citySearchLabel": "Wyszukaj miasto",
+      "citySearchPlaceholder": "🔍 Miasto...",
+      "specializationLabel": "Wybierz specjalizację",
+      "specializationPlaceholder": "💪 Specjalizacja...",
       "browseButton": "Przeglądaj Trenerów",
       "signUpButton": "Zarejestruj się"
     },
@@ -33,7 +38,11 @@
   "Common": {
     "language": "Język",
     "polish": "Polski",
-    "english": "English"
+    "english": "English",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "homeAriaLabel": "Trainly - strona główna",
+    "changeLanguage": "Zmień język. Aktualny język"
   },
   "auth": {
     "loginSubtitle": "Zaloguj się do swojego konta",
