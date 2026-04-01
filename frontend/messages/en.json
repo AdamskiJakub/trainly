@@ -4,24 +4,29 @@
       "title": "Find Your Perfect",
       "titleHighlight": "Trainer",
       "description": "Connect with professional trainers, instructors, and wellness experts. Book sessions, track progress, and achieve your fitness goals.",
+      "primaryCta": "Search Trainers",
+      "citySearchLabel": "Search city",
+      "citySearchPlaceholder": "🔍 City...",
+      "specializationLabel": "Select specialization",
+      "specializationPlaceholder": "💪 Specialization...",
       "browseButton": "Browse Trainers",
       "signUpButton": "Sign Up"
     },
     "features": {
       "findExperts": {
-        "title": "🔍 Find Experts",
-        "description": "Browse verified trainers, instructors, and wellness professionals",
-        "content": "Search by specialization, location, and ratings to find the perfect match."
+        "title": "Find Experts",
+        "description": "Browse verified trainers and fitness professionals",
+        "content": "Filter by specialization, location, and ratings to find the perfect match."
       },
-      "easyBooking": {
-        "title": "📅 Easy Booking",
-        "description": "Book sessions directly through our platform",
-        "content": "Simple calendar interface with instant confirmation and reminders."
+      "directContact": {
+        "title": "Direct Contact",
+        "description": "Connect with trainers and arrange details",
+        "content": "View full profile, pricing, and availability. Message and book sessions on your terms."
       },
       "reviews": {
-        "title": "⭐ Reviews & Ratings",
-        "description": "Make informed decisions with real client feedback",
-        "content": "Read authentic reviews and see ratings from verified clients."
+        "title": "Client Reviews",
+        "description": "Make informed decisions with feedback from others",
+        "content": "See ratings and read experiences from others to choose the best trainer."
       }
     },
     "stats": {
@@ -33,7 +38,11 @@
   "Common": {
     "language": "Language",
     "polish": "Polski",
-    "english": "English"
+    "english": "English",
+    "login": "Log In",
+    "register": "Sign Up",
+    "homeAriaLabel": "Trainly - home page",
+    "changeLanguage": "Change language. Current language"
   },
   "auth": {
     "loginSubtitle": "Sign in to your account",

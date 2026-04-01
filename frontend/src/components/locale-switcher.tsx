@@ -27,16 +27,30 @@ export function LocaleSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" disabled={isPending}>
-          <span aria-hidden="true">🌍</span> {locale.toUpperCase()}
+        <Button 
+          variant="ghost" 
+          size="lg"
+          disabled={isPending}
+          className="text-slate-300 hover:text-white hover:bg-slate-800 text-2xl px-3"
+          aria-label={`${t('changeLanguage')}: ${locale === 'pl' ? t('polish') : t('english')}`}
+        >
+          {locale === 'pl' ? '🇵🇱' : '🇬🇧'}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => onSelectChange('pl')}>
-          <span aria-hidden="true">🇵🇱</span> {t('polish')}
+      <DropdownMenuContent align="end" className="bg-slate-900 border-slate-700">
+        <DropdownMenuItem 
+          onClick={() => onSelectChange('pl')}
+          className="hover:bg-slate-800 cursor-pointer text-slate-300 text-base"
+          role="menuitem"
+        >
+          <span className="mr-2" aria-hidden="true">🇵🇱</span> {t('polish')}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onSelectChange('en')}>
-          <span aria-hidden="true">🇬🇧</span> {t('english')}
+        <DropdownMenuItem 
+          onClick={() => onSelectChange('en')}
+          className="hover:bg-slate-800 cursor-pointer text-slate-300 text-base"
+          role="menuitem"
+        >
+          <span className="mr-2" aria-hidden="true">🇬🇧</span> {t('english')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

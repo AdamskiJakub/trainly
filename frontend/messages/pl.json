@@ -4,24 +4,29 @@
       "title": "Znajdź Idealnego",
       "titleHighlight": "Trenera",
       "description": "Połącz się z profesjonalnymi trenerami, instruktorami i ekspertami wellness. Rezerwuj sesje, śledź postępy i osiągaj swoje cele fitness.",
+      "primaryCta": "Szukaj Trenerów",
+      "citySearchLabel": "Wyszukaj miasto",
+      "citySearchPlaceholder": "🔍 Miasto...",
+      "specializationLabel": "Wybierz specjalizację",
+      "specializationPlaceholder": "💪 Specjalizacja...",
       "browseButton": "Przeglądaj Trenerów",
       "signUpButton": "Zarejestruj się"
     },
     "features": {
       "findExperts": {
-        "title": "🔍 Znajdź Ekspertów",
-        "description": "Przeglądaj zweryfikowanych trenerów, instruktorów i profesjonalistów wellness",
-        "content": "Szukaj według specjalizacji, lokalizacji i ocen, aby znaleźć idealne dopasowanie."
+        "title": "Znajdź Ekspertów",
+        "description": "Przeglądaj zweryfikowanych trenerów i profesjonalistów fitness",
+        "content": "Filtruj według specjalizacji, lokalizacji i ocen, aby znaleźć idealne dopasowanie."
       },
-      "easyBooking": {
-        "title": "📅 Łatwa Rezerwacja",
-        "description": "Rezerwuj sesje bezpośrednio przez naszą platformę",
-        "content": "Prosty interfejs kalendarza z natychmiastowym potwierdzeniem i przypomnieniami."
+      "directContact": {
+        "title": "Bezpośredni Kontakt",
+        "description": "Skontaktuj się z trenerem i ustal szczegóły",
+        "content": "Zobacz pełny profil, cennik i dostępność. Napisz i umów się na sesję na Twoich warunkach."
       },
       "reviews": {
-        "title": "⭐ Recenzje i Oceny",
-        "description": "Podejmuj świadome decyzje dzięki prawdziwym opiniom klientów",
-        "content": "Czytaj autentyczne recenzje i zobacz oceny od zweryfikowanych klientów."
+        "title": "Recenzje Klientów",
+        "description": "Podejmuj świadome decyzje dzięki opiniom innych",
+        "content": "Zobacz oceny i przeczytaj doświadczenia innych osób, aby wybrać najlepszego trenera."
       }
     },
     "stats": {
@@ -33,7 +38,11 @@
   "Common": {
     "language": "Język",
     "polish": "Polski",
-    "english": "English"
+    "english": "English",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "homeAriaLabel": "Trainly - strona główna",
+    "changeLanguage": "Zmień język. Aktualny język"
   },
   "auth": {
     "loginSubtitle": "Zaloguj się do swojego konta",
