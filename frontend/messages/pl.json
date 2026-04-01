@@ -123,5 +123,65 @@
     "phase4": "FAZA 4: Profile Instruktorów",
     "phase5": "FAZA 5: System Rezerwacji",
     "phase6": "FAZA 6: Recenzje i Oceny"
+  },
+  "Footer": {
+    "tagline": "Połącz się z najlepszymi trenerami fitness i wellness w Polsce.",
+    "platform": {
+      "title": "Platforma",
+      "findTrainers": "Znajdź Trenerów",
+      "becomeInstructor": "Zostań Instruktorem",
+      "howItWorks": "Jak to działa",
+      "pricing": "Cennik"
+    },
+    "support": {
+      "title": "Pomoc",
+      "helpCenter": "Centrum Pomocy",
+      "contact": "Kontakt",
+      "faq": "FAQ",
+      "safety": "Bezpieczeństwo"
+    },
+    "legal": {
+      "title": "Informacje Prawne",
+      "privacy": "Polityka Prywatności",
+      "terms": "Regulamin",
+      "cookies": "Polityka Cookies"
+    },
+    "allRightsReserved": "Wszelkie prawa zastrzeżone."
+  },
+  "HowItWorks": {
+    "title": "Jak to działa",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Pricing": {
+    "title": "Cennik",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Help": {
+    "title": "Centrum Pomocy",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Contact": {
+    "title": "Kontakt",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "FAQ": {
+    "title": "Najczęściej Zadawane Pytania",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Safety": {
+    "title": "Bezpieczeństwo",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Privacy": {
+    "title": "Polityka Prywatności",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Terms": {
+    "title": "Regulamin",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Cookies": {
+    "title": "Polityka Cookies",
+    "comingSoon": "Strona w przygotowaniu"
   }
 }

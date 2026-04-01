@@ -41,6 +41,42 @@ export const routing = defineRouting({
       pl: '/instruktorzy',
       en: '/instructors',
     },
+    '/how-it-works': {
+      pl: '/jak-to-dziala',
+      en: '/how-it-works',
+    },
+    '/pricing': {
+      pl: '/cennik',
+      en: '/pricing',
+    },
+    '/help': {
+      pl: '/pomoc',
+      en: '/help',
+    },
+    '/contact': {
+      pl: '/kontakt',
+      en: '/contact',
+    },
+    '/faq': {
+      pl: '/faq',
+      en: '/faq',
+    },
+    '/safety': {
+      pl: '/bezpieczenstwo',
+      en: '/safety',
+    },
+    '/privacy': {
+      pl: '/polityka-prywatnosci',
+      en: '/privacy',
+    },
+    '/terms': {
+      pl: '/regulamin',
+      en: '/terms',
+    },
+    '/cookies': {
+      pl: '/polityka-cookies',
+      en: '/cookies',
+    },
   },
 });
 

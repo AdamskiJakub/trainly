@@ -4,19 +4,19 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
 import { LocaleSwitcher } from '@/components/locale-switcher';
-import { DumbbellIcon } from '@/components/ui/dumbbell-icon';
+import { DumbbellIcon } from 'lucide-react';
 
 export function Navbar() {
   const t = useTranslations('Common');
   
   return (
-    <nav className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50" aria-label="Main navigation">
+    <nav className="border-b border-slate-800 bg-slate-900  backdrop-blur-md sticky top-0 z-50" aria-label="Main navigation">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-20">
 
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity" aria-label={t('homeAriaLabel')}>
-            <DumbbellIcon className="w-10 h-10" />
-            <span className="text-3xl font-bold bg-linear-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
+            <DumbbellIcon className="w-8 h-8 text-orange-500" />
+            <span className="text-3xl font-bold bg-linear-to-r from-orange-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
               Trainly
             </span>
           </Link>

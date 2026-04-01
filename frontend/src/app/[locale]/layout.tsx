@@ -6,6 +6,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ReactQueryProvider } from "@/lib/react-query-provider";
 import { Toaster } from "@/components/toaster";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +37,6 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
@@ -44,10 +44,14 @@ export default async function LocaleLayout({
       lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col  bg-slate-950">
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>
-            {children}
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
             <Toaster />
           </ReactQueryProvider>
         </NextIntlClientProvider>

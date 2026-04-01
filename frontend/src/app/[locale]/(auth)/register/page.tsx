@@ -2,26 +2,28 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import { DumbbellIcon } from 'lucide-react';
 
 export default function RegisterPage() {
   const t = useTranslations('auth');
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full space-y-8">
-
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+    <div className="py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl w-full mx-auto space-y-10">
+        
+        {/* Header with Logo */}
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-white mb-3">
             {t('registerAs')}
           </h2>
-          <p className="mt-2 text-center text-sm text-slate-400">
+          <p className="text-lg text-slate-300">
             {t('chooseRoleDescription')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <Link href="/register/client">
-            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-orange-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm">
+            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-orange-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm h-full">
               <div className="text-center">
                 <div className="text-5xl mb-4">👤</div>
                 <h3 className="text-2xl font-bold text-white mb-2">
@@ -39,10 +41,6 @@ export default function RegisterPage() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-orange-500 mr-2">✓</span>
-                  <span className="text-slate-300">{t('clientFeature2')}</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-orange-500 mr-2">✓</span>
                   <span className="text-slate-300">{t('clientFeature3')}</span>
                 </li>
               </ul>
@@ -55,7 +53,7 @@ export default function RegisterPage() {
 
           {/* INSTRUCTOR CARD */}
           <Link href="/register/instructor">
-            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-purple-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm relative overflow-hidden">
+            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-purple-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm relative overflow-hidden h-full">
              
               <div className="text-center">
                 <div className="text-5xl mb-4">💪</div>
@@ -74,10 +72,6 @@ export default function RegisterPage() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-500 mr-2">✓</span>
-                  <span className="text-slate-300">{t('instructorFeature2')}</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-purple-500 mr-2">✓</span>
                   <span className="text-slate-300">{t('instructorFeature3')}</span>
                 </li>
               </ul>
@@ -89,23 +83,28 @@ export default function RegisterPage() {
           </Link>
         </div>
 
-        <div className="text-center">
-          <p className="text-slate-400 mb-2">{t('notReadyToRegister')}</p>
-          <Link 
-            href="/instructors"
-            className="text-orange-500 hover:text-orange-400 font-medium transition-colors"
-          >
-            {t('browseAsGuest')} →
-          </Link>
-        </div>
+        <div className="text-center space-y-4">
+          <div>
+            <p className="text-slate-300 mb-2">{t('notReadyToRegister')}</p>
+            <Link 
+              href="/instructors"
+              className="text-orange-500 hover:text-orange-400 font-semibold transition-colors text-lg"
+            >
+              {t('browseAsGuest')} →
+            </Link>
+          </div>
 
-        <div className="text-center">
-          <Link 
-            href="/login"
-            className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
-          >
-            {t('alreadyHaveAccount')} <span className="font-medium">{t('loginLink')}</span>
-          </Link>
+          <div className="pt-4 border-t border-slate-700">
+            <p className="text-slate-300 text-base">
+              {t('alreadyHaveAccount')}{' '}
+              <Link 
+                href="/login"
+                className="text-orange-500 hover:text-orange-400 font-semibold transition-colors"
+              >
+                {t('loginLink')}
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

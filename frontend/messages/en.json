@@ -123,5 +123,65 @@
     "phase4": "PHASE 4: Instructor Profiles",
     "phase5": "PHASE 5: Booking System",
     "phase6": "PHASE 6: Reviews & Ratings"
+  },
+  "Footer": {
+    "tagline": "Connect with the best fitness and wellness trainers in Poland.",
+    "platform": {
+      "title": "Platform",
+      "findTrainers": "Find Trainers",
+      "becomeInstructor": "Become Instructor",
+      "howItWorks": "How It Works",
+      "pricing": "Pricing"
+    },
+    "support": {
+      "title": "Support",
+      "helpCenter": "Help Center",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "safety": "Safety"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    },
+    "allRightsReserved": "All rights reserved."
+  },
+  "HowItWorks": {
+    "title": "How It Works",
+    "comingSoon": "Page coming soon"
+  },
+  "Pricing": {
+    "title": "Pricing",
+    "comingSoon": "Page coming soon"
+  },
+  "Help": {
+    "title": "Help Center",
+    "comingSoon": "Page coming soon"
+  },
+  "Contact": {
+    "title": "Contact",
+    "comingSoon": "Page coming soon"
+  },
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "comingSoon": "Page coming soon"
+  },
+  "Safety": {
+    "title": "Safety",
+    "comingSoon": "Page coming soon"
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "comingSoon": "Page coming soon"
+  },
+  "Terms": {
+    "title": "Terms of Service",
+    "comingSoon": "Page coming soon"
+  },
+  "Cookies": {
+    "title": "Cookie Policy",
+    "comingSoon": "Page coming soon"
   }
 }

@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Navbar } from '@/components/layout/navbar';
 import { WordCloud } from '@/components/ui/word-cloud';
 
 export default function Home() {
@@ -10,7 +9,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-950">
-      <Navbar />
 
       <div className="relative overflow-hidden">
 
