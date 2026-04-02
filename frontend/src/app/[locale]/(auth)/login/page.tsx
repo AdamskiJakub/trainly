@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { useLoginForm } from '@/hooks/useLoginForm';
+import { DumbbellIcon } from 'lucide-react';
 
 export default function LoginPage() {
   const t = useTranslations('auth');
@@ -10,16 +11,17 @@ export default function LoginPage() {
   const { register, formState: { errors } } = form;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+    <div className="flex items-center justify-center py-16 px-4">
       <div className="w-full max-w-md">
         {/* Logo/Title */}
-        <div className="text-center mb-8">
-          <Link href="/">
-            <h1 className="text-4xl font-bold text-gradient-trainly mb-2 cursor-pointer hover:opacity-90 transition-opacity">
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-flex items-center gap-2 mb-4" aria-label="Trainly home">
+            <DumbbellIcon className="w-10 h-10 text-orange-500" aria-hidden="true" />
+            <h1 className="text-5xl font-bold bg-linear-to-r from-orange-400 via-orange-500 to-red-500 bg-clip-text text-transparent cursor-pointer hover:opacity-90 transition-opacity">
               Trainly
             </h1>
           </Link>
-          <p className="text-slate-400">
+          <p className="text-xl text-slate-200 font-medium mt-2">
             {t('loginSubtitle')}
           </p>
         </div>
@@ -38,7 +40,7 @@ export default function LoginPage() {
                 {...register('email')}
                 id="email"
                 type="email"
-                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-(--color-trainly-orange) focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                 placeholder="you@example.com"
               />
               {errors.email && (
@@ -59,7 +61,7 @@ export default function LoginPage() {
                 {...register('password')}
                 id="password"
                 type="password"
-                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-(--color-trainly-orange) focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                 placeholder="••••••••"
               />
               {errors.password && (
@@ -78,18 +80,18 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full gradient-trainly-primary text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-all shadow-lg hover:shadow-xl"
+              className="w-full bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-all shadow-lg hover:shadow-xl"
             >
               {isLoading ? t('loggingIn') : t('login')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-300 text-base">
               {t('noAccount')}{' '}
               <Link
                 href="/register"
-                className="text-(--color-trainly-orange) hover:text-(--color-trainly-coral) font-medium transition-colors"
+                className="text-orange-500 hover:text-orange-400 font-semibold transition-colors"
               >
                 {t('signUp')}
               </Link>
