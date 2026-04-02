@@ -148,6 +148,53 @@
     },
     "allRightsReserved": "Wszelkie prawa zastrzeżone."
   },
+  "InstructorsPage": {
+    "title": "Przeglądaj Trenerów",
+    "subtitle": "Znajdź idealnego trenera dla siebie",
+    "searchPlaceholder": "Szukaj...",
+    "card": {
+      "perHour": "za godzinę",
+      "viewProfile": "Zobacz profil",
+      "verified": "Zweryfikowany",
+      "yearsExp": "{count}+ lat doświadczenia",
+      "online": "Online",
+      "inPerson": "Osobiście",
+      "both": "Online i osobiście"
+    },
+    "filters": {
+      "category": "Kategoria",
+      "subcategory": "Specjalizacja",
+      "price": "Cena za sesję",
+      "rating": "Minimalna ocena",
+      "experience": "Doświadczenie",
+      "availability": "Dostępność",
+      "clearAll": "Wyczyść filtry",
+      "showResults": "Pokaż wyniki"
+    },
+    "experience": {
+      "all": "Wszystkie",
+      "beginner": "Początkujący (0-2 lata)",
+      "intermediate": "Średniozaawansowany (3-5 lat)",
+      "expert": "Ekspert (5+ lat)"
+    },
+    "availability": {
+      "all": "Wszystkie",
+      "online": "Online",
+      "inPerson": "Osobiście",
+      "both": "Online i osobiście"
+    },
+    "sortBy": {
+      "label": "Sortuj według",
+      "relevance": "Trafność",
+      "priceAsc": "Cena: rosnąco",
+      "priceDesc": "Cena: malejąco",
+      "rating": "Najwyżej oceniani",
+      "distance": "Odległość"
+    },
+    "noResults": "Nie znaleziono trenerów",
+    "noResultsDescription": "Spróbuj zmienić filtry lub wyszukaj w innym mieście",
+    "resultsCount": "{count} {count, plural, one {trener} few {trenerów} many {trenerów} other {trenerów}}"
+  },
   "HowItWorks": {
     "title": "Jak to działa",
     "comingSoon": "Strona w przygotowaniu"

@@ -35,6 +35,19 @@ export interface InstructorProfile {
   reviewCount?: number;
 }
 
+// Extended instructor type for listings with computed fields
+export interface InstructorListing extends InstructorProfile {
+  username: string; // for URL: /instructors/[username]
+  fullName: string; // firstName + lastName
+  tagline: string | null; // short bio for card
+  availability: 'online' | 'in-person' | 'both';
+  primarySpecialization: string; // main category ID
+  subcategories: string[]; // subcategory IDs
+  languages: string[]; // e.g., ['pl', 'en']
+  gallery: string[]; // array of image URLs
+  videoUrl: string | null; // optional promo video
+}
+
 // Service types
 export interface Service {
   id: string;
