@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { DumbbellIcon } from 'lucide-react';
 
 export default function RegisterPage() {
   const t = useTranslations('auth');
@@ -11,21 +10,21 @@ export default function RegisterPage() {
     <div className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full mx-auto space-y-10">
         
-        {/* Header with Logo */}
+        {/* Header */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-3">
+          <h1 className="text-3xl font-bold text-white mb-3">
             {t('registerAs')}
-          </h2>
+          </h1>
           <p className="text-lg text-slate-300">
             {t('chooseRoleDescription')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <Link href="/register/client">
-            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-orange-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm h-full">
+          <Link href="/register/client" aria-label={t('registerAsClient')}>
+            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-orange-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm h-full" role="button" tabIndex={0}>
               <div className="text-center">
-                <div className="text-5xl mb-4">👤</div>
+                <div className="text-5xl mb-4" aria-hidden="true">👤</div>
                 <h3 className="text-2xl font-bold text-white mb-2">
                   {t('clientRole')}
                 </h3>
@@ -52,11 +51,11 @@ export default function RegisterPage() {
           </Link>
 
           {/* INSTRUCTOR CARD */}
-          <Link href="/register/instructor">
-            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-purple-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm relative overflow-hidden h-full">
+          <Link href="/register/instructor" aria-label={t('registerAsInstructor')}>
+            <div className="group cursor-pointer rounded-lg border-2 border-slate-700 p-8 transition-all hover:border-purple-500 hover:shadow-xl bg-slate-800/50 backdrop-blur-sm relative overflow-hidden h-full" role="button" tabIndex={0}>
              
               <div className="text-center">
-                <div className="text-5xl mb-4">💪</div>
+                <div className="text-5xl mb-4" aria-hidden="true">💪</div>
                 <h3 className="text-2xl font-bold text-white mb-2">
                   {t('instructorRole')}
                 </h3>

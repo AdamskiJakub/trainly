@@ -15,8 +15,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo/Title */}
         <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <DumbbellIcon className="w-10 h-10 text-orange-500" />
+          <Link href="/" className="inline-flex items-center gap-2 mb-4" aria-label="Trainly home">
+            <DumbbellIcon className="w-10 h-10 text-orange-500" aria-hidden="true" />
             <h1 className="text-5xl font-bold bg-linear-to-r from-orange-400 via-orange-500 to-red-500 bg-clip-text text-transparent cursor-pointer hover:opacity-90 transition-opacity">
               Trainly
             </h1>

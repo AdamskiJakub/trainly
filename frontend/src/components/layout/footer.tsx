@@ -10,14 +10,13 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-900 border-t border-slate-800">
+    <footer className="bg-slate-900 border-t border-slate-800" role="contentinfo">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          
-          {/* Brand Section */}
+
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <DumbbellIcon className="w-8 h-8 text-orange-500" />
+              <DumbbellIcon className="w-8 h-8 text-orange-500" aria-hidden="true" />
               <span className="text-2xl font-bold bg-linear-to-r from-orange-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
                 Trainly
               </span>
@@ -27,9 +26,8 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Platform Links */}
-          <div>
-            <h3 className="text-white font-semibold text-base mb-4">{t('platform.title')}</h3>
+          <nav aria-labelledby="footer-platform-heading">
+            <h3 id="footer-platform-heading" className="text-white font-semibold text-base mb-4">{t('platform.title')}</h3>
             <ul className="space-y-2">
               {footerLinks.platform.map((link) => (
                 <li key={link.href}>
@@ -39,11 +37,10 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Support Links */}
-          <div>
-            <h3 className="text-white font-semibold text-base mb-4">{t('support.title')}</h3>
+          <nav aria-labelledby="footer-support-heading">
+            <h3 id="footer-support-heading" className="text-white font-semibold text-base mb-4">{t('support.title')}</h3>
             <ul className="space-y-2">
               {footerLinks.support.map((link) => (
                 <li key={link.href}>
@@ -53,11 +50,10 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Legal Links */}
-          <div>
-            <h3 className="text-white font-semibold text-base mb-4">{t('legal.title')}</h3>
+          <nav aria-labelledby="footer-legal-heading">
+            <h3 id="footer-legal-heading" className="text-white font-semibold text-base mb-4">{t('legal.title')}</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
@@ -67,18 +63,16 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
         </div>
 
-        {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-500 text-sm">
               © {currentYear} Trainly. {t('allRightsReserved')}
             </p>
-            
-            {/* Social Links */}
-            <div className="flex items-center gap-4">
+
+            <div className="flex items-center gap-4" role="navigation" aria-label="Social media links">
               {socialLinks.map((social) => (
                 <a 
                   key={social.name}
@@ -86,7 +80,7 @@ export function Footer() {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-slate-400 hover:text-orange-500 transition-colors"
-                  aria-label={social.name}
+                  aria-label={`Visit us on ${social.name}`}
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d={social.path} />
