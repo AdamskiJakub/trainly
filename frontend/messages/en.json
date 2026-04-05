@@ -4,6 +4,8 @@
       "title": "Find Your Perfect",
       "titleHighlight": "Trainer",
       "description": "Connect with professional trainers, instructors, and wellness experts. Book sessions, track progress, and achieve your fitness goals.",
+      "searchPlaceholder": "Search by name, company, gym...",
+      "searchLabel": "Keyword search",
       "primaryCta": "Search Trainers",
       "citySearchLabel": "Search city",
       "citySearchPlaceholder": "🔍 City...",
@@ -162,10 +164,15 @@
       "both": "Online & In-person"
     },
     "filters": {
+      "title": "Filters",
+      "ariaLabel": "Filter instructors",
       "category": "Category",
       "subcategory": "Specialization",
       "price": "Price per session",
       "rating": "Minimum rating",
+      "ratingAriaLabel": "Minimum rating filter",
+      "ratingOption": "{rating} stars and up",
+      "andUp": "& up",
       "experience": "Experience",
       "availability": "Availability",
       "clearAll": "Clear filters",
@@ -191,6 +198,7 @@
       "rating": "Highest Rated",
       "distance": "Distance"
     },
+    "resultsAriaLabel": "Search results",
     "noResults": "No trainers found",
     "noResultsDescription": "Try adjusting your filters or search in a different city",
     "resultsCount": "{count} {count, plural, one {trainer} other {trainers}}"

@@ -1,38 +1,43 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import type { FormEvent } from 'react';
+import { useRouter } from '@/i18n/routing';
 
 export function useHomeSearch() {
   const router = useRouter();
   const [city, setCity] = useState('');
   const [specialization, setSpecialization] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleSearch = useCallback(
-    (e?: React.FormEvent) => {
+    (e?: FormEvent) => {
       e?.preventDefault();
 
-      const params = new URLSearchParams();
+      const query: Record<string, string> = {};
 
       if (city.trim()) {
-        params.append('city', city.trim());
+        query.city = city.trim();
       }
 
       if (specialization) {
-        params.append('specialization', specialization);
+        query.specialization = specialization;
+      }
+      
+      if (search.trim()) {
+        query.search = search.trim();
       }
 
-      const queryString = params.toString();
-      const url = queryString ? `/instructors?${queryString}` : '/instructors';
-      
-      router.push(url);
+      router.push({ pathname: '/instructors', query });
     },
-    [city, specialization, router]
+    [city, specialization, search, router]
   );
 
   return {
     city,
     setCity,
+    search,
+    setSearch,
     specialization,
     setSpecialization,
     handleSearch,

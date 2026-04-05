@@ -4,6 +4,8 @@
       "title": "Znajdź Idealnego",
       "titleHighlight": "Trenera",
       "description": "Połącz się z profesjonalnymi trenerami, instruktorami i ekspertami wellness. Rezerwuj sesje, śledź postępy i osiągaj swoje cele fitness.",
+      "searchPlaceholder": "Szukaj po nazwisku, firmie, siłowni...",
+      "searchLabel": "Wyszukiwanie po słowach kluczowych",
       "primaryCta": "Szukaj Trenerów",
       "citySearchLabel": "Wyszukaj miasto",
       "citySearchPlaceholder": "🔍 Miasto...",
@@ -162,10 +164,15 @@
       "both": "Online i osobiście"
     },
     "filters": {
+      "title": "Filtry",
+      "ariaLabel": "Filtruj instruktorów",
       "category": "Kategoria",
       "subcategory": "Specjalizacja",
       "price": "Cena za sesję",
       "rating": "Minimalna ocena",
+      "ratingAriaLabel": "Filtr minimalnej oceny",
+      "ratingOption": "{rating} gwiazdek i więcej",
+      "andUp": "i więcej",
       "experience": "Doświadczenie",
       "availability": "Dostępność",
       "clearAll": "Wyczyść filtry",
@@ -191,6 +198,7 @@
       "rating": "Najwyżej oceniani",
       "distance": "Odległość"
     },
+    "resultsAriaLabel": "Wyniki wyszukiwania",
     "noResults": "Nie znaleziono trenerów",
     "noResultsDescription": "Spróbuj zmienić filtry lub wyszukaj w innym mieście",
     "resultsCount": "{count} {count, plural, one {trener} few {trenerów} many {trenerów} other {trenerów}}"

@@ -11,25 +11,31 @@ import {
 } from '@/components/ui/select';
 import { SPECIALIZATION_CATEGORIES } from '@/lib/config/specializations';
 import { getCategoryName } from '@/lib/utils/localization';
-
-interface InstructorSearchBarProps {
-  city: string;
-  specialization: string;
-  onCityChange: (city: string) => void;
-  onSpecializationChange: (specialization: string) => void;
-}
+import type { InstructorSearchBarProps } from './types';
 
 export function InstructorSearchBar({
   city,
   specialization,
+  search,
   onCityChange,
   onSpecializationChange,
+  onSearchChange,
 }: InstructorSearchBarProps) {
   const t = useTranslations('HomePage');
   const locale = useLocale();
 
   return (
     <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex-1">
+      <Input
+        type="text"
+        value={search}
+        onChange={(e) => onSearchChange(e.target.value)}
+        placeholder={t('hero.searchPlaceholder')}
+        aria-label={t('hero.searchLabel')}
+        className="h-12 text-base bg-slate-800/50 border-2 border-slate-700 text-white placeholder-slate-400 focus-visible:border-orange-500"
+      />
+    </div>
       <div className="flex-1">
         <Input
           type="text"

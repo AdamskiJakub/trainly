@@ -9,17 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import type { InstructorListing } from '@/types';
 import type { InstructorFilters } from '@/types/filters';
-
-interface ResultsSectionProps {
-  instructors: InstructorListing[];
-  filters: InstructorFilters;
-  updateFilter: <K extends keyof InstructorFilters>(
-    key: K,
-    value: InstructorFilters[K]
-  ) => void;
-}
+import type { ResultsSectionProps } from './types';
 
 export function ResultsSection({
   instructors,
@@ -29,7 +20,7 @@ export function ResultsSection({
   const t = useTranslations('InstructorsPage');
 
   return (
-    <main className="lg:col-span-3" role="main" aria-label="Search results">
+    <main className="lg:col-span-3" role="main" aria-label={t('resultsAriaLabel')}>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
           <p
@@ -44,7 +35,9 @@ export function ResultsSection({
         <div className="w-full sm:w-auto sm:min-w-50">
           <Select
             value={filters.sortBy || 'relevance'}
-            onValueChange={(value) => updateFilter('sortBy', value as any)}
+            onValueChange={(value) =>
+              updateFilter('sortBy', value as InstructorFilters['sortBy'])
+            }
           >
             <SelectTrigger
               className="w-full h-12 text-base bg-slate-800/50 border-slate-700 text-white focus-visible:border-orange-500 px-4"

@@ -1,17 +1,20 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useCallback, useEffect, useRef, use } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import type { InstructorFilters } from '@/types/filters';
 
 export function useInstructorFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const previousSpecialization = useRef<string>('');
 
   // Initialize filters from URL params
   const [filters, setFilters] = useState<InstructorFilters>({
     city: searchParams.get('city') || '',
     specialization: searchParams.get('specialization') || '',
+    search: searchParams.get('search') || '',
     subcategories: searchParams.getAll('subcategories') || undefined,
     priceMin: searchParams.get('priceMin') ? Number(searchParams.get('priceMin')) : undefined,
     priceMax: searchParams.get('priceMax') ? Number(searchParams.get('priceMax')) : undefined,
@@ -22,29 +25,41 @@ export function useInstructorFilters() {
     sortBy: (searchParams.get('sortBy') as any) || 'relevance',
   });
 
-  // Update URL when filters change
+  useEffect(() => {
+    const currentSpecialization = filters.specialization
+
+    if ( previousSpecialization.current && currentSpecialization !== previousSpecialization.current) {
+      setFilters((prev) => ({
+        ...prev,
+        subcategories: undefined,
+      }));
+    }
+    
+    previousSpecialization.current = currentSpecialization;
+  }, [filters.specialization]);
+
   const updateURL = useCallback(
-    (newFilters: InstructorFilters) => {
-      const params = new URLSearchParams();
+    (newFilters: InstructorFilters, scroll = false) => {
+      const query: Record<string, string | string[]> = {};
 
       Object.entries(newFilters).forEach(([key, value]) => {
         if (key === 'subcategories' && Array.isArray(value) && value.length > 0) {
-          // Handle array params
-          value.forEach((item) => params.append('subcategories', item));
-        } else if (value && value !== 'all' && value !== '') {
-          params.append(key, String(value));
+          query[key] = value;
+        } else if (
+          value !== undefined &&
+          value !== null &&
+          value !== 'all' &&
+          value !== ''
+        ) {
+          query[key] = String(value);
         }
       });
 
-      const queryString = params.toString();
-      const newURL = queryString ? `/instructors?${queryString}` : '/instructors';
-      
-      router.push(newURL, { scroll: false });
+      router.push({ pathname: '/instructors', query }, { scroll });
     },
     [router]
   );
 
-  // Toggle subcategory (multi-select)
   const toggleSubcategory = useCallback(
     (subcategoryId: string) => {
       const current = filters.subcategories || [];
@@ -57,17 +72,16 @@ export function useInstructorFilters() {
         subcategories: newSubcategories.length > 0 ? newSubcategories : undefined 
       };
       setFilters(newFilters);
-      updateURL(newFilters);
+      updateURL(newFilters, false);
     },
     [filters, updateURL]
   );
 
-  // Update individual filter
   const updateFilter = useCallback(
     <K extends keyof InstructorFilters>(key: K, value: InstructorFilters[K]) => {
       const newFilters = { ...filters, [key]: value };
       setFilters(newFilters);
-      updateURL(newFilters);
+      updateURL(newFilters, false);
     },
     [filters, updateURL]
   );
@@ -86,7 +100,6 @@ export function useInstructorFilters() {
     router.push('/instructors');
   }, [router]);
 
-  // Check if any filters are active
   const hasActiveFilters = 
     filters.city !== '' ||
     filters.specialization !== '' ||

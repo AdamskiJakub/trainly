@@ -4,12 +4,12 @@
 
 export interface SearchFilters {
   city: string;
-  specialization: string; // category ID
-  subcategories?: string[]; // subcategory IDs (for nested filters - multi-select)
+  specialization: string;
+  subcategories?: string[];
+  search?: string;
 }
 
 export interface InstructorFilters extends SearchFilters {
-  // Additional filters for instructor listing page
   priceMin?: number;
   priceMax?: number;
   minRating?: number;

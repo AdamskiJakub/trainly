@@ -1,19 +1,14 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import type { InstructorListing } from '@/types';
 import { getCategoryById, findSubcategoryById } from '@/lib/config/specializations';
 import { getCategoryName, getSubcategoryName } from '@/lib/utils/localization';
 import { MapPinIcon, VideoIcon, UserIcon, StarIcon } from 'lucide-react';
-
-interface InstructorCardProps {
-  instructor: InstructorListing;
-}
+import type { InstructorCardProps } from './types';
 
 export function InstructorCard({ instructor }: InstructorCardProps) {
   const locale = useLocale();
@@ -26,8 +21,10 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
     .join('')
     .toUpperCase();
 
+  const profileHref = `/instructors/${instructor.username}` as '/instructors';
+
   return (
-    <Link href={`/instructors/${instructor.username}`} className="block group">
+    <Link href={profileHref} className="block group">
       <Card className="bg-slate-900/50 border-slate-800 hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
         <div className="flex flex-col sm:flex-row gap-6 p-6">
           {/* Avatar Section */}
@@ -51,7 +48,11 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
                 <h3 className="text-xl font-bold text-white group-hover:text-orange-500 transition-colors">
                   {instructor.fullName}
                   {instructor.verified && (
-                    <span className="ml-2 text-orange-500" title={t('verified')}>
+                    <span
+                      className="ml-2 text-orange-500"
+                      title={t('verified')}
+                      aria-label={t('verified')}
+                    >
                       ✓
                     </span>
                   )}
@@ -158,14 +159,9 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
                 })}
               </div>
 
-              {/* View Profile Button */}
-              <Button
-                variant="ghost"
-                className="text-orange-500 hover:text-orange-400 hover:bg-orange-500/10"
-                size="sm"
-              >
+              <span className="text-orange-500 hover:text-orange-400 text-sm font-medium transition-colors">
                 {t('viewProfile')} →
-              </Button>
+              </span>
             </div>
           </div>
         </div>

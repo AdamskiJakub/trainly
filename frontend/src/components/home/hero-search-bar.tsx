@@ -17,11 +17,21 @@ import { getCategoryName } from '@/lib/utils/localization';
 export function HeroSearchBar() {
   const t = useTranslations('HomePage');
   const locale = useLocale();
-  const { city, setCity, specialization, setSpecialization, handleSearch } =
+  const { city, setCity, specialization, search, setSearch, setSpecialization, handleSearch } =
     useHomeSearch();
 
   return (
     <form onSubmit={handleSearch} className="space-y-4">
+      <div>
+      <Input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={t('hero.searchPlaceholder')}
+        aria-label={t('hero.searchLabel')}
+        className="h-14 text-lg bg-slate-800/50 border-2 border-slate-700 text-white placeholder-slate-400 focus-visible:border-orange-500"
+      />
+    </div>
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <Input

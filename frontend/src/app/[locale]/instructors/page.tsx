@@ -1,15 +1,22 @@
 'use client';
 
+import { useMemo } from 'react';
 import { InstructorSearchBar } from '@/components/instructors/instructor-search-bar';
 import { InstructorsPageHeader } from '@/components/instructors/page-header';
 import { FiltersSidebar } from '@/components/instructors/filters-sidebar';
 import { ResultsSection } from '@/components/instructors/results-section';
 import { useInstructorFilters } from '@/hooks/useInstructorFilters';
+import { filterAndSortInstructors } from '@/lib/utils/instructor-filters';
 import { MOCK_INSTRUCTORS } from '@/lib/mock-data/instructors';
 
 export default function InstructorsPage() {
   const { filters, updateFilter, toggleSubcategory, clearFilters, hasActiveFilters } =
     useInstructorFilters();
+
+  const filteredAndSortedInstructors = useMemo(
+    () => filterAndSortInstructors(MOCK_INSTRUCTORS, filters),
+    [filters]
+  );
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -20,8 +27,10 @@ export default function InstructorsPage() {
           <InstructorSearchBar
             city={filters.city}
             specialization={filters.specialization}
+            search={filters.search || ''}
             onCityChange={(city) => updateFilter('city', city)}
             onSpecializationChange={(spec) => updateFilter('specialization', spec)}
+            onSearchChange={(search) => updateFilter('search', search)}
           />
         </div>
 
@@ -35,7 +44,7 @@ export default function InstructorsPage() {
           />
 
           <ResultsSection
-            instructors={MOCK_INSTRUCTORS}
+            instructors={filteredAndSortedInstructors}
             filters={filters}
             updateFilter={updateFilter}
           />

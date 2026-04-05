@@ -11,18 +11,7 @@ import {
 } from '@/components/ui/select';
 import { getCategoryById } from '@/lib/config/specializations';
 import { getCategoryName, getSubcategoryName } from '@/lib/utils/localization';
-import type { InstructorFilters } from '@/types/filters';
-
-interface FiltersSidebarProps {
-  filters: InstructorFilters;
-  updateFilter: <K extends keyof InstructorFilters>(
-    key: K,
-    value: InstructorFilters[K]
-  ) => void;
-  toggleSubcategory: (subcategoryId: string) => void;
-  clearFilters: () => void;
-  hasActiveFilters: boolean;
-}
+import type { FiltersSidebarProps } from './types';
 
 export function FiltersSidebar({
   filters,
@@ -39,10 +28,10 @@ export function FiltersSidebar({
     : null;
 
   return (
-    <aside className="lg:col-span-1" role="region" aria-label="Filters">
+    <aside className="lg:col-span-1" role="region" aria-label={t('filters.ariaLabel')}>
       <div className="sticky top-24 space-y-4">
         <div className="flex items-center justify-between pt-0 md:pt-2">
-          <h2 className="text-xl font-semibold text-white">Filtry</h2>
+          <h2 className="text-xl font-semibold text-white">{t('filters.title')}</h2>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
@@ -195,7 +184,7 @@ export function FiltersSidebar({
             <h3 className="text-base font-semibold text-white mb-4">
               {t('filters.rating')}
             </h3>
-            <div className="space-y-2" role="group" aria-label="Minimum rating filter">
+            <div className="space-y-2" role="group" aria-label={t('filters.ratingAriaLabel')}>
               {[5, 4, 3, 2].map((rating) => (
                 <button
                   key={rating}
@@ -206,12 +195,12 @@ export function FiltersSidebar({
                       : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                   }`}
                   aria-pressed={filters.minRating === rating}
-                  aria-label={`${rating} stars and up`}
+                  aria-label={t('filters.ratingOption', { rating })}
                 >
                   <span className="flex items-center gap-1">
                     {'⭐'.repeat(rating)}
                   </span>
-                  <span className="text-sm">& up</span>
+                  <span className="text-sm">{t('filters.andUp')}</span>
                 </button>
               ))}
             </div>
