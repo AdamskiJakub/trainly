@@ -1,8 +1,7 @@
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/routing';
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WordCloud } from '@/components/ui/word-cloud';
+import { HeroSearchBar } from '@/components/home/hero-search-bar';
 
 export default function Home() {
   const t = useTranslations('HomePage');
@@ -34,41 +33,7 @@ export default function Home() {
               </div>
 
               <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row gap-4">
-
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      placeholder={t('hero.citySearchPlaceholder')}
-                      aria-label={t('hero.citySearchLabel')}
-                      className="w-full px-4 py-4 rounded-lg bg-slate-800/50 border-2 border-slate-700 text-white placeholder-slate-400 focus:border-orange-500 focus:outline-none transition-colors text-base"
-                    />
-                  </div>
-
-                  <div className="flex-1">
-                    <select
-                      aria-label={t('hero.specializationLabel')}
-                      className="w-full px-4 py-4 rounded-lg bg-slate-800/50 border-2 border-slate-700 text-white focus:border-orange-500 focus:outline-none transition-colors text-base appearance-none cursor-pointer"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>{t('hero.specializationPlaceholder')}</option>
-                      <option value="personal-trainer">Trener personalny</option>
-                      <option value="yoga">Yoga</option>
-                      <option value="nutrition">Dietetyk</option>
-                      <option value="physio">Fizjoterapeuta</option>
-                      <option value="crossfit">CrossFit</option>
-                      <option value="pilates">Pilates</option>
-                    </select>
-                  </div>
-                </div>
-
-                <Button 
-                  size="lg" 
-                  className="w-full bg-linear-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-semibold px-10 py-7 text-xl shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 transition-all"
-                  asChild
-                >
-                  <Link href="/instructors">{t('hero.primaryCta')}</Link>
-                </Button>
+                <HeroSearchBar />
               </div>
             </div>
 
