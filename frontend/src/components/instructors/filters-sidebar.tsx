@@ -9,8 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getCategoryById } from '@/lib/config/specializations';
-import { getCategoryName, getSubcategoryName } from '@/lib/utils/localization';
 import { GOALS, getGoalName } from '@/lib/config/goals';
 import { getAllTagsSorted, getTagName } from '@/lib/config/tags';
 import type { FiltersSidebarProps } from './types';
@@ -25,13 +23,6 @@ export function FiltersSidebar({
 }: FiltersSidebarProps) {
   const t = useTranslations('InstructorsPage');
   const locale = useLocale();
-
-  const currentCategory = filters.specialization
-    ? getCategoryById(filters.specialization)
-    : null;
-
-  // Get ALL tags, sorted by relevance (category tags first, then others)
-  // This allows users to see and select any tag, not just category-specific ones
   const availableTags = getAllTagsSorted(filters.specialization || undefined);
 
   return (
@@ -54,10 +45,14 @@ export function FiltersSidebar({
           {/* Tags section - Global tags sorted by relevance */}
           {availableTags.length > 0 && (
             <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
-              <h3 className="text-base font-semibold text-white mb-4">
+              <h3 className="text-base font-semibold text-white mb-4" id="tags-heading">
                 {t('filters.tags')}
               </h3>
-              <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+              <div 
+                className="space-y-3 max-h-96 overflow-y-auto pr-2"
+                role="group" 
+                aria-labelledby="tags-heading"
+              >
                 {availableTags.map((tag) => {
                   const isChecked = filters.tags?.includes(tag.id) || false;
                   return (
@@ -90,10 +85,14 @@ export function FiltersSidebar({
           )}
 
           <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
-            <h3 className="text-base font-semibold text-white mb-4">
+            <h3 className="text-base font-semibold text-white mb-4" id="goals-heading">
               {t('filters.goals')}
             </h3>
-            <div className="space-y-3" role="group" aria-label={t('filters.goalsAriaLabel')}>
+            <div 
+              className="space-y-3" 
+              role="group" 
+              aria-labelledby="goals-heading"
+            >
               {GOALS.map((goal) => {
                 const isChecked = filters.goals?.includes(goal.id) || false;
                 return (
@@ -126,9 +125,9 @@ export function FiltersSidebar({
           </div>
 
           <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
-            <h3 className="text-base font-semibold text-white mb-4">
+            <label htmlFor="experience-select" className="text-base font-semibold text-white mb-4 block">
               {t('filters.experience')}
-            </h3>
+            </label>
             <Select
               value={filters.experience || 'all'}
               onValueChange={(value) =>
@@ -136,8 +135,8 @@ export function FiltersSidebar({
               }
             >
               <SelectTrigger
+                id="experience-select"
                 className="w-full h-12 text-base bg-slate-800 border-slate-700 text-white focus-visible:border-orange-500 px-4"
-                aria-label={t('filters.experience')}
               >
                 <SelectValue />
               </SelectTrigger>
@@ -175,9 +174,9 @@ export function FiltersSidebar({
           </div>
 
           <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
-            <h3 className="text-base font-semibold text-white mb-4">
+            <label htmlFor="availability-select" className="text-base font-semibold text-white mb-4 block">
               {t('filters.availability')}
-            </h3>
+            </label>
             <Select
               value={filters.availability || 'all'}
               onValueChange={(value) =>
@@ -185,8 +184,8 @@ export function FiltersSidebar({
               }
             >
               <SelectTrigger
+                id="availability-select"
                 className="w-full h-12 text-base bg-slate-800 border-slate-700 text-white focus-visible:border-orange-500 px-4"
-                aria-label={t('filters.availability')}
               >
                 <SelectValue />
               </SelectTrigger>

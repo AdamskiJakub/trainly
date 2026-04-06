@@ -78,7 +78,7 @@ export const SPECIALIZATION_CATEGORIES: SpecializationCategory[] = [
     order: 4,
     subcategories: [
       { id: 'social-dance', nameEn: 'Social Dance', namePl: 'Taniec użytkowy' },
-      { id: 'first-dance', nameEn: 'Wedding Dance', namePl: 'Pierwszy taniec' },
+      { id: 'wedding-dance', nameEn: 'Wedding Dance', namePl: 'Pierwszy taniec' },
       { id: 'hip-hop', nameEn: 'Hip-hop', namePl: 'Hip-hop' },
       { id: 'bachata', nameEn: 'Bachata', namePl: 'Bachata' },
       { id: 'salsa', nameEn: 'Salsa', namePl: 'Salsa' },
@@ -135,7 +135,7 @@ export const SPECIALIZATION_CATEGORIES: SpecializationCategory[] = [
       { id: 'weight-loss-diet', nameEn: 'Weight Loss Diet', namePl: 'Dieta redukcyjna' },
       { id: 'muscle-gain-diet', nameEn: 'Muscle Gain Diet', namePl: 'Dieta na masę' },
       { id: 'sports-nutrition', nameEn: 'Sports Nutrition', namePl: 'Dietetyka sportowa' },
-      { id: 'meal-plan', nameEn: 'Meal Planning', namePl: 'Układanie planów żywieniowych' },
+      { id: 'meal-planning', nameEn: 'Meal Planning', namePl: 'Układanie planów żywieniowych' },
       { id: 'healthy-eating', nameEn: 'Healthy Eating', namePl: 'Zdrowe odżywianie' },
       { id: 'supplementation', nameEn: 'Supplementation', namePl: 'Suplementacja' },
     ],

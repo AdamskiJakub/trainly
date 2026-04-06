@@ -63,7 +63,7 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
               </div>
 
               {/* Price */}
-              {instructor.hourlyRate && (
+              {instructor.hourlyRate !== null && instructor.hourlyRate !== undefined && (
                 <div className="text-right">
                   <p className="text-2xl font-bold text-orange-500">
                     {instructor.hourlyRate} zł

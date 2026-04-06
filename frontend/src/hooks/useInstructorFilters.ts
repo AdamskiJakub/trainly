@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/routing';
 import type { InstructorFilters } from '@/types/filters';
@@ -37,8 +37,6 @@ export function useInstructorFilters() {
     sortBy: (searchParams.get('sortBy') as any) || 'relevance',
   });
 
-  const previousSpecialization = useRef<string>(filters.specialization);
-
   const updateURL = useCallback(
     (newFilters: InstructorFilters, scroll = false) => {
       const query: Record<string, string | string[]> = {};
@@ -62,18 +60,6 @@ export function useInstructorFilters() {
     },
     [router]
   );
-
-  useEffect(() => {
-    const currentSpecialization = filters.specialization;
-
-    if (currentSpecialization !== previousSpecialization.current) {
-      const clearedFilters = { ...filters, tags: undefined };
-      setFilters(clearedFilters);
-      updateURL(clearedFilters, false);
-    }
-    
-    previousSpecialization.current = currentSpecialization;
-  }, [filters.specialization, filters, updateURL]);
 
   const toggleTag = useCallback(
     (tagId: string) => {
@@ -111,7 +97,13 @@ export function useInstructorFilters() {
 
   const updateFilter = useCallback(
     <K extends keyof InstructorFilters>(key: K, value: InstructorFilters[K]) => {
-      const newFilters = { ...filters, [key]: value };
+      let newFilters = { ...filters, [key]: value };
+      
+      // Clear tags when specialization changes
+      if (key === 'specialization') {
+        newFilters = { ...newFilters, tags: undefined };
+      }
+      
       setFilters(newFilters);
       updateURL(newFilters, false);
     },
@@ -135,6 +127,7 @@ export function useInstructorFilters() {
   const hasActiveFilters = 
     filters.city !== '' ||
     filters.specialization !== '' ||
+    (filters.search?.trim() && filters.search.trim() !== '') ||
     (filters.tags && filters.tags.length > 0) ||
     (filters.goals && filters.goals.length > 0) ||
     filters.priceMin !== undefined ||
