@@ -1,9 +1,7 @@
 import type { InstructorListing } from '@/types';
 import type { InstructorFilters } from '@/types/filters';
+import { findSubcategoryById } from '@/lib/config/specializations';
 
-/**
- * Filter and sort instructors based on provided filters
- */
 export function filterAndSortInstructors(
   instructors: InstructorListing[],
   filters: InstructorFilters
@@ -31,7 +29,16 @@ export function filterAndSortInstructors(
       const fullName = instructor.fullName.toLowerCase();
       const bio = instructor.bio?.toLowerCase() || '';
       
-      return fullName.includes(searchLower) || bio.includes(searchLower);
+      const subcategoryNames = instructor.subcategories
+        .map(subId => {
+          const sub = findSubcategoryById(subId);
+          return sub ? `${sub.nameEn} ${sub.namePl}`.toLowerCase() : '';
+        })
+        .join(' ');
+      
+      return fullName.includes(searchLower) || 
+             bio.includes(searchLower) || 
+             subcategoryNames.includes(searchLower);
     });
   }
 
@@ -97,17 +104,26 @@ export function filterAndSortInstructors(
   const sortBy = filters.sortBy || 'relevance';
   switch (sortBy) {
     case 'price-asc':
-      result.sort((a, b) => (a.hourlyRate || 0) - (b.hourlyRate || 0));
+      result.sort((a, b) => {
+        if (a.hourlyRate === null && b.hourlyRate === null) return 0;
+        if (a.hourlyRate === null) return 1;
+        if (b.hourlyRate === null) return -1;
+        return a.hourlyRate - b.hourlyRate;
+      });
       break;
     case 'price-desc':
-      result.sort((a, b) => (b.hourlyRate || 0) - (a.hourlyRate || 0));
+      result.sort((a, b) => {
+        if (a.hourlyRate === null && b.hourlyRate === null) return 0;
+        if (a.hourlyRate === null) return 1;
+        if (b.hourlyRate === null) return -1;
+        return b.hourlyRate - a.hourlyRate;
+      });
       break;
     case 'rating':
       result.sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
       break;
     case 'relevance':
     default:
-      // Keep original order for relevance
       break;
   }
 

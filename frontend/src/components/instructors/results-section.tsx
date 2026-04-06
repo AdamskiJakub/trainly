@@ -74,12 +74,6 @@ export function ResultsSection({
               >
                 {t('sortBy.rating')}
               </SelectItem>
-              <SelectItem
-                value="distance"
-                className="text-base text-white hover:bg-slate-800 focus:bg-slate-800 py-3"
-              >
-                {t('sortBy.distance')}
-              </SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -17,7 +17,7 @@ export interface InstructorFilters extends SearchFilters {
   availability?: 'online' | 'in-person' | 'both' | 'all';
   gender?: 'male' | 'female' | 'other' | 'all';
   languages?: string[];
-  sortBy?: 'relevance' | 'price-asc' | 'price-desc' | 'rating' | 'distance';
+  sortBy?: 'relevance' | 'price-asc' | 'price-desc' | 'rating';
 }
 
 export interface SearchState {

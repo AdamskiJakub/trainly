@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef, use } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/routing';
 import type { InstructorFilters } from '@/types/filters';
@@ -25,19 +25,6 @@ export function useInstructorFilters() {
     sortBy: (searchParams.get('sortBy') as any) || 'relevance',
   });
 
-  useEffect(() => {
-    const currentSpecialization = filters.specialization
-
-    if ( previousSpecialization.current && currentSpecialization !== previousSpecialization.current) {
-      setFilters((prev) => ({
-        ...prev,
-        subcategories: undefined,
-      }));
-    }
-    
-    previousSpecialization.current = currentSpecialization;
-  }, [filters.specialization]);
-
   const updateURL = useCallback(
     (newFilters: InstructorFilters, scroll = false) => {
       const query: Record<string, string | string[]> = {};
@@ -59,6 +46,18 @@ export function useInstructorFilters() {
     },
     [router]
   );
+
+  useEffect(() => {
+    const currentSpecialization = filters.specialization;
+
+    if (previousSpecialization.current && currentSpecialization !== previousSpecialization.current) {
+      const clearedFilters = { ...filters, subcategories: undefined };
+      setFilters(clearedFilters);
+      updateURL(clearedFilters, false);
+    }
+    
+    previousSpecialization.current = currentSpecialization;
+  }, [filters.specialization, filters, updateURL]);
 
   const toggleSubcategory = useCallback(
     (subcategoryId: string) => {

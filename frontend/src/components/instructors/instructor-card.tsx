@@ -1,6 +1,5 @@
 'use client';
 
-import { Link } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -21,10 +20,8 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
     .join('')
     .toUpperCase();
 
-  const profileHref = `/instructors/${instructor.username}` as '/instructors';
-
   return (
-    <Link href={profileHref} className="block group">
+    <div className="block group cursor-default">
       <Card className="bg-slate-900/50 border-slate-800 hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
         <div className="flex flex-col sm:flex-row gap-6 p-6">
           {/* Avatar Section */}
@@ -166,6 +163,6 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
           </div>
         </div>
       </Card>
-    </Link>
+    </div>
   );
 }
