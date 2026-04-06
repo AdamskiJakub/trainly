@@ -1,4 +1,3 @@
-// User types
 export enum UserRole {
   CLIENT = 'CLIENT',
   INSTRUCTOR = 'INSTRUCTOR',
@@ -16,7 +15,6 @@ export interface User {
   updatedAt: string;
 }
 
-// Instructor Profile types
 export interface InstructorProfile {
   id: string;
   userId: string;
@@ -35,20 +33,19 @@ export interface InstructorProfile {
   reviewCount?: number;
 }
 
-// Extended instructor type for listings with computed fields
 export interface InstructorListing extends InstructorProfile {
-  username: string; // for URL: /instructors/[username]
-  fullName: string; // firstName + lastName
-  tagline: string | null; // short bio for card
+  username: string;
+  fullName: string;
+  tagline: string | null;
   availability: 'online' | 'in-person' | 'both';
-  primarySpecialization: string; // main category ID
-  subcategories: string[]; // subcategory IDs
-  languages: string[]; // e.g., ['pl', 'en']
-  gallery: string[]; // array of image URLs
-  videoUrl: string | null; // optional promo video
+  primarySpecialization: string;
+  tags?: string[];
+  goals?: string[];
+  languages: string[];
+  gallery: string[];
+  videoUrl: string | null;
 }
 
-// Service types
 export interface Service {
   id: string;
   instructorId: string;
@@ -62,7 +59,6 @@ export interface Service {
   updatedAt: string;
 }
 
-// Booking types
 export enum BookingStatus {
   PENDING = 'PENDING',
   CONFIRMED = 'CONFIRMED',
@@ -86,7 +82,6 @@ export interface Booking {
   review?: Review;
 }
 
-// Review types
 export interface Review {
   id: string;
   bookingId: string;
@@ -99,7 +94,6 @@ export interface Review {
   updatedAt: string;
 }
 
-// Auth types
 export interface LoginDto {
   email: string;
   password: string;

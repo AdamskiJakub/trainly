@@ -4,8 +4,9 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { getCategoryById, findSubcategoryById } from '@/lib/config/specializations';
-import { getCategoryName, getSubcategoryName } from '@/lib/utils/localization';
+import { getCategoryById } from '@/lib/config/specializations';
+import { getCategoryName } from '@/lib/utils/localization';
+import { getTagById, getTagName } from '@/lib/config/tags';
 import { MapPinIcon, VideoIcon, UserIcon, StarIcon } from 'lucide-react';
 import type { InstructorCardProps } from './types';
 
@@ -139,18 +140,18 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
 
             {/* Action Row */}
             <div className="flex items-center justify-between pt-2">
-              {/* Subcategories/Skills */}
+              {/* Tags/Skills */}
               <div className="flex flex-wrap gap-2">
-                {instructor.subcategories.slice(0, 3).map((subId) => {
-                  const sub = findSubcategoryById(subId);
-                  if (!sub) return null;
+                {instructor.tags?.slice(0, 3).map((tagId) => {
+                  const tag = getTagById(tagId);
+                  if (!tag) return null;
                   return (
                     <Badge
-                      key={subId}
+                      key={tagId}
                       variant="outline"
                       className="border-slate-700 text-slate-300 text-xs"
                     >
-                      {getSubcategoryName(sub, locale)}
+                      {getTagName(tag, locale)}
                     </Badge>
                   );
                 })}

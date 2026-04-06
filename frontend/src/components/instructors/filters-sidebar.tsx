@@ -11,12 +11,15 @@ import {
 } from '@/components/ui/select';
 import { getCategoryById } from '@/lib/config/specializations';
 import { getCategoryName, getSubcategoryName } from '@/lib/utils/localization';
+import { GOALS, getGoalName } from '@/lib/config/goals';
+import { getAllTagsSorted, getTagName } from '@/lib/config/tags';
 import type { FiltersSidebarProps } from './types';
 
 export function FiltersSidebar({
   filters,
   updateFilter,
-  toggleSubcategory,
+  toggleTag,
+  toggleGoal,
   clearFilters,
   hasActiveFilters,
 }: FiltersSidebarProps) {
@@ -26,6 +29,10 @@ export function FiltersSidebar({
   const currentCategory = filters.specialization
     ? getCategoryById(filters.specialization)
     : null;
+
+  // Get ALL tags, sorted by relevance (category tags first, then others)
+  // This allows users to see and select any tag, not just category-specific ones
+  const availableTags = getAllTagsSorted(filters.specialization || undefined);
 
   return (
     <aside className="lg:col-span-1" role="region" aria-label={t('filters.ariaLabel')}>
@@ -44,27 +51,27 @@ export function FiltersSidebar({
         </div>
 
         <div className="space-y-6">
-          {currentCategory && currentCategory.subcategories.length > 0 && (
+          {/* Tags section - Global tags sorted by relevance */}
+          {availableTags.length > 0 && (
             <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
               <h3 className="text-base font-semibold text-white mb-4">
-                {getCategoryName(currentCategory, locale)}
+                {t('filters.tags')}
               </h3>
               <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-                {currentCategory.subcategories.map((sub) => {
-                  const isChecked =
-                    filters.subcategories?.includes(sub.id) || false;
+                {availableTags.map((tag) => {
+                  const isChecked = filters.tags?.includes(tag.id) || false;
                   return (
                     <label
-                      key={sub.id}
-                      htmlFor={`subcategory-${sub.id}`}
+                      key={tag.id}
+                      htmlFor={`tag-${tag.id}`}
                       className="flex items-center gap-3 px-2 py-2 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors group"
                     >
                       <Checkbox
-                        id={`subcategory-${sub.id}`}
+                        id={`tag-${tag.id}`}
                         checked={isChecked}
-                        onCheckedChange={() => toggleSubcategory(sub.id)}
-                        className="border-slate-600 data-checked:bg-orange-500 data-checked:border-orange-500"
-                        aria-label={getSubcategoryName(sub, locale)}
+                        onCheckedChange={() => toggleTag(tag.id)}
+                        className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+                        aria-label={getTagName(tag, locale)}
                       />
                       <span
                         className={`text-base select-none transition-colors ${
@@ -73,7 +80,7 @@ export function FiltersSidebar({
                             : 'text-slate-300 group-hover:text-white'
                         }`}
                       >
-                        {getSubcategoryName(sub, locale)}
+                        {getTagName(tag, locale)}
                       </span>
                     </label>
                   );
@@ -81,6 +88,42 @@ export function FiltersSidebar({
               </div>
             </div>
           )}
+
+          <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
+            <h3 className="text-base font-semibold text-white mb-4">
+              {t('filters.goals')}
+            </h3>
+            <div className="space-y-3" role="group" aria-label={t('filters.goalsAriaLabel')}>
+              {GOALS.map((goal) => {
+                const isChecked = filters.goals?.includes(goal.id) || false;
+                return (
+                  <label
+                    key={goal.id}
+                    htmlFor={`goal-${goal.id}`}
+                    className="flex items-center gap-3 px-2 py-2 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors group"
+                  >
+                    <Checkbox
+                      id={`goal-${goal.id}`}
+                      checked={isChecked}
+                      onCheckedChange={() => toggleGoal(goal.id)}
+                      className="border-slate-600 data-checked:bg-orange-500 data-checked:border-orange-500"
+                      aria-label={getGoalName(goal, locale)}
+                    />
+                    <span className="text-lg mr-2">{goal.icon}</span>
+                    <span
+                      className={`text-base select-none transition-colors ${
+                        isChecked
+                          ? 'text-white font-medium'
+                          : 'text-slate-300 group-hover:text-white'
+                      }`}
+                    >
+                      {getGoalName(goal, locale)}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
 
           <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-5">
             <h3 className="text-base font-semibold text-white mb-4">

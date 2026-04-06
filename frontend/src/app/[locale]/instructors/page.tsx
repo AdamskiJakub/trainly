@@ -10,7 +10,7 @@ import { filterAndSortInstructors } from '@/lib/utils/instructor-filters';
 import { MOCK_INSTRUCTORS } from '@/lib/mock-data/instructors';
 
 export default function InstructorsPage() {
-  const { filters, updateFilter, toggleSubcategory, clearFilters, hasActiveFilters } =
+  const { filters, updateFilter, toggleTag, toggleGoal, clearFilters, hasActiveFilters } =
     useInstructorFilters();
 
   const filteredAndSortedInstructors = useMemo(
@@ -38,7 +38,8 @@ export default function InstructorsPage() {
           <FiltersSidebar
             filters={filters}
             updateFilter={updateFilter}
-            toggleSubcategory={toggleSubcategory}
+            toggleTag={toggleTag}
+            toggleGoal={toggleGoal}
             clearFilters={clearFilters}
             hasActiveFilters={hasActiveFilters || false}
           />

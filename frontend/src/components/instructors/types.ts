@@ -20,7 +20,8 @@ export interface FiltersSidebarProps {
     key: K,
     value: InstructorFilters[K]
   ) => void;
-  toggleSubcategory: (subcategoryId: string) => void;
+  toggleTag: (tagId: string) => void;
+  toggleGoal: (goalId: string) => void;
   clearFilters: () => void;
   hasActiveFilters: boolean;
 }

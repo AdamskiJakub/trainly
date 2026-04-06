@@ -1,11 +1,7 @@
-/**
- * Types for search and filter functionality
- */
-
 export interface SearchFilters {
   city: string;
   specialization: string;
-  subcategories?: string[];
+  tags?: string[];
   search?: string;
 }
 
@@ -17,6 +13,7 @@ export interface InstructorFilters extends SearchFilters {
   availability?: 'online' | 'in-person' | 'both' | 'all';
   gender?: 'male' | 'female' | 'other' | 'all';
   languages?: string[];
+  goals?: string[];
   sortBy?: 'relevance' | 'price-asc' | 'price-desc' | 'rating';
 }
 

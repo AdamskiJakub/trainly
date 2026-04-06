@@ -1,6 +1,6 @@
 import type { InstructorListing } from '@/types';
 import type { InstructorFilters } from '@/types/filters';
-import { findSubcategoryById } from '@/lib/config/specializations';
+import { getTagById } from '@/lib/config/tags';
 
 export function filterAndSortInstructors(
   instructors: InstructorListing[],
@@ -8,50 +8,53 @@ export function filterAndSortInstructors(
 ): InstructorListing[] {
   let result = [...instructors];
 
-  // Filter by city
   if (filters.city) {
     result = result.filter((instructor) =>
       instructor.city?.toLowerCase().includes(filters.city.toLowerCase())
     );
   }
 
-  // Filter by specialization (category)
   if (filters.specialization) {
     result = result.filter(
       (instructor) => instructor.primarySpecialization === filters.specialization
     );
   }
 
-  // Filter by keyword search (name, bio, future: company)
   if (filters.search && filters.search.trim()) {
     const searchLower = filters.search.toLowerCase().trim();
     result = result.filter((instructor) => {
       const fullName = instructor.fullName.toLowerCase();
       const bio = instructor.bio?.toLowerCase() || '';
       
-      const subcategoryNames = instructor.subcategories
-        .map(subId => {
-          const sub = findSubcategoryById(subId);
-          return sub ? `${sub.nameEn} ${sub.namePl}`.toLowerCase() : '';
+      const tagNames = (instructor.tags || [])
+        .map(tagId => {
+          const tag = getTagById(tagId);
+          return tag ? `${tag.nameEn} ${tag.namePl}`.toLowerCase() : '';
         })
         .join(' ');
       
       return fullName.includes(searchLower) || 
              bio.includes(searchLower) || 
-             subcategoryNames.includes(searchLower);
+             tagNames.includes(searchLower);
     });
   }
 
-  // Filter by subcategories (multi-select)
-  if (filters.subcategories && filters.subcategories.length > 0) {
+  if (filters.tags && filters.tags.length > 0) {
     result = result.filter((instructor) =>
-      filters.subcategories!.some((subId) =>
-        instructor.subcategories.includes(subId)
+      filters.tags!.some((tagId) =>
+        instructor.tags?.includes(tagId)
       )
     );
   }
 
-  // Filter by price range
+  if (filters.goals && filters.goals.length > 0) {
+    result = result.filter((instructor) =>
+      filters.goals!.some((goalId) =>
+        instructor.goals?.includes(goalId)
+      )
+    );
+  }
+
   if (filters.priceMin !== undefined) {
     result = result.filter(
       (instructor) =>
@@ -67,7 +70,6 @@ export function filterAndSortInstructors(
     );
   }
 
-  // Filter by minimum rating
   if (filters.minRating !== undefined) {
     result = result.filter(
       (instructor) =>
@@ -76,7 +78,6 @@ export function filterAndSortInstructors(
     );
   }
 
-  // Filter by experience
   if (filters.experience && filters.experience !== 'all') {
     result = result.filter((instructor) => {
       const years = instructor.yearsExperience || 0;
@@ -93,14 +94,12 @@ export function filterAndSortInstructors(
     });
   }
 
-  // Filter by availability
   if (filters.availability && filters.availability !== 'all') {
     result = result.filter(
       (instructor) => instructor.availability === filters.availability
     );
   }
 
-  // Sort
   const sortBy = filters.sortBy || 'relevance';
   switch (sortBy) {
     case 'price-asc':

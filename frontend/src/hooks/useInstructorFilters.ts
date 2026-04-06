@@ -8,30 +8,46 @@ import type { InstructorFilters } from '@/types/filters';
 export function useInstructorFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const previousSpecialization = useRef<string>('');
+  
+  const parseNumericParam = (key: string): number | undefined => {
+    const value = searchParams.get(key);
+    if (!value) return undefined;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  };
 
-  // Initialize filters from URL params
   const [filters, setFilters] = useState<InstructorFilters>({
     city: searchParams.get('city') || '',
     specialization: searchParams.get('specialization') || '',
     search: searchParams.get('search') || '',
-    subcategories: searchParams.getAll('subcategories') || undefined,
-    priceMin: searchParams.get('priceMin') ? Number(searchParams.get('priceMin')) : undefined,
-    priceMax: searchParams.get('priceMax') ? Number(searchParams.get('priceMax')) : undefined,
-    minRating: searchParams.get('minRating') ? Number(searchParams.get('minRating')) : undefined,
+    tags: (() => {
+      const tags = searchParams.getAll('tags');
+      return tags.length > 0 ? tags : undefined;
+    })(),
+    goals: (() => {
+      const goals = searchParams.getAll('goals');
+      return goals.length > 0 ? goals : undefined;
+    })(),
+    priceMin: parseNumericParam('priceMin'),
+    priceMax: parseNumericParam('priceMax'),
+    minRating: parseNumericParam('minRating'),
     experience: (searchParams.get('experience') as any) || 'all',
     availability: (searchParams.get('availability') as any) || 'all',
     gender: (searchParams.get('gender') as any) || 'all',
     sortBy: (searchParams.get('sortBy') as any) || 'relevance',
   });
 
+  const previousSpecialization = useRef<string>(filters.specialization);
+
   const updateURL = useCallback(
     (newFilters: InstructorFilters, scroll = false) => {
       const query: Record<string, string | string[]> = {};
 
       Object.entries(newFilters).forEach(([key, value]) => {
-        if (key === 'subcategories' && Array.isArray(value) && value.length > 0) {
-          query[key] = value;
+        if (key === 'tags' || key === 'goals') {
+          if (Array.isArray(value) && value.length > 0) {
+            query[key] = value;
+          }
         } else if (
           value !== undefined &&
           value !== null &&
@@ -50,8 +66,8 @@ export function useInstructorFilters() {
   useEffect(() => {
     const currentSpecialization = filters.specialization;
 
-    if (previousSpecialization.current && currentSpecialization !== previousSpecialization.current) {
-      const clearedFilters = { ...filters, subcategories: undefined };
+    if (currentSpecialization !== previousSpecialization.current) {
+      const clearedFilters = { ...filters, tags: undefined };
       setFilters(clearedFilters);
       updateURL(clearedFilters, false);
     }
@@ -59,16 +75,33 @@ export function useInstructorFilters() {
     previousSpecialization.current = currentSpecialization;
   }, [filters.specialization, filters, updateURL]);
 
-  const toggleSubcategory = useCallback(
-    (subcategoryId: string) => {
-      const current = filters.subcategories || [];
-      const newSubcategories = current.includes(subcategoryId)
-        ? current.filter((id) => id !== subcategoryId)
-        : [...current, subcategoryId];
+  const toggleTag = useCallback(
+    (tagId: string) => {
+      const current = filters.tags || [];
+      const newTags = current.includes(tagId)
+        ? current.filter((id) => id !== tagId)
+        : [...current, tagId];
       
       const newFilters = { 
         ...filters, 
-        subcategories: newSubcategories.length > 0 ? newSubcategories : undefined 
+        tags: newTags.length > 0 ? newTags : undefined 
+      };
+      setFilters(newFilters);
+      updateURL(newFilters, false);
+    },
+    [filters, updateURL]
+  );
+
+  const toggleGoal = useCallback(
+    (goalId: string) => {
+      const current = filters.goals || [];
+      const newGoals = current.includes(goalId)
+        ? current.filter((id) => id !== goalId)
+        : [...current, goalId];
+      
+      const newFilters = { 
+        ...filters, 
+        goals: newGoals.length > 0 ? newGoals : undefined 
       };
       setFilters(newFilters);
       updateURL(newFilters, false);
@@ -102,7 +135,8 @@ export function useInstructorFilters() {
   const hasActiveFilters = 
     filters.city !== '' ||
     filters.specialization !== '' ||
-    (filters.subcategories && filters.subcategories.length > 0) ||
+    (filters.tags && filters.tags.length > 0) ||
+    (filters.goals && filters.goals.length > 0) ||
     filters.priceMin !== undefined ||
     filters.priceMax !== undefined ||
     filters.minRating !== undefined ||
@@ -113,7 +147,8 @@ export function useInstructorFilters() {
   return {
     filters,
     updateFilter,
-    toggleSubcategory,
+    toggleTag,
+    toggleGoal,
     clearFilters,
     hasActiveFilters,
   };
