@@ -4,6 +4,8 @@
       "title": "Znajdź Idealnego",
       "titleHighlight": "Trenera",
       "description": "Połącz się z profesjonalnymi trenerami, instruktorami i ekspertami wellness. Rezerwuj sesje, śledź postępy i osiągaj swoje cele fitness.",
+      "searchPlaceholder": "Szukaj po nazwisku, firmie, siłowni...",
+      "searchLabel": "Wyszukiwanie po słowach kluczowych",
       "primaryCta": "Szukaj Trenerów",
       "citySearchLabel": "Wyszukaj miasto",
       "citySearchPlaceholder": "🔍 Miasto...",
@@ -147,6 +149,63 @@
       "cookies": "Polityka Cookies"
     },
     "allRightsReserved": "Wszelkie prawa zastrzeżone."
+  },
+  "InstructorsPage": {
+    "title": "Przeglądaj Trenerów",
+    "subtitle": "Znajdź idealnego trenera dla siebie",
+    "searchPlaceholder": "Szukaj...",
+    "card": {
+      "perHour": "za godzinę",
+      "viewProfile": "Zobacz profil",
+      "verified": "Zweryfikowany",
+      "yearsExp": "{count}+ lat doświadczenia",
+      "online": "Online",
+      "inPerson": "Osobiście",
+      "both": "Online i osobiście"
+    },
+    "filters": {
+      "title": "Filtry",
+      "ariaLabel": "Filtruj instruktorów",
+      "category": "Kategoria",
+      "subcategory": "Specjalizacja",
+      "tags": "Tagi",
+      "tagsAriaLabel": "Filtruj po tagach",
+      "goals": "Twoje cele",
+      "goalsAriaLabel": "Filtruj po celach treningowych",
+      "price": "Cena za sesję",
+      "rating": "Minimalna ocena",
+      "ratingAriaLabel": "Filtr minimalnej oceny",
+      "ratingOption": "{rating} gwiazdek i więcej",
+      "andUp": "i więcej",
+      "experience": "Doświadczenie",
+      "availability": "Dostępność",
+      "clearAll": "Wyczyść filtry",
+      "showResults": "Pokaż wyniki"
+    },
+    "experience": {
+      "all": "Wszystkie",
+      "beginner": "Początkujący (0-2 lata)",
+      "intermediate": "Średniozaawansowany (3-5 lat)",
+      "expert": "Ekspert (5+ lat)"
+    },
+    "availability": {
+      "all": "Wszystkie",
+      "online": "Online",
+      "inPerson": "Osobiście",
+      "both": "Online i osobiście"
+    },
+    "sortBy": {
+      "label": "Sortuj według",
+      "relevance": "Trafność",
+      "priceAsc": "Cena: rosnąco",
+      "priceDesc": "Cena: malejąco",
+      "rating": "Najwyżej oceniani",
+      "distance": "Odległość"
+    },
+    "resultsAriaLabel": "Wyniki wyszukiwania",
+    "noResults": "Nie znaleziono trenerów",
+    "noResultsDescription": "Spróbuj zmienić filtry lub wyszukaj w innym mieście",
+    "resultsCount": "{count} {count, plural, one {trener} few {trenerów} many {trenerów} other {trenerów}}"
   },
   "HowItWorks": {
     "title": "Jak to działa",

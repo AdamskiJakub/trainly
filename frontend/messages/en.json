@@ -4,6 +4,8 @@
       "title": "Find Your Perfect",
       "titleHighlight": "Trainer",
       "description": "Connect with professional trainers, instructors, and wellness experts. Book sessions, track progress, and achieve your fitness goals.",
+      "searchPlaceholder": "Search by name, company, gym...",
+      "searchLabel": "Keyword search",
       "primaryCta": "Search Trainers",
       "citySearchLabel": "Search city",
       "citySearchPlaceholder": "🔍 City...",
@@ -147,6 +149,63 @@
       "cookies": "Cookie Policy"
     },
     "allRightsReserved": "All rights reserved."
+  },
+  "InstructorsPage": {
+    "title": "Browse Trainers",
+    "subtitle": "Find your perfect trainer",
+    "searchPlaceholder": "Search...",
+    "card": {
+      "perHour": "per hour",
+      "viewProfile": "View Profile",
+      "verified": "Verified",
+      "yearsExp": "{count}+ years exp.",
+      "online": "Online",
+      "inPerson": "In-person",
+      "both": "Online & In-person"
+    },
+    "filters": {
+      "title": "Filters",
+      "ariaLabel": "Filter instructors",
+      "category": "Category",
+      "subcategory": "Specialization",
+      "tags": "Tags",
+      "tagsAriaLabel": "Filter by tags",
+      "goals": "Your Goals",
+      "goalsAriaLabel": "Filter by training goals",
+      "price": "Price per session",
+      "rating": "Minimum rating",
+      "ratingAriaLabel": "Minimum rating filter",
+      "ratingOption": "{rating} stars and up",
+      "andUp": "& up",
+      "experience": "Experience",
+      "availability": "Availability",
+      "clearAll": "Clear filters",
+      "showResults": "Show results"
+    },
+    "experience": {
+      "all": "All",
+      "beginner": "Beginner (0-2 years)",
+      "intermediate": "Intermediate (3-5 years)",
+      "expert": "Expert (5+ years)"
+    },
+    "availability": {
+      "all": "All",
+      "online": "Online",
+      "inPerson": "In-person",
+      "both": "Online & In-person"
+    },
+    "sortBy": {
+      "label": "Sort by",
+      "relevance": "Relevance",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "rating": "Highest Rated",
+      "distance": "Distance"
+    },
+    "resultsAriaLabel": "Search results",
+    "noResults": "No trainers found",
+    "noResultsDescription": "Try adjusting your filters or search in a different city",
+    "resultsCount": "{count} {count, plural, one {trainer} other {trainers}}"
   },
   "HowItWorks": {
     "title": "How It Works",
