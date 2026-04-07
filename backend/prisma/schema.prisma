@@ -19,6 +19,7 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String   // bcrypt hashed
+  username  String   @unique 
   role      UserRole @default(CLIENT)
   firstName String?
   lastName  String?
@@ -38,13 +39,19 @@ model InstructorProfile {
   userId          String   @unique
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   bio             String?  @db.Text
-  specializations String[] // ["Personal Training", "Yoga", "Dance"]
+  tagline         String?  // Short description shown on card
+  specializations String[] // ["personal-training", "yoga-mobility"]
+  tags            String[] // Global tags: ["hiit", "strength-training", "bachata"]
+  goals           String[] // ["weight_loss", "muscle_gain", "flexibility"]
   location        String?  // Full address
   city            String?  // For filtering
   hourlyRate      Float?
   photoUrl        String?
+  gallery         String[] // Array of photo URLs
   verified        Boolean  @default(false)
   yearsExperience Int?
+  availability    String?  // "online" | "in-person" | "both"
+  languages       String[] // ["pl", "en"]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

@@ -11,7 +11,7 @@ export interface InstructorFilters extends SearchFilters {
   minRating?: number;
   experience?: 'beginner' | 'intermediate' | 'expert' | 'all';
   availability?: 'online' | 'in-person' | 'both' | 'all';
-  gender?: 'male' | 'female' | 'other' | 'all';
+  gender?: 'male' | 'female' | 'all';
   languages?: string[];
   goals?: string[];
   sortBy?: 'relevance' | 'price-asc' | 'price-desc' | 'rating';

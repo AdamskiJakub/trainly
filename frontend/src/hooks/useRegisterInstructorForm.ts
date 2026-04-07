@@ -26,7 +26,13 @@ export function useRegisterInstructorForm() {
     try {
       const { confirmPassword, ...registerData } = data;
       
-      const response = await apiClient.post('/auth/register-instructor', registerData);
+      // Auto-generate username from email (before @)
+      const username = registerData.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-');
+      
+      const response = await apiClient.post('/auth/register-instructor', {
+        ...registerData,
+        username,
+      });
       const { user, access_token } = response.data;
       
       setAuth(user, access_token);

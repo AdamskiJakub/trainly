@@ -15,6 +15,17 @@ export interface User {
   updatedAt: string;
 }
 
+// Basic user info returned by backend in instructor listings
+// (without phone, createdAt, updatedAt)
+export interface UserBasic {
+  id: string;
+  email: string;
+  username: string;
+  firstName: string | null;
+  lastName: string | null;
+  role: string; // Note: backend returns string, not enum
+}
+
 export interface InstructorProfile {
   id: string;
   userId: string;
@@ -33,7 +44,7 @@ export interface InstructorProfile {
   reviewCount?: number;
 }
 
-export interface InstructorListing extends InstructorProfile {
+export interface InstructorListing extends Omit<InstructorProfile, 'user'> {
   username: string;
   fullName: string;
   tagline: string | null;
@@ -44,6 +55,7 @@ export interface InstructorListing extends InstructorProfile {
   languages: string[];
   gallery: string[];
   videoUrl: string | null;
+  user?: UserBasic; // Use UserBasic instead of User (no phone, createdAt, updatedAt)
 }
 
 export interface Service {
