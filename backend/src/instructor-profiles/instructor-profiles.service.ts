@@ -8,7 +8,7 @@ interface InstructorFilters {
   specialization?: string;
   tags?: string[];
   goals?: string[];
-  minRating?: number;
+  // minRating?: number; // TODO: Implement when reviews/ratings are added
   priceMin?: number;
   priceMax?: number;
 }

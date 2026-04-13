@@ -7,14 +7,14 @@
 */
 -- AlterTable
 ALTER TABLE "instructor_profiles" ADD COLUMN     "availability" TEXT,
-ADD COLUMN     "gallery" TEXT[],
-ADD COLUMN     "goals" TEXT[],
-ADD COLUMN     "languages" TEXT[],
+ADD COLUMN     "gallery" TEXT[] NOT NULL DEFAULT '{}',
+ADD COLUMN     "goals" TEXT[] NOT NULL DEFAULT '{}',
+ADD COLUMN     "languages" TEXT[] NOT NULL DEFAULT '{}',
 ADD COLUMN     "tagline" TEXT,
-ADD COLUMN     "tags" TEXT[];
+ADD COLUMN     "tags" TEXT[] NOT NULL DEFAULT '{}';
 
--- AlterTable
-ALTER TABLE "users" ADD COLUMN     "username" TEXT NOT NULL;
+-- AlterTable - Add username as nullable first
+ALTER TABLE "users" ADD COLUMN     "username" TEXT;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");

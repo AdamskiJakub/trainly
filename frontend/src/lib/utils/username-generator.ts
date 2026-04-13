@@ -1,7 +1,7 @@
 /**
  * Generates a valid username from an email address.
  * Enforces backend constraints:
- * - Minimum 3 characters
+ * - 3-30 characters
  * - Only lowercase letters, numbers, and hyphens
  * - Must start and end with alphanumeric character
  * 
@@ -18,19 +18,28 @@ export function generateUsernameFromEmail(email: string): string {
   // Remove leading/trailing hyphens
   username = username.replace(/^-+|-+$/g, '');
   
+  // Final cleanup: ensure no consecutive hyphens
+  username = username.replace(/-{2,}/g, '-');
+  
   // If username is too short after cleanup, pad with a suffix
   if (username.length < 3) {
     // Use first part of domain as fallback
     const domain = email.split('@')[1]?.split('.')[0] || 'user';
     username = `${username}-${domain}`.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    
+    // Re-clean after appending domain
+    username = username.replace(/^-+|-+$/g, '');
+    username = username.replace(/-{2,}/g, '-');
   }
   
-  // Final cleanup: ensure no consecutive hyphens
-  username = username.replace(/-{2,}/g, '-');
-  
-  // Ensure it still meets minimum length
+  // Ensure it still meets minimum length after all cleanup
   if (username.length < 3) {
     username = `user-${Math.random().toString(36).substring(2, 8)}`;
+  }
+  
+  // Enforce max length (30 chars)
+  if (username.length > 30) {
+    username = username.substring(0, 30).replace(/-+$/, '');
   }
   
   return username;

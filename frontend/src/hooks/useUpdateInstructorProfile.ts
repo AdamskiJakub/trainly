@@ -20,7 +20,11 @@ export interface UpdateInstructorProfileData {
   languages?: string[];
 }
 
-export function useUpdateInstructorProfile() {
+interface UseUpdateInstructorProfileOptions {
+  showToast?: boolean; // Allow callers to disable toast notifications
+}
+
+export function useUpdateInstructorProfile(options: UseUpdateInstructorProfileOptions = { showToast: false }) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -31,11 +35,15 @@ export function useUpdateInstructorProfile() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['instructor-profile', 'me'] });
       queryClient.invalidateQueries({ queryKey: ['instructors'] });
-      toast.success('Profile updated successfully!');
+      if (options.showToast) {
+        toast.success('Profile updated successfully!');
+      }
     },
     onError: (error: any) => {
       const message = error.response?.data?.message || 'Failed to update profile';
-      toast.error(message);
+      if (options.showToast) {
+        toast.error(message);
+      }
     },
   });
 }

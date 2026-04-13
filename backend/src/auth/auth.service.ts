@@ -71,6 +71,10 @@ export class AuthService {
             create: {
               bio: null,
               specializations: [],
+              tags: [],
+              goals: [],
+              gallery: [],
+              languages: [],
               location: null,
               city: null,
               hourlyRate: null,

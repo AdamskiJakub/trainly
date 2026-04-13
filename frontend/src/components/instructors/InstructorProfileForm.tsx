@@ -42,7 +42,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
     profile?.specializations?.[0] || undefined
   );
   const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(
-    profile?.specializations || []
+    profile?.specializations?.slice(1) || [] // Exclude primary to avoid duplication
   );
   const [selectedTags, setSelectedTags] = useState<string[]>(
     profile?.tags?.filter(tag => getAllTagsSorted().some(t => t.id === tag)) || []
@@ -126,8 +126,8 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       tags: allTags,
       goals: selectedGoals,
       availability: selectedAvailability,
-      hourlyRate: data.hourlyRate || undefined,
-      yearsExperience: data.yearsExperience || undefined,
+      hourlyRate: data.hourlyRate ?? undefined,
+      yearsExperience: data.yearsExperience ?? undefined,
       languages: typeof data.languages === 'string'
         ? (data.languages as string).split(',').map(s => s.trim()).filter(Boolean)
         : data.languages,

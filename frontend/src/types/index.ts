@@ -16,10 +16,10 @@ export interface User {
 }
 
 // Basic user info returned by backend in instructor listings
-// (without phone, createdAt, updatedAt)
+// (without phone, createdAt, updatedAt, and optionally without email for privacy)
 export interface UserBasic {
   id: string;
-  email: string;
+  email?: string; // Optional for privacy in public listings
   username: string;
   firstName: string | null;
   lastName: string | null;

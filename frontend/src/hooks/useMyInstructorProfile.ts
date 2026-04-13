@@ -58,7 +58,7 @@ function transformToInstructorListing(profile: InstructorProfileResponse): Instr
   };
 }
 
-export function useMyInstructorProfile() {
+export function useMyInstructorProfile(options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: ['instructor-profile', 'me'],
     queryFn: async () => {
@@ -66,5 +66,6 @@ export function useMyInstructorProfile() {
       return transformToInstructorListing(response.data);
     },
     retry: false,
+    enabled: options?.enabled ?? true,
   });
 }

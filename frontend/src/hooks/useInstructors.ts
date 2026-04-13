@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { useQuery } from "@tanstack/react-query"
-import { apiClient } from "@/lib/api"
-import type { InstructorFilters } from "@/types/filters"
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '@/lib/api';
+import type { InstructorFilters } from '@/types/filters';
 
 interface InstructorProfileResponse {
   id: string;
@@ -25,7 +25,7 @@ interface InstructorProfileResponse {
   updatedAt: string;
   user: {
     id: string;
-    email: string;
+    email?: string; // Not returned in listing endpoints for privacy
     username: string;
     firstName: string | null;
     lastName: string | null;

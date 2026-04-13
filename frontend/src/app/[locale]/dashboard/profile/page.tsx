@@ -11,7 +11,9 @@ export default function ProfilePage() {
   const t = useTranslations('Dashboard');
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
-  const { data: profile, isLoading, error } = useMyInstructorProfile();
+  const { data: profile, isLoading, error } = useMyInstructorProfile({
+    enabled: isAuthenticated && user?.role === 'INSTRUCTOR',
+  });
 
   useEffect(() => {
     if (!isAuthenticated) {
