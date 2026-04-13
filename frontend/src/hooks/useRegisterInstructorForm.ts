@@ -7,6 +7,7 @@ import { createRegisterInstructorSchema, type RegisterInstructorFormData } from 
 import { apiClient } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth-store';
 import { normalizeApiError } from '@/lib/utils/error-handlers';
+import { generateUsernameFromEmail } from '@/lib/utils/username-generator';
 
 export function useRegisterInstructorForm() {
   const t = useTranslations('auth');
@@ -26,13 +27,24 @@ export function useRegisterInstructorForm() {
     try {
       const { confirmPassword, ...registerData } = data;
       
-      const response = await apiClient.post('/auth/register-instructor', registerData);
+      // Auto-generate username from email with proper validation
+      const username = generateUsernameFromEmail(registerData.email);
+      
+      const response = await apiClient.post('/auth/register-instructor', {
+        ...registerData,
+        username,
+      });
       const { user, access_token } = response.data;
       
       setAuth(user, access_token);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(normalizeApiError(err, t('registrationFailed')));
+      if (err.response?.status === 409) {
+        const conflictMessage = err.response?.data?.message;
+        setError(conflictMessage ? `${t('registrationFailed')}: ${conflictMessage}` : t('registrationFailed'));
+      } else {
+        setError(normalizeApiError(err, t('registrationFailed')));
+      }
     } finally {
       setIsLoading(false);
     }

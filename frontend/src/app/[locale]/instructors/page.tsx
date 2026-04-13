@@ -6,16 +6,33 @@ import { InstructorsPageHeader } from '@/components/instructors/page-header';
 import { FiltersSidebar } from '@/components/instructors/filters-sidebar';
 import { ResultsSection } from '@/components/instructors/results-section';
 import { useInstructorFilters } from '@/hooks/useInstructorFilters';
+import { useInstructors } from '@/hooks/useInstructors';
+import { applyClientSideFilters } from '@/lib/utils/client-side-filters';
 import { filterAndSortInstructors } from '@/lib/utils/instructor-filters';
-import { MOCK_INSTRUCTORS } from '@/lib/mock-data/instructors';
 
 export default function InstructorsPage() {
   const { filters, updateFilter, toggleTag, toggleGoal, clearFilters, hasActiveFilters } =
     useInstructorFilters();
 
-  const filteredAndSortedInstructors = useMemo(
-    () => filterAndSortInstructors(MOCK_INSTRUCTORS, filters),
-    [filters]
+  const { data: instructors, isLoading, error } = useInstructors({
+    city: filters.city,
+    specialization: filters.specialization,
+    tags: filters.tags,
+    goals: filters.goals,
+    priceMin: filters.priceMin,
+    priceMax: filters.priceMax,
+    minRating: filters.minRating,
+  });
+
+  const filteredInstructors = useMemo(() => {
+    if (!instructors) return [];
+    return applyClientSideFilters(instructors, filters);
+  }, [instructors, filters]);
+
+  // Apply sorting
+  const sortedInstructors = useMemo(
+    () => filterAndSortInstructors(filteredInstructors, filters),
+    [filteredInstructors, filters]
   );
 
   return (
@@ -44,11 +61,31 @@ export default function InstructorsPage() {
             hasActiveFilters={hasActiveFilters || false}
           />
 
-          <ResultsSection
-            instructors={filteredAndSortedInstructors}
-            filters={filters}
-            updateFilter={updateFilter}
-          />
+          {isLoading && (
+            <div className="lg:col-span-3">
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="lg:col-span-3">
+              <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-6">
+                <p className="text-red-400">
+                  Failed to load instructors. Please try again later.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {!isLoading && !error && (
+            <ResultsSection
+              instructors={sortedInstructors}
+              filters={filters}
+              updateFilter={updateFilter}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -15,35 +15,48 @@ export interface User {
   updatedAt: string;
 }
 
+// Basic user info returned by backend in instructor listings
+// (without phone, createdAt, updatedAt, and optionally without email for privacy)
+export interface UserBasic {
+  id: string;
+  email?: string; // Optional for privacy in public listings
+  username: string;
+  firstName: string | null;
+  lastName: string | null;
+  role: string; // Note: backend returns string, not enum
+}
+
 export interface InstructorProfile {
   id: string;
   userId: string;
-  user?: User;
+  user?: UserBasic; // Use UserBasic instead of full User for API responses
   bio: string | null;
+  tagline: string | null;
   specializations: string[];
+  tags: string[];
+  goals: string[];
   location: string | null;
   city: string | null;
   hourlyRate: number | null;
   photoUrl: string | null;
+  gallery: string[];
   verified: boolean;
   yearsExperience: number | null;
+  availability: string | null;
+  languages: string[];
   createdAt: string;
   updatedAt: string;
   averageRating?: number;
   reviewCount?: number;
 }
 
-export interface InstructorListing extends InstructorProfile {
+export interface InstructorListing extends Omit<InstructorProfile, 'user' | 'availability'> {
   username: string;
   fullName: string;
-  tagline: string | null;
   availability: 'online' | 'in-person' | 'both';
   primarySpecialization: string;
-  tags?: string[];
-  goals?: string[];
-  languages: string[];
-  gallery: string[];
   videoUrl: string | null;
+  user?: UserBasic; // Use UserBasic instead of User (no phone, createdAt, updatedAt)
 }
 
 export interface Service {

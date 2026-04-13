@@ -198,3 +198,13 @@
     animation: float-word 4s ease-in-out infinite;
   }
 }
+
+/* 🔧 TRAINLY FORM OVERRIDES - Fix Shadcn dark mode backgrounds */
+@layer components {
+  /* Override Input and Textarea dark backgrounds */
+  .dark input[data-slot="input"],
+  .dark textarea[data-slot="textarea"],
+  .dark [data-slot="select-trigger"] {
+    background-color: rgb(15 23 42 / 0.5) !important; /* slate-900/50 */
+  }
+}

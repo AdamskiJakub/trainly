@@ -18,6 +18,7 @@ export class AuthService {
       const user = await this.prisma.user.create({
         data: {
           email: dto.email,
+          username: dto.username,
           password: hashedPassword,
           firstName: dto.firstName,
           lastName: dto.lastName,
@@ -33,6 +34,7 @@ export class AuthService {
         user: {
           id: user.id,
           email: user.email,
+          username: user.username,
           role: user.role,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -55,14 +57,35 @@ export class AuthService {
     }
 
     try {
+      // Create user and instructor profile in a transaction
       const user = await this.prisma.user.create({
         data: {
           email: dto.email,
+          username: dto.username,
           password: hashedPassword,
           firstName: dto.firstName,
           lastName: dto.lastName,
           phone: dto.phone,
           role: 'INSTRUCTOR', // Force INSTRUCTOR role
+          instructorProfile: {
+            create: {
+              bio: null,
+              specializations: [],
+              tags: [],
+              goals: [],
+              gallery: [],
+              languages: [],
+              location: null,
+              city: null,
+              hourlyRate: null,
+              photoUrl: null,
+              verified: false,
+              yearsExperience: null,
+            },
+          },
+        },
+        include: {
+          instructorProfile: true,
         },
       });
 
@@ -73,6 +96,7 @@ export class AuthService {
         user: {
           id: user.id,
           email: user.email,
+          username: user.username,
           role: user.role,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -80,7 +104,7 @@ export class AuthService {
       };
     } catch (error) {
       if (error.code === 'P2002') {
-        throw new ConflictException('User with this email already exists');
+        throw new ConflictException('User with this email or username already exists');
       }
       throw error;
     }
@@ -108,6 +132,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
+        username: user.username,
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
