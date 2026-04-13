@@ -4,24 +4,31 @@
       "title": "Znajdź Idealnego",
       "titleHighlight": "Trenera",
       "description": "Połącz się z profesjonalnymi trenerami, instruktorami i ekspertami wellness. Rezerwuj sesje, śledź postępy i osiągaj swoje cele fitness.",
+      "searchPlaceholder": "Szukaj po nazwisku, firmie, siłowni...",
+      "searchLabel": "Wyszukiwanie po słowach kluczowych",
+      "primaryCta": "Szukaj Trenerów",
+      "citySearchLabel": "Wyszukaj miasto",
+      "citySearchPlaceholder": "🔍 Miasto...",
+      "specializationLabel": "Wybierz specjalizację",
+      "specializationPlaceholder": "💪 Specjalizacja...",
       "browseButton": "Przeglądaj Trenerów",
       "signUpButton": "Zarejestruj się"
     },
     "features": {
       "findExperts": {
-        "title": "🔍 Znajdź Ekspertów",
-        "description": "Przeglądaj zweryfikowanych trenerów, instruktorów i profesjonalistów wellness",
-        "content": "Szukaj według specjalizacji, lokalizacji i ocen, aby znaleźć idealne dopasowanie."
+        "title": "Znajdź Ekspertów",
+        "description": "Przeglądaj zweryfikowanych trenerów i profesjonalistów fitness",
+        "content": "Filtruj według specjalizacji, lokalizacji i ocen, aby znaleźć idealne dopasowanie."
       },
-      "easyBooking": {
-        "title": "📅 Łatwa Rezerwacja",
-        "description": "Rezerwuj sesje bezpośrednio przez naszą platformę",
-        "content": "Prosty interfejs kalendarza z natychmiastowym potwierdzeniem i przypomnieniami."
+      "directContact": {
+        "title": "Bezpośredni Kontakt",
+        "description": "Skontaktuj się z trenerem i ustal szczegóły",
+        "content": "Zobacz pełny profil, cennik i dostępność. Napisz i umów się na sesję na Twoich warunkach."
       },
       "reviews": {
-        "title": "⭐ Recenzje i Oceny",
-        "description": "Podejmuj świadome decyzje dzięki prawdziwym opiniom klientów",
-        "content": "Czytaj autentyczne recenzje i zobacz oceny od zweryfikowanych klientów."
+        "title": "Recenzje Klientów",
+        "description": "Podejmuj świadome decyzje dzięki opiniom innych",
+        "content": "Zobacz oceny i przeczytaj doświadczenia innych osób, aby wybrać najlepszego trenera."
       }
     },
     "stats": {
@@ -33,6 +40,258 @@
   "Common": {
     "language": "Język",
     "polish": "Polski",
-    "english": "English"
+    "english": "English",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "homeAriaLabel": "Trainly - strona główna",
+    "changeLanguage": "Zmień język. Aktualny język"
+  },
+  "auth": {
+    "loginSubtitle": "Zaloguj się do swojego konta",
+    "registerSubtitle": "Stwórz swoje konto",
+    "email": "Email",
+    "emailRequired": "Email jest wymagany",
+    "emailPlaceholder": "jan.kowalski@example.com",
+    "invalidEmail": "Nieprawidłowy format email",
+    "password": "Hasło",
+    "passwordRequired": "Hasło jest wymagane",
+    "passwordMin": "Hasło musi mieć minimum 8 znaków",
+    "passwordRegex": "Hasło musi zawierać: wielką literę, małą literę, cyfrę i znak specjalny (@$!%*?&)",
+    "passwordHint": "Min. 8 znaków: A-Z, a-z, 0-9, znak specjalny",
+    "confirmPassword": "Potwierdź hasło",
+    "confirmPasswordRequired": "Potwierdzenie hasła jest wymagane",
+    "passwordMatch": "Hasła muszą być identyczne",
+    "firstName": "Imię",
+    "firstNameRequired": "Imię jest wymagane",
+    "firstNamePlaceholder": "Jan",
+    "lastName": "Nazwisko",
+    "lastNameRequired": "Nazwisko jest wymagane",
+    "lastNamePlaceholder": "Kowalski",
+    "phone": "Telefon",
+    "phoneInvalid": "Nieprawidłowy numer telefonu (9 cyfr, opcjonalnie z +48)",
+    "phoneHint": "Opcjonalnie: 9 cyfr (spacje OK)",
+    "login": "Zaloguj się",
+    "loggingIn": "Logowanie...",
+    "loginFailed": "Logowanie nie powiodło się. Spróbuj ponownie.",
+    "registrationFailed": "Rejestracja nie powiodła się. Spróbuj ponownie.",
+    "createAccount": "Stwórz konto",
+    "creatingAccount": "Tworzenie konta...",
+    "noAccount": "Nie masz konta?",
+    "haveAccount": "Masz już konto?",
+    "signUp": "Zarejestruj się",
+    "registerAs": "Dołącz do Trainly jako:",
+    "chooseRoleDescription": "Wybierz rolę, która najlepiej opisuje Twoje potrzeby",
+    "clientRole": "Klient",
+    "clientRoleDesc": "Znajdź idealnego trenera dla siebie",
+    "clientFeature1": "Przeglądaj profile trenerów",
+    "clientFeature2": "Rezerwuj sesje treningowe",
+    "clientFeature3": "Czatuj z instruktorami",
+    "registerAsClient": "Zarejestruj jako Klient",
+    "instructorRole": "Instruktor",
+    "instructorRoleDesc": "Dziel się swoją wiedzą i pomagaj innym",
+    "instructorFeature1": "Stwórz profesjonalny profil",
+    "instructorFeature2": "Zarządzaj rezerwacjami",
+    "instructorFeature3": "Premium listing w wyszukiwarce",
+    "registerAsInstructor": "Zarejestruj jako Instruktor",
+    "notReadyToRegister": "Nie jesteś jeszcze gotów na rejestrację?",
+    "browseAsGuest": "Przeglądaj jako gość",
+    "alreadyHaveAccount": "Masz już konto?",
+    "loginLink": "Zaloguj się",
+    "areYouInstructor": "Jesteś instruktorem?",
+    "instructorRegComingSoon": "Wkrótce dostępne",
+    "instructorRegComingSoonDesc": "Rejestracja dla instruktorów jest obecnie w przygotowaniu. Skontaktuj się z nami, aby dołączyć do programu wczesnego dostępu.",
+    "instructorRegContact": "Skontaktuj się z nami:",
+    "registerAsClientInstead": "Zarejestruj się jako Klient",
+    "browseInstructors": "Przeglądaj Instruktorów",
+    "backToRoleSelection": "Wróć do wyboru roli",
+    "phoneRequired": "Telefon jest wymagany",
+    "phoneRequiredForInstructor": "Wymagane dla instruktorów (klienci mogą Cię kontaktować)",
+    "bio": "O mnie",
+    "bioRequired": "Opis musi mieć minimum 10 znaków",
+    "bioPlaceholder": "Opowiedz o swoim doświadczeniu, specjalizacjach i podejściu do treningu...",
+    "optional": "opcjonalnie",
+    "specializations": "Specjalizacje",
+    "specializationsRequired": "Podaj przynajmniej jedną specjalizację",
+    "specializationsPlaceholder": "Trening personalny, Yoga, Taniec",
+    "specializationsHint": "Oddziel przecinkami (np. Trening siłowy, Yoga, Stretching)"
+  },
+  "Dashboard": {
+    "welcomeBack": "Witaj ponownie",
+    "logout": "Wyloguj",
+    "yourProfile": "Twój Profil",
+    "id": "ID",
+    "name": "Imię",
+    "comingSoon": "Wkrótce",
+    "phase4": "FAZA 4: Profile Instruktorów",
+    "phase5": "FAZA 5: System Rezerwacji",
+    "phase6": "FAZA 6: Recenzje i Oceny",
+    "editInstructorProfile": "Edytuj Profil Instruktora",
+    "editProfile": "Edytuj Swój Profil",
+    "profileSubtitle": "Zaktualizuj informacje w swoim profilu instruktora",
+    "loadingProfile": "Ładowanie profilu...",
+    "errorLoadingProfile": "Błąd podczas ładowania profilu",
+    "profileForm": {
+      "title": "Edytuj Swój Profil",
+      "subtitle": "Zaktualizuj informacje w swoim profilu instruktora",
+      "tagline": "Hasło przewodnie",
+      "taglinePlaceholder": "np. Certyfikowany Trener Personalny | Trening Siłowy",
+      "taglineHint": "Krótkie hasło opisujące kim jesteś (widoczne pod nazwiskiem)",
+      "bio": "O mnie",
+      "bioPlaceholder": "Opowiedz o sobie, swoim doświadczeniu i podejściu do treningu...",
+      "city": "Miasto",
+      "cityPlaceholder": "np. Warszawa",
+      "location": "Pełna lokalizacja",
+      "locationPlaceholder": "np. Warszawa, Mazowieckie, Polska",
+      "hourlyRate": "Stawka godzinowa (PLN)",
+      "hourlyRatePlaceholder": "np. 150",
+      "hourlyRateOptional": "(opcjonalnie)",
+      "yearsExperience": "Lata doświadczenia",
+      "yearsExperiencePlaceholder": "np. 5",
+      "availability": "Dostępność",
+      "availabilityOnline": "Zajęcia online",
+      "availabilityInPerson": "Zajęcia osobiste",
+      "availabilityBoth": "Online i osobiste",
+      "primarySpecialization": "Główna specjalizacja",
+      "primarySpecializationPlaceholder": "Wybierz główną kategorię...",
+      "specializations": "Dodatkowe specjalizacje",
+      "specializationsHint": "Wybierz swoje specjalizacje",
+      "tags": "Tagi",
+      "tagsHint": "Wybierz maksymalnie {max} tagów",
+      "tagsMaxReached": "Osiągnięto limit {max} tagów",
+      "customTags": "Inne tagi",
+      "customTagsPlaceholder": "np. CrossFit, TRX, Kettlebell (oddzielone przecinkami)",
+      "customTagsHint": "Możesz dodać własne tagi, których nie ma na liście",
+      "goals": "Cele klientów, które wspierasz",
+      "goalsHint": "Zaznacz cele, w których pomagasz swoim klientom",
+      "goalsMaxReached": "Osiągnięto limit {max} celów",
+      "languages": "Języki (oddzielone przecinkami)",
+      "languagesPlaceholder": "np. Angielski, Polski, Niemiecki",
+      "photoUrl": "URL zdjęcia profilowego",
+      "photoUrlPlaceholder": "https://example.com/photo.jpg",
+      "gallery": "URL galerii (oddzielone przecinkami)",
+      "galleryPlaceholder": "https://example.com/img1.jpg, https://example.com/img2.jpg",
+      "saveProfile": "Zapisz Profil",
+      "saving": "Zapisywanie...",
+      "profileNotFound": "Nie znaleziono profilu",
+      "updateSuccess": "Profil zaktualizowany pomyślnie!",
+      "updateError": "Nie udało się zaktualizować profilu"
+    }
+  },
+  "Footer": {
+    "tagline": "Połącz się z najlepszymi trenerami fitness i wellness w Polsce.",
+    "platform": {
+      "title": "Platforma",
+      "findTrainers": "Znajdź Trenerów",
+      "becomeInstructor": "Zostań Instruktorem",
+      "howItWorks": "Jak to działa",
+      "pricing": "Cennik"
+    },
+    "support": {
+      "title": "Pomoc",
+      "helpCenter": "Centrum Pomocy",
+      "contact": "Kontakt",
+      "faq": "FAQ",
+      "safety": "Bezpieczeństwo"
+    },
+    "legal": {
+      "title": "Informacje Prawne",
+      "privacy": "Polityka Prywatności",
+      "terms": "Regulamin",
+      "cookies": "Polityka Cookies"
+    },
+    "allRightsReserved": "Wszelkie prawa zastrzeżone."
+  },
+  "InstructorsPage": {
+    "title": "Przeglądaj Trenerów",
+    "subtitle": "Znajdź idealnego trenera dla siebie",
+    "searchPlaceholder": "Szukaj...",
+    "card": {
+      "perHour": "za godzinę",
+      "viewProfile": "Zobacz profil",
+      "verified": "Zweryfikowany",
+      "yearsExp": "{count}+ lat doświadczenia",
+      "online": "Online",
+      "inPerson": "Osobiście",
+      "both": "Online i osobiście"
+    },
+    "filters": {
+      "title": "Filtry",
+      "ariaLabel": "Filtruj instruktorów",
+      "category": "Kategoria",
+      "subcategory": "Specjalizacja",
+      "tags": "Tagi",
+      "tagsAriaLabel": "Filtruj po tagach",
+      "goals": "Twoje cele",
+      "goalsAriaLabel": "Filtruj po celach treningowych",
+      "price": "Cena za sesję",
+      "rating": "Minimalna ocena",
+      "ratingAriaLabel": "Filtr minimalnej oceny",
+      "ratingOption": "{rating} gwiazdek i więcej",
+      "andUp": "i więcej",
+      "experience": "Doświadczenie",
+      "availability": "Dostępność",
+      "clearAll": "Wyczyść filtry",
+      "showResults": "Pokaż wyniki"
+    },
+    "experience": {
+      "all": "Wszystkie",
+      "beginner": "Początkujący (0-2 lata)",
+      "intermediate": "Średniozaawansowany (3-5 lat)",
+      "expert": "Ekspert (5+ lat)"
+    },
+    "availability": {
+      "all": "Wszystkie",
+      "online": "Online",
+      "inPerson": "Osobiście",
+      "both": "Online i osobiście"
+    },
+    "sortBy": {
+      "label": "Sortuj według",
+      "relevance": "Trafność",
+      "priceAsc": "Cena: rosnąco",
+      "priceDesc": "Cena: malejąco",
+      "rating": "Najwyżej oceniani",
+      "distance": "Odległość"
+    },
+    "resultsAriaLabel": "Wyniki wyszukiwania",
+    "noResults": "Nie znaleziono trenerów",
+    "noResultsDescription": "Spróbuj zmienić filtry lub wyszukaj w innym mieście",
+    "resultsCount": "{count} {count, plural, one {trener} few {trenerów} many {trenerów} other {trenerów}}"
+  },
+  "HowItWorks": {
+    "title": "Jak to działa",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Pricing": {
+    "title": "Cennik",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Help": {
+    "title": "Centrum Pomocy",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Contact": {
+    "title": "Kontakt",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "FAQ": {
+    "title": "Najczęściej Zadawane Pytania",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Safety": {
+    "title": "Bezpieczeństwo",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Privacy": {
+    "title": "Polityka Prywatności",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Terms": {
+    "title": "Regulamin",
+    "comingSoon": "Strona w przygotowaniu"
+  },
+  "Cookies": {
+    "title": "Polityka Cookies",
+    "comingSoon": "Strona w przygotowaniu"
   }
 }

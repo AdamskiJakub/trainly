@@ -1,0 +1,71 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '@/lib/api';
+import type { InstructorListing } from '@/types';
+
+interface InstructorProfileResponse {
+  id: string;
+  userId: string;
+  bio: string | null;
+  tagline: string | null;
+  specializations: string[];
+  tags: string[];
+  goals: string[];
+  location: string | null;
+  city: string | null;
+  hourlyRate: number | null;
+  photoUrl: string | null;
+  gallery: string[];
+  verified: boolean;
+  yearsExperience: number | null;
+  availability: string | null;
+  languages: string[];
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    email: string;
+    username: string;
+    firstName: string | null;
+    lastName: string | null;
+    role: string;
+  };
+}
+
+function transformToInstructorListing(profile: InstructorProfileResponse): InstructorListing {
+  const fullName = [profile.user.firstName, profile.user.lastName]
+    .filter(Boolean)
+    .join(' ') || profile.user.username;
+  
+  return {
+    ...profile,
+    username: profile.user.username,
+    fullName,
+    primarySpecialization: profile.specializations[0] || 'personal-training',
+    availability: (profile.availability as 'online' | 'in-person' | 'both') || 'both',
+    videoUrl: null,
+    averageRating: undefined,
+    reviewCount: undefined,
+    user: {
+      id: profile.user.id,
+      email: profile.user.email,
+      username: profile.user.username,
+      firstName: profile.user.firstName,
+      lastName: profile.user.lastName,
+      role: profile.user.role,
+    },
+  };
+}
+
+export function useMyInstructorProfile(options?: { enabled?: boolean }) {
+  return useQuery({
+    queryKey: ['instructor-profile', 'me'],
+    queryFn: async () => {
+      const response = await apiClient.get<InstructorProfileResponse>('/instructor-profiles/me');
+      return transformToInstructorListing(response.data);
+    },
+    retry: false,
+    enabled: options?.enabled ?? true,
+  });
+}

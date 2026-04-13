@@ -1,4 +1,3 @@
-// User types
 export enum UserRole {
   CLIENT = 'CLIENT',
   INSTRUCTOR = 'INSTRUCTOR',
@@ -16,26 +15,50 @@ export interface User {
   updatedAt: string;
 }
 
-// Instructor Profile types
+// Basic user info returned by backend in instructor listings
+// (without phone, createdAt, updatedAt, and optionally without email for privacy)
+export interface UserBasic {
+  id: string;
+  email?: string; // Optional for privacy in public listings
+  username: string;
+  firstName: string | null;
+  lastName: string | null;
+  role: string; // Note: backend returns string, not enum
+}
+
 export interface InstructorProfile {
   id: string;
   userId: string;
-  user?: User;
+  user?: UserBasic; // Use UserBasic instead of full User for API responses
   bio: string | null;
+  tagline: string | null;
   specializations: string[];
+  tags: string[];
+  goals: string[];
   location: string | null;
   city: string | null;
   hourlyRate: number | null;
   photoUrl: string | null;
+  gallery: string[];
   verified: boolean;
   yearsExperience: number | null;
+  availability: string | null;
+  languages: string[];
   createdAt: string;
   updatedAt: string;
   averageRating?: number;
   reviewCount?: number;
 }
 
-// Service types
+export interface InstructorListing extends Omit<InstructorProfile, 'user' | 'availability'> {
+  username: string;
+  fullName: string;
+  availability: 'online' | 'in-person' | 'both';
+  primarySpecialization: string;
+  videoUrl: string | null;
+  user?: UserBasic; // Use UserBasic instead of User (no phone, createdAt, updatedAt)
+}
+
 export interface Service {
   id: string;
   instructorId: string;
@@ -49,7 +72,6 @@ export interface Service {
   updatedAt: string;
 }
 
-// Booking types
 export enum BookingStatus {
   PENDING = 'PENDING',
   CONFIRMED = 'CONFIRMED',
@@ -73,7 +95,6 @@ export interface Booking {
   review?: Review;
 }
 
-// Review types
 export interface Review {
   id: string;
   bookingId: string;
@@ -86,7 +107,6 @@ export interface Review {
   updatedAt: string;
 }
 
-// Auth types
 export interface LoginDto {
   email: string;
   password: string;

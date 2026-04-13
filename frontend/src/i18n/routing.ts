@@ -10,6 +10,78 @@ export const routing = defineRouting({
   
   // Always show locale prefix in URL
   localePrefix: 'always',
+  
+  // Localized pathnames (folder names stay in English!)
+  pathnames: {
+    '/': {
+      pl: '/',
+      en: '/',
+    },
+    '/login': {
+      pl: '/logowanie',
+      en: '/login',
+    },
+    '/register': {
+      pl: '/rejestracja',
+      en: '/register',
+    },
+    '/register/client': {
+      pl: '/rejestracja/klient',
+      en: '/register/client',
+    },
+    '/register/instructor': {
+      pl: '/rejestracja/instruktor',
+      en: '/register/instructor',
+    },
+    '/dashboard': {
+      pl: '/panel',
+      en: '/dashboard',
+    },
+    '/dashboard/profile': {
+      pl: '/panel/profil',
+      en: '/dashboard/profile',
+    },
+    '/instructors': {
+      pl: '/instruktorzy',
+      en: '/instructors',
+    },
+    '/how-it-works': {
+      pl: '/jak-to-dziala',
+      en: '/how-it-works',
+    },
+    '/pricing': {
+      pl: '/cennik',
+      en: '/pricing',
+    },
+    '/help': {
+      pl: '/pomoc',
+      en: '/help',
+    },
+    '/contact': {
+      pl: '/kontakt',
+      en: '/contact',
+    },
+    '/faq': {
+      pl: '/faq',
+      en: '/faq',
+    },
+    '/safety': {
+      pl: '/bezpieczenstwo',
+      en: '/safety',
+    },
+    '/privacy': {
+      pl: '/polityka-prywatnosci',
+      en: '/privacy',
+    },
+    '/terms': {
+      pl: '/regulamin',
+      en: '/terms',
+    },
+    '/cookies': {
+      pl: '/polityka-cookies',
+      en: '/cookies',
+    },
+  },
 });
 
 export type Locale = (typeof routing.locales)[number];

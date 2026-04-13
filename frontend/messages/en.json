@@ -4,24 +4,31 @@
       "title": "Find Your Perfect",
       "titleHighlight": "Trainer",
       "description": "Connect with professional trainers, instructors, and wellness experts. Book sessions, track progress, and achieve your fitness goals.",
+      "searchPlaceholder": "Search by name, company, gym...",
+      "searchLabel": "Keyword search",
+      "primaryCta": "Search Trainers",
+      "citySearchLabel": "Search city",
+      "citySearchPlaceholder": "🔍 City...",
+      "specializationLabel": "Select specialization",
+      "specializationPlaceholder": "💪 Specialization...",
       "browseButton": "Browse Trainers",
       "signUpButton": "Sign Up"
     },
     "features": {
       "findExperts": {
-        "title": "🔍 Find Experts",
-        "description": "Browse verified trainers, instructors, and wellness professionals",
-        "content": "Search by specialization, location, and ratings to find the perfect match."
+        "title": "Find Experts",
+        "description": "Browse verified trainers and fitness professionals",
+        "content": "Filter by specialization, location, and ratings to find the perfect match."
       },
-      "easyBooking": {
-        "title": "📅 Easy Booking",
-        "description": "Book sessions directly through our platform",
-        "content": "Simple calendar interface with instant confirmation and reminders."
+      "directContact": {
+        "title": "Direct Contact",
+        "description": "Connect with trainers and arrange details",
+        "content": "View full profile, pricing, and availability. Message and book sessions on your terms."
       },
       "reviews": {
-        "title": "⭐ Reviews & Ratings",
-        "description": "Make informed decisions with real client feedback",
-        "content": "Read authentic reviews and see ratings from verified clients."
+        "title": "Client Reviews",
+        "description": "Make informed decisions with feedback from others",
+        "content": "See ratings and read experiences from others to choose the best trainer."
       }
     },
     "stats": {
@@ -33,6 +40,258 @@
   "Common": {
     "language": "Language",
     "polish": "Polski",
-    "english": "English"
+    "english": "English",
+    "login": "Log In",
+    "register": "Sign Up",
+    "homeAriaLabel": "Trainly - home page",
+    "changeLanguage": "Change language. Current language"
+  },
+  "auth": {
+    "loginSubtitle": "Sign in to your account",
+    "registerSubtitle": "Create your account",
+    "email": "Email",
+    "emailRequired": "Email is required",
+    "emailPlaceholder": "john.doe@example.com",
+    "invalidEmail": "Invalid email format",
+    "password": "Password",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordRegex": "Password must contain: uppercase, lowercase, number, and special character (@$!%*?&)",
+    "passwordHint": "Min 8 chars: A-Z, a-z, 0-9, special char",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordRequired": "Password confirmation is required",
+    "passwordMatch": "Passwords must match",
+    "firstName": "First Name",
+    "firstNameRequired": "First name is required",
+    "firstNamePlaceholder": "John",
+    "lastName": "Last Name",
+    "lastNameRequired": "Last name is required",
+    "lastNamePlaceholder": "Doe",
+    "phone": "Phone",
+    "phoneInvalid": "Invalid phone number (9 digits, optionally with +48)",
+    "phoneHint": "Optional: 9 digits (spaces OK)",
+    "login": "Log In",
+    "loggingIn": "Logging in...",
+    "loginFailed": "Login failed. Please try again.",
+    "registrationFailed": "Registration failed. Please try again.",
+    "createAccount": "Create Account",
+    "creatingAccount": "Creating account...",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "signUp": "Sign up",
+    "registerAs": "Join Trainly as:",
+    "chooseRoleDescription": "Choose the role that best describes your needs",
+    "clientRole": "Client",
+    "clientRoleDesc": "Find the perfect trainer for you",
+    "clientFeature1": "Browse trainer profiles",
+    "clientFeature2": "Book training sessions",
+    "clientFeature3": "Chat with instructors",
+    "registerAsClient": "Register as Client",
+    "instructorRole": "Instructor",
+    "instructorRoleDesc": "Share your knowledge and help others",
+    "instructorFeature1": "Create a professional profile",
+    "instructorFeature2": "Manage your bookings",
+    "instructorFeature3": "Premium search listing",
+    "registerAsInstructor": "Register as Instructor",
+    "notReadyToRegister": "Not ready to register yet?",
+    "browseAsGuest": "Browse as guest",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "areYouInstructor": "Are you an instructor?",
+    "instructorRegComingSoon": "Coming Soon",
+    "instructorRegComingSoonDesc": "Instructor registration is currently in development. Contact us to join the early access program.",
+    "instructorRegContact": "Contact us:",
+    "registerAsClientInstead": "Register as Client",
+    "browseInstructors": "Browse Instructors",
+    "backToRoleSelection": "Back to role selection",
+    "phoneRequired": "Phone is required",
+    "phoneRequiredForInstructor": "Required for instructors (clients can contact you)",
+    "bio": "About Me",
+    "bioRequired": "Bio must be at least 10 characters",
+    "bioPlaceholder": "Tell us about your experience, specializations and training approach...",
+    "optional": "optional",
+    "specializations": "Specializations",
+    "specializationsRequired": "Provide at least one specialization",
+    "specializationsPlaceholder": "Personal Training, Yoga, Dance",
+    "specializationsHint": "Separate with commas (e.g. Strength Training, Yoga, Stretching)"
+  },
+  "Dashboard": {
+    "welcomeBack": "Welcome back",
+    "logout": "Logout",
+    "yourProfile": "Your Profile",
+    "id": "ID",
+    "name": "Name",
+    "comingSoon": "Coming Soon",
+    "phase4": "PHASE 4: Instructor Profiles",
+    "phase5": "PHASE 5: Booking System",
+    "phase6": "PHASE 6: Reviews & Ratings",
+    "editInstructorProfile": "Edit Instructor Profile",
+    "editProfile": "Edit Your Profile",
+    "profileSubtitle": "Update your instructor profile information",
+    "loadingProfile": "Loading profile...",
+    "errorLoadingProfile": "Error loading profile",
+    "profileForm": {
+      "title": "Edit Your Profile",
+      "subtitle": "Update your instructor profile information",
+      "tagline": "Tagline",
+      "taglinePlaceholder": "e.g., Certified Personal Trainer | Strength & Conditioning",
+      "taglineHint": "Short phrase describing who you are (shown under your name)",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself, your experience, and your training philosophy...",
+      "city": "City",
+      "cityPlaceholder": "e.g., Warsaw",
+      "location": "Full Location",
+      "locationPlaceholder": "e.g., Warsaw, Mazovia, Poland",
+      "hourlyRate": "Hourly Rate (PLN)",
+      "hourlyRatePlaceholder": "e.g., 150",
+      "hourlyRateOptional": "(optional)",
+      "yearsExperience": "Years of Experience",
+      "yearsExperiencePlaceholder": "e.g., 5",
+      "availability": "Availability",
+      "availabilityOnline": "Online sessions",
+      "availabilityInPerson": "In-person sessions",
+      "availabilityBoth": "Both online and in-person",
+      "primarySpecialization": "Primary Specialization",
+      "primarySpecializationPlaceholder": "Select your main category...",
+      "specializations": "Additional Specializations",
+      "specializationsHint": "Select your specializations",
+      "tags": "Tags",
+      "tagsHint": "Select up to {max} tags",
+      "tagsMaxReached": "Maximum {max} tags reached",
+      "customTags": "Custom Tags",
+      "customTagsPlaceholder": "e.g., CrossFit, TRX, Kettlebell (comma-separated)",
+      "customTagsHint": "You can add custom tags not in the list",
+      "goals": "Client Goals You Support",
+      "goalsHint": "Select goals you help clients achieve",
+      "goalsMaxReached": "Maximum {max} goals reached",
+      "languages": "Languages (comma-separated)",
+      "languagesPlaceholder": "e.g., English, Polish, German",
+      "photoUrl": "Profile Photo URL",
+      "photoUrlPlaceholder": "https://example.com/photo.jpg",
+      "gallery": "Gallery URLs (comma-separated)",
+      "galleryPlaceholder": "https://example.com/img1.jpg, https://example.com/img2.jpg",
+      "saveProfile": "Save Profile",
+      "saving": "Saving...",
+      "profileNotFound": "Profile not found",
+      "updateSuccess": "Profile updated successfully!",
+      "updateError": "Failed to update profile"
+    }
+  },
+  "Footer": {
+    "tagline": "Connect with the best fitness and wellness trainers in Poland.",
+    "platform": {
+      "title": "Platform",
+      "findTrainers": "Find Trainers",
+      "becomeInstructor": "Become Instructor",
+      "howItWorks": "How It Works",
+      "pricing": "Pricing"
+    },
+    "support": {
+      "title": "Support",
+      "helpCenter": "Help Center",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "safety": "Safety"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    },
+    "allRightsReserved": "All rights reserved."
+  },
+  "InstructorsPage": {
+    "title": "Browse Trainers",
+    "subtitle": "Find your perfect trainer",
+    "searchPlaceholder": "Search...",
+    "card": {
+      "perHour": "per hour",
+      "viewProfile": "View Profile",
+      "verified": "Verified",
+      "yearsExp": "{count}+ years exp.",
+      "online": "Online",
+      "inPerson": "In-person",
+      "both": "Online & In-person"
+    },
+    "filters": {
+      "title": "Filters",
+      "ariaLabel": "Filter instructors",
+      "category": "Category",
+      "subcategory": "Specialization",
+      "tags": "Tags",
+      "tagsAriaLabel": "Filter by tags",
+      "goals": "Your Goals",
+      "goalsAriaLabel": "Filter by training goals",
+      "price": "Price per session",
+      "rating": "Minimum rating",
+      "ratingAriaLabel": "Minimum rating filter",
+      "ratingOption": "{rating} stars and up",
+      "andUp": "& up",
+      "experience": "Experience",
+      "availability": "Availability",
+      "clearAll": "Clear filters",
+      "showResults": "Show results"
+    },
+    "experience": {
+      "all": "All",
+      "beginner": "Beginner (0-2 years)",
+      "intermediate": "Intermediate (3-5 years)",
+      "expert": "Expert (5+ years)"
+    },
+    "availability": {
+      "all": "All",
+      "online": "Online",
+      "inPerson": "In-person",
+      "both": "Online & In-person"
+    },
+    "sortBy": {
+      "label": "Sort by",
+      "relevance": "Relevance",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "rating": "Highest Rated",
+      "distance": "Distance"
+    },
+    "resultsAriaLabel": "Search results",
+    "noResults": "No trainers found",
+    "noResultsDescription": "Try adjusting your filters or search in a different city",
+    "resultsCount": "{count} {count, plural, one {trainer} other {trainers}}"
+  },
+  "HowItWorks": {
+    "title": "How It Works",
+    "comingSoon": "Page coming soon"
+  },
+  "Pricing": {
+    "title": "Pricing",
+    "comingSoon": "Page coming soon"
+  },
+  "Help": {
+    "title": "Help Center",
+    "comingSoon": "Page coming soon"
+  },
+  "Contact": {
+    "title": "Contact",
+    "comingSoon": "Page coming soon"
+  },
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "comingSoon": "Page coming soon"
+  },
+  "Safety": {
+    "title": "Safety",
+    "comingSoon": "Page coming soon"
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "comingSoon": "Page coming soon"
+  },
+  "Terms": {
+    "title": "Terms of Service",
+    "comingSoon": "Page coming soon"
+  },
+  "Cookies": {
+    "title": "Cookie Policy",
+    "comingSoon": "Page coming soon"
   }
 }
