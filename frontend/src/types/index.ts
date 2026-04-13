@@ -31,29 +31,30 @@ export interface InstructorProfile {
   userId: string;
   user?: User;
   bio: string | null;
+  tagline: string | null;
   specializations: string[];
+  tags: string[];
+  goals: string[];
   location: string | null;
   city: string | null;
   hourlyRate: number | null;
   photoUrl: string | null;
+  gallery: string[];
   verified: boolean;
   yearsExperience: number | null;
+  availability: string | null;
+  languages: string[];
   createdAt: string;
   updatedAt: string;
   averageRating?: number;
   reviewCount?: number;
 }
 
-export interface InstructorListing extends Omit<InstructorProfile, 'user'> {
+export interface InstructorListing extends Omit<InstructorProfile, 'user' | 'availability'> {
   username: string;
   fullName: string;
-  tagline: string | null;
   availability: 'online' | 'in-person' | 'both';
   primarySpecialization: string;
-  tags?: string[];
-  goals?: string[];
-  languages: string[];
-  gallery: string[];
   videoUrl: string | null;
   user?: UserBasic; // Use UserBasic instead of User (no phone, createdAt, updatedAt)
 }

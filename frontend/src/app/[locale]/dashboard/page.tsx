@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthStore } from '@/stores/auth-store';
-import { useRouter } from '@/i18n/routing';
+import { useRouter, Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 
@@ -68,6 +68,18 @@ export default function DashboardPage() {
                 </p>
               )}
             </div>
+            
+            {/* Add Profile Edit Link for Instructors */}
+            {user.role === 'INSTRUCTOR' && (
+              <div className="mt-4">
+                <Link
+                  href="/dashboard/profile"
+                  className="inline-block px-6 py-2 bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-red-600 transition-all cursor-pointer"
+                >
+                  {tDashboard('editInstructorProfile') || 'Edit Instructor Profile'}
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">

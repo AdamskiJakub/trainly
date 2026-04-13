@@ -7,6 +7,7 @@ import { createRegisterClientSchema, type RegisterClientFormData } from '@/lib/v
 import { apiClient } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth-store';
 import { normalizeApiError } from '@/lib/utils/error-handlers';
+import { generateUsernameFromEmail } from '@/lib/utils/username-generator';
 
 export function useRegisterClientForm() {
   const t = useTranslations('auth');
@@ -26,8 +27,8 @@ export function useRegisterClientForm() {
     try {
       const { confirmPassword, ...registerData } = data;
       
-      // Auto-generate username from email (before @)
-      const username = registerData.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-');
+      // Auto-generate username from email with proper validation
+      const username = generateUsernameFromEmail(registerData.email);
       
       const response = await apiClient.post('/auth/register', {
         ...registerData,
