@@ -44,7 +44,7 @@ export class InstructorProfilesController {
       specialization,
       tags: Array.isArray(tags) ? tags : tags ? [tags] : undefined,
       goals: Array.isArray(goals) ? goals : goals ? [goals] : undefined,
-      minRating: parseNumeric(minRating),
+      // minRating: parseNumeric(minRating), // TODO: Will be implemented with reviews/ratings
       priceMin: parseNumeric(priceMin),
       priceMax: parseNumeric(priceMax),
     };

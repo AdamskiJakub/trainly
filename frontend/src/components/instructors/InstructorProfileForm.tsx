@@ -65,11 +65,11 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       bio: profile?.bio || '',
       tagline: profile?.tagline || '',
       city: profile?.city || '',
-      hourlyRate: profile?.hourlyRate || undefined,
+      hourlyRate: profile?.hourlyRate ?? undefined,
       photoUrl: profile?.photoUrl || '',
       languages: profile?.languages?.join(', ') || '',
       gallery: profile?.gallery?.join(', ') || '',
-      yearsExperience: profile?.yearsExperience || undefined,
+      yearsExperience: profile?.yearsExperience ?? undefined,
     },
   });
 
@@ -80,11 +80,11 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
         bio: profile.bio || '',
         tagline: profile.tagline || '',
         city: profile.city || '',
-        hourlyRate: profile.hourlyRate || undefined,
+        hourlyRate: profile.hourlyRate ?? undefined,
         photoUrl: profile.photoUrl || '',
         languages: profile.languages?.join(', ') || '',
         gallery: profile.gallery?.join(', ') || '',
-        yearsExperience: profile.yearsExperience || undefined,
+        yearsExperience: profile.yearsExperience ?? undefined,
       });
     }
   }, [profile, reset]);
@@ -125,22 +125,10 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       return;
     }
 
-    // Extract custom tags from field (if any)
-    const customTagsInput = (data as any).customTags || '';
-    const customTagsArray = customTagsInput
-      .split(',')
-      .map((t: string) => t.trim())
-      .filter(Boolean);
-
-    // Combine selected tags with custom tags and enforce max limit
-    const allTags = [...selectedTags, ...customTagsArray]
-      .filter((tag, index, self) => self.indexOf(tag) === index) // Deduplicate
-      .slice(0, MAX_TAGS); // Enforce max 8 tags
-
     const formattedData = {
       ...data,
       specializations: selectedPrimaryCategory ? [selectedPrimaryCategory, ...selectedSpecializations] : selectedSpecializations,
-      tags: allTags,
+      tags: selectedTags,
       goals: selectedGoals,
       availability: selectedAvailability,
       hourlyRate: data.hourlyRate ?? null,

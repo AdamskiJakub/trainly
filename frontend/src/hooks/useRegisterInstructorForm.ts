@@ -39,9 +39,9 @@ export function useRegisterInstructorForm() {
       setAuth(user, access_token);
       router.push('/dashboard');
     } catch (err: any) {
-      // Better error messaging for username conflicts
       if (err.response?.status === 409) {
-        setError(t('registrationFailed') + ': ' + (err.response?.data?.message || 'Username already exists. Please try a different email.'));
+        const conflictMessage = err.response?.data?.message;
+        setError(conflictMessage ? `${t('registrationFailed')}: ${conflictMessage}` : t('registrationFailed'));
       } else {
         setError(normalizeApiError(err, t('registrationFailed')));
       }

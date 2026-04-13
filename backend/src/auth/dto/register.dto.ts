@@ -7,7 +7,7 @@ export class RegisterDto {
   @IsString()
   @MinLength(3, { message: 'Username must be at least 3 characters long' })
   @MaxLength(30, { message: 'Username must not exceed 30 characters' })
-  @Matches(/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]{1,2}$/, {
+  @Matches(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, {
     message: 'Username must start and end with alphanumeric character, and can only contain lowercase letters, numbers, and hyphens',
   })
   username: string;
