@@ -13,6 +13,7 @@ export function filterAndSortInstructors(
       return result.sort((a, b) => {
         const priceA = a.hourlyRate ?? Infinity;
         const priceB = b.hourlyRate ?? Infinity;
+        if (priceA === priceB) return 0; // Handle both null/undefined
         return priceA - priceB;
       });
 
@@ -20,6 +21,7 @@ export function filterAndSortInstructors(
       return result.sort((a, b) => {
         const priceA = a.hourlyRate ?? -Infinity;
         const priceB = b.hourlyRate ?? -Infinity;
+        if (priceA === priceB) return 0; // Handle both null/undefined
         return priceB - priceA;
       });
 

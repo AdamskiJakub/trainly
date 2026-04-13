@@ -207,10 +207,4 @@
   .dark [data-slot="select-trigger"] {
     background-color: rgb(15 23 42 / 0.5) !important; /* slate-900/50 */
   }
-  
-  /* Ensure our custom backgrounds work */
-  .dark input[data-slot="input"].dark\:bg-slate-900\/50\!,
-  .dark textarea[data-slot="textarea"].dark\:bg-slate-900\/50\! {
-    background-color: rgb(15 23 42 / 0.5) !important;
-  }
 }

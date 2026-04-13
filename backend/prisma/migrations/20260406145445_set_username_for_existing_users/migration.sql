@@ -1,13 +1,28 @@
--- Backfill username for existing users (use email prefix + unique suffix)
+-- Backfill username for existing users with validation-compliant values
 UPDATE "users"
-SET "username" = LOWER(
-  REGEXP_REPLACE(
-    SPLIT_PART(email, '@', 1), 
-    '[^a-z0-9]', 
-    '-', 
-    'g'
-  ) || '-' || SUBSTRING(id::text, 1, 6)
-)
+SET "username" = LEFT(
+  COALESCE(
+    NULLIF(
+      BTRIM(
+        REGEXP_REPLACE(
+          REGEXP_REPLACE(
+            LOWER(SPLIT_PART(email, '@', 1)),
+            '[^a-z0-9]',
+            '-',
+            'g'
+          ),
+          '-+',
+          '-',
+          'g'
+        ),
+        '-'
+      ),
+      ''
+    ),
+    'user'
+  ),
+  23
+) || '-' || SUBSTRING(id::text, 1, 6)
 WHERE "username" IS NULL;
 
 -- Now make username NOT NULL and add unique constraint

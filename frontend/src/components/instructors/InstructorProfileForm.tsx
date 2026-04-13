@@ -57,19 +57,15 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<InstructorProfileFormData>({
     resolver: zodResolver(instructorProfileSchema),
     defaultValues: {
       bio: profile?.bio || '',
       tagline: profile?.tagline || '',
-      location: profile?.location || '',
       city: profile?.city || '',
       hourlyRate: profile?.hourlyRate || undefined,
       photoUrl: profile?.photoUrl || '',
-      gallery: profile?.gallery || [],
-      languages: profile?.languages || [],
       yearsExperience: profile?.yearsExperience || undefined,
     },
   });
@@ -117,8 +113,10 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       .map((t: string) => t.trim())
       .filter(Boolean);
 
-    // Combine selected tags with custom tags
-    const allTags = [...selectedTags, ...customTagsArray];
+    // Combine selected tags with custom tags and enforce max limit
+    const allTags = [...selectedTags, ...customTagsArray]
+      .filter((tag, index, self) => self.indexOf(tag) === index) // Deduplicate
+      .slice(0, MAX_TAGS); // Enforce max 8 tags
 
     const formattedData = {
       ...data,
@@ -126,15 +124,15 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       tags: allTags,
       goals: selectedGoals,
       availability: selectedAvailability,
-      hourlyRate: data.hourlyRate ?? undefined,
-      yearsExperience: data.yearsExperience ?? undefined,
+      hourlyRate: data.hourlyRate ?? null,
+      yearsExperience: data.yearsExperience ?? null,
       languages: typeof data.languages === 'string'
         ? (data.languages as string).split(',').map(s => s.trim()).filter(Boolean)
         : data.languages,
       gallery: typeof data.gallery === 'string'
         ? (data.gallery as string).split(',').map(s => s.trim()).filter(Boolean)
         : data.gallery,
-      photoUrl: data.photoUrl || undefined,
+      photoUrl: data.photoUrl && data.photoUrl.trim() !== '' ? data.photoUrl.trim() : null,
     };
 
     updateProfile(

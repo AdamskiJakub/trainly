@@ -67,7 +67,7 @@ export function useInstructors(filters: InstructorFilters) {
         }
         if (filters.priceMin !== undefined) params.append('priceMin', filters.priceMin.toString());
         if (filters.priceMax !== undefined) params.append('priceMax', filters.priceMax.toString());
-        if (filters.minRating !== undefined) params.append('minRating', filters.minRating.toString());
+        // minRating will be added when backend reviews/ratings are implemented
 
         const queryString = params.toString();
         const url = `/instructor-profiles${queryString ? `?${queryString}` : ''}`;

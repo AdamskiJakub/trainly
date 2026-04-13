@@ -5,18 +5,18 @@ import { apiClient } from '@/lib/api';
 import { toast } from 'sonner';
 
 export interface UpdateInstructorProfileData {
-  bio?: string;
-  tagline?: string;
+  bio?: string | null;
+  tagline?: string | null;
   specializations?: string[];
   tags?: string[];
   goals?: string[];
-  location?: string;
-  city?: string;
-  hourlyRate?: number;
-  photoUrl?: string;
+  location?: string | null;
+  city?: string | null;
+  hourlyRate?: number | null;
+  photoUrl?: string | null;
   gallery?: string[];
-  yearsExperience?: number;
-  availability?: string;
+  yearsExperience?: number | null;
+  availability?: string | null;
   languages?: string[];
 }
 
