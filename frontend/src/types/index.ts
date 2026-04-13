@@ -29,7 +29,7 @@ export interface UserBasic {
 export interface InstructorProfile {
   id: string;
   userId: string;
-  user?: User;
+  user?: UserBasic; // Use UserBasic instead of full User for API responses
   bio: string | null;
   tagline: string | null;
   specializations: string[];

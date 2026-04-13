@@ -34,7 +34,11 @@ export function generateUsernameFromEmail(email: string): string {
   
   // Ensure it still meets minimum length after all cleanup
   if (username.length < 3) {
-    username = `user-${Math.random().toString(36).substring(2, 8)}`;
+    // Use crypto for better collision resistance
+    const randomSuffix = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID().substring(0, 6)
+      : Math.random().toString(36).substring(2, 8);
+    username = `user-${randomSuffix}`;
   }
   
   // Enforce max length (30 chars)

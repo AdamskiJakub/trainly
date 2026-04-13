@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations, useLocale } from 'next-intl';
-import { InstructorProfile } from '@/types';
+import { InstructorProfile, InstructorListing } from '@/types';
 import { useUpdateInstructorProfile } from '@/hooks/useUpdateInstructorProfile';
 import { toast } from 'sonner';
 import { instructorProfileSchema, type InstructorProfileFormData } from '@/lib/validations/schemas/instructor-profile';
@@ -29,7 +29,7 @@ const MAX_TAGS = 8;
 const MAX_GOALS = 4;
 
 interface InstructorProfileFormProps {
-  profile?: InstructorProfile;
+  profile?: InstructorProfile | InstructorListing; // Accept both types for flexibility
 }
 
 export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
@@ -45,7 +45,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
     profile?.specializations?.slice(1) || [] // Exclude primary to avoid duplication
   );
   const [selectedTags, setSelectedTags] = useState<string[]>(
-    profile?.tags?.filter(tag => getAllTagsSorted().some(t => t.id === tag)) || []
+    profile?.tags?.filter((tag: string) => getAllTagsSorted().some(t => t.id === tag)) || []
   );
   const [selectedGoals, setSelectedGoals] = useState<string[]>(
     profile?.goals || []
@@ -57,6 +57,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<InstructorProfileFormData>({
     resolver: zodResolver(instructorProfileSchema),
@@ -66,9 +67,27 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       city: profile?.city || '',
       hourlyRate: profile?.hourlyRate || undefined,
       photoUrl: profile?.photoUrl || '',
+      languages: profile?.languages?.join(', ') || '',
+      gallery: profile?.gallery?.join(', ') || '',
       yearsExperience: profile?.yearsExperience || undefined,
     },
   });
+
+  // Reset form when profile changes
+  useEffect(() => {
+    if (profile) {
+      reset({
+        bio: profile.bio || '',
+        tagline: profile.tagline || '',
+        city: profile.city || '',
+        hourlyRate: profile.hourlyRate || undefined,
+        photoUrl: profile.photoUrl || '',
+        languages: profile.languages?.join(', ') || '',
+        gallery: profile.gallery?.join(', ') || '',
+        yearsExperience: profile.yearsExperience || undefined,
+      });
+    }
+  }, [profile, reset]);
 
   // Get available tags based on primary category
   const availableTags = getAllTagsSorted(selectedPrimaryCategory);
@@ -429,7 +448,6 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
           {...register('languages')}
           id="languages"
           type="text"
-          defaultValue={profile?.languages?.join(', ') || ''}
           placeholder={t('languagesPlaceholder')}
           className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500"
         />
@@ -464,7 +482,6 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
           {...register('gallery')}
           id="gallery"
           rows={3}
-          defaultValue={profile?.gallery?.join(', ') || ''}
           placeholder={t('galleryPlaceholder')}
           className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500 resize-none"
         />

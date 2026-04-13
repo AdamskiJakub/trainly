@@ -58,7 +58,7 @@ export default function ProfilePage() {
         </p>
       </div>
       <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 shadow-2xl">
-        <InstructorProfileForm profile={profile as any} />
+        {profile && <InstructorProfileForm profile={profile} />}
       </div>
     </div>
   );
