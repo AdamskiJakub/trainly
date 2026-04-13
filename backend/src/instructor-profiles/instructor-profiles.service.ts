@@ -1,6 +1,7 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateInstructorProfileDto } from './dto/create-instructor-profile.dto';
+import { UpdateInstructorProfileDto } from './dto/update-instructor-profile.dto';
 
 interface InstructorFilters {
   city?: string;
@@ -61,7 +62,6 @@ export class InstructorProfilesService {
         user: {
           select: {
             id: true,
-            email: true,
             username: true,
             firstName: true,
             lastName: true,
@@ -88,7 +88,6 @@ export class InstructorProfilesService {
         user: {
           select: {
             id: true,
-            email: true,
             username: true,
             firstName: true,
             lastName: true,
@@ -133,6 +132,37 @@ export class InstructorProfilesService {
   async findByUserId(userId: string) {
     return this.prisma.instructorProfile.findUnique({
       where: { userId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            role: true,
+          },
+        },
+      },
+    });
+  }
+
+  async update(profileId: string, userId: string, dto: UpdateInstructorProfileDto) {
+    const profile = await this.prisma.instructorProfile.findUnique({
+      where: { id: profileId },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Instructor profile not found');
+    }
+
+    if (profile.userId !== userId) {
+      throw new ForbiddenException('You can only update your own profile');
+    }
+
+    return this.prisma.instructorProfile.update({
+      where: { id: profileId },
+      data: dto,
       include: {
         user: {
           select: {

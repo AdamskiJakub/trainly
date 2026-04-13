@@ -7,12 +7,14 @@ import {
   Req,
   Param,
   Query,
+  Patch,
   NotFoundException,
   ForbiddenException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InstructorProfilesService } from './instructor-profiles.service';
 import { CreateInstructorProfileDto } from './dto/create-instructor-profile.dto';
+import { UpdateInstructorProfileDto } from './dto/update-instructor-profile.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import type { Request } from 'express';
 import type { AuthenticatedUser } from '../types/express';
@@ -31,14 +33,20 @@ export class InstructorProfilesController {
     @Query('priceMin') priceMin?: string,
     @Query('priceMax') priceMax?: string,
   ) {
+    const parseNumeric = (value?: string): number | undefined => {
+      if (!value) return undefined;
+      const parsed = parseFloat(value);
+      return Number.isFinite(parsed) ? parsed : undefined;
+    };
+
     const filters = {
       city,
       specialization,
       tags: Array.isArray(tags) ? tags : tags ? [tags] : undefined,
       goals: Array.isArray(goals) ? goals : goals ? [goals] : undefined,
-      minRating: minRating ? parseFloat(minRating) : undefined,
-      priceMin: priceMin ? parseFloat(priceMin) : undefined,
-      priceMax: priceMax ? parseFloat(priceMax) : undefined,
+      minRating: parseNumeric(minRating),
+      priceMin: parseNumeric(priceMin),
+      priceMax: parseNumeric(priceMax),
     };
     return this.profilesService.findAll(filters);
   }
@@ -82,5 +90,19 @@ export class InstructorProfilesController {
     return this.profilesService.create(user.id, dto);
   }
 
-  
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateInstructorProfileDto,
+    @Req() req: Request
+  ) {
+    const user = req.user as AuthenticatedUser;
+    
+    if (!user) {
+      throw new UnauthorizedException('User not authenticated');
+    }
+
+    return this.profilesService.update(id, user.id, dto);
+  }
 }
