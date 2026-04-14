@@ -4,6 +4,13 @@ import { RegisterDto, LoginDto } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import type { Request, Response } from 'express';
 
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax' as const,
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -12,14 +19,7 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
     const { user, access_token } = await this.authService.register(dto);
-
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-    
+    res.cookie('access_token', access_token, COOKIE_OPTIONS);
     return { user };
   }
 
@@ -27,14 +27,7 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async registerInstructor(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
     const { user, access_token } = await this.authService.registerInstructor(dto);
-
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-    
+    res.cookie('access_token', access_token, COOKIE_OPTIONS);
     return { user };
   }
 
@@ -42,15 +35,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const { user, access_token } = await this.authService.login(dto);
-    
-    // Set httpOnly cookie
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-    
+    res.cookie('access_token', access_token, COOKIE_OPTIONS);
     return { user };
   }
 

@@ -138,7 +138,7 @@ export function UserMenu() {
         </button>
 
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetContent side="right" className="w-75 bg-slate-900 border-l-2 border-slate-700 p-0">
+          <SheetContent side="right" className="w-3/4 bg-slate-900 border-l-2 border-slate-700 p-0">
             <SheetHeader className="border-b border-slate-700 p-6">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12 border-2 border-slate-700">
