@@ -25,9 +25,9 @@ export function useLoginForm() {
 
     try {
       const response = await apiClient.post('/auth/login', data);
-      const { user, access_token } = response.data;
+      const { user } = response.data;
       
-      setAuth(user, access_token);
+      setAuth(user);
       router.push('/dashboard');
     } catch (err: any) {
       setError(normalizeApiError(err, t('loginFailed')));

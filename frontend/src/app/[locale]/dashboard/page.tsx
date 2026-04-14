@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { useRouter, Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
+import { apiClient } from '@/lib/api';
 
 export default function DashboardPage() {
   const t = useTranslations('auth');
@@ -43,7 +44,11 @@ export default function DashboardPage() {
               </p>
             </div>
             <button
-              onClick={() => logout()}
+              onClick={async () => {
+                await apiClient.post('/auth/logout');
+                logout();
+                router.push('/login');
+              }}
               className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-all cursor-pointer"
             >
               {tDashboard('logout')}

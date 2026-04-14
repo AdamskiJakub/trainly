@@ -43,6 +43,10 @@
     "english": "English",
     "login": "Log In",
     "register": "Sign Up",
+    "logout": "Log Out",
+    "dashboard": "Dashboard",
+    "editProfile": "Edit Profile",
+    "settings": "Settings",
     "homeAriaLabel": "Trainly - home page",
     "changeLanguage": "Change language. Current language"
   },
