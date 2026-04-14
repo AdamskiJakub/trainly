@@ -17,7 +17,7 @@ export const apiClient = axios.create({
   },
 });
 
-// Handle 401 errors (logout on invalid token)
+// Handle 401 errors (logout when the authenticated session is no longer valid)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

@@ -44,6 +44,19 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'trainly-auth',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+
+          const { token, ...rest } = persistedState;
+          return rest;
+        }
+        return persistedState;
+      },
+      partialize: (state) => ({ 
+        user: state.user, 
+        isAuthenticated: state.isAuthenticated 
+      }),
     }
   )
 );

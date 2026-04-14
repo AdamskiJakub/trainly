@@ -57,7 +57,7 @@ export function UserMenu() {
       <div className="hidden md:block">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="relative rounded-full outline-none">
+            <button type="button" className="relative rounded-full outline-none">
               <Avatar className="h-10 w-10 cursor-pointer border-2 border-slate-700 hover:border-orange-500 transition-colors">
                 <AvatarImage src={avatarUrl} alt={user.email} />
                 <AvatarFallback className="bg-linear-to-br from-orange-500 to-red-600 text-white font-semibold">
@@ -123,6 +123,7 @@ export function UserMenu() {
 
       <div className="md:hidden">
         <button
+          type="button"
           onClick={() => setMobileMenuOpen(true)}
           className="relative rounded-full outline-none"
         >

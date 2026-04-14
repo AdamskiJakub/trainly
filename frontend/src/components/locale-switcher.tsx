@@ -27,6 +27,7 @@ export function LocaleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
+          type="button"
           disabled={isPending}
           className="text-slate-300 hover:text-white hover:bg-slate-800 active:scale-95 rounded-lg px-3 h-9 text-2xl transition-all outline-none"
           aria-label={`${t('changeLanguage')}: ${locale === 'pl' ? t('polish') : t('english')}`}
