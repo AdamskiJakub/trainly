@@ -11,24 +11,13 @@ if (!baseURL) {
 
 export const apiClient = axios.create({
   baseURL,
+  withCredentials: true, // Send cookies with requests
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Add JWT token to requests
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = useAuthStore.getState().token;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Handle 401 errors (logout on invalid token)
+// Handle 401 errors (logout when the authenticated session is no longer valid)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

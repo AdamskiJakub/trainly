@@ -13,9 +13,8 @@ export interface AuthUser {
 
 interface AuthState {
   user: AuthUser | null;
-  token: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: AuthUser, token: string) => void;
+  setAuth: (user: AuthUser) => void;
   logout: () => void;
   updateUser: (user: Partial<AuthUser>) => void;
 }
@@ -24,20 +23,17 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
       isAuthenticated: false,
       
-      setAuth: (user, token) => 
+      setAuth: (user) => 
         set({ 
           user, 
-          token, 
           isAuthenticated: true 
         }),
       
       logout: () => 
         set({ 
           user: null, 
-          token: null, 
           isAuthenticated: false 
         }),
       
@@ -48,6 +44,19 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'trainly-auth',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+
+          const { token, ...rest } = persistedState;
+          return rest;
+        }
+        return persistedState;
+      },
+      partialize: (state) => ({ 
+        user: state.user, 
+        isAuthenticated: state.isAuthenticated 
+      }),
     }
   )
 );
