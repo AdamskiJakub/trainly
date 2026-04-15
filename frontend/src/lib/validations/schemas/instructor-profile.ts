@@ -31,6 +31,8 @@ export const instructorProfileSchema = z.object({
   tagline: z.string().max(200).optional(),
   city: z.string().max(100).optional(),
   hourlyRate: z.number().min(0).optional().nullable(),
+  packageDealsEnabled: z.boolean().optional(),
+  packageDealsDescription: z.string().max(500).optional(),
   photoUrl: z.string().url().optional().or(z.literal('')),
   gallery: commaSeparatedUrls.optional(),
   languages: commaSeparatedStrings.optional(),

@@ -46,9 +46,12 @@ model InstructorProfile {
   location        String?  // Full address
   city            String?  // For filtering
   hourlyRate      Float?
+  packageDealsEnabled     Boolean? @default(false)
+  packageDealsDescription String?  @db.Text
   photoUrl        String?
   gallery         String[] // Array of photo URLs
   verified        Boolean  @default(false)
+  isDraft         Boolean  @default(true)  // Profile is draft until published
   yearsExperience Int?
   availability    String?  // "online" | "in-person" | "both"
   languages       String[] // ["pl", "en"]

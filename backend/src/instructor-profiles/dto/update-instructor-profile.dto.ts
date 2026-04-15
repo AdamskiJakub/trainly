@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsArray,
   IsNumber,
+  IsBoolean,
   Min,
   ArrayMaxSize,
 } from 'class-validator';
@@ -47,6 +48,14 @@ export class UpdateInstructorProfileDto {
   @IsOptional()
   hourlyRate?: number | null;
 
+  @IsBoolean()
+  @IsOptional()
+  packageDealsEnabled?: boolean | null;
+
+  @IsString()
+  @IsOptional()
+  packageDealsDescription?: string | null;
+
   @IsString()
   @IsOptional()
   photoUrl?: string | null;
@@ -69,4 +78,8 @@ export class UpdateInstructorProfileDto {
   @Min(0)
   @IsOptional()
   yearsExperience?: number | null;
+
+  @IsBoolean()
+  @IsOptional()
+  isDraft?: boolean;
 }

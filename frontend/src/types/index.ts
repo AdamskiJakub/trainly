@@ -38,9 +38,12 @@ export interface InstructorProfile {
   location: string | null;
   city: string | null;
   hourlyRate: number | null;
+  packageDealsEnabled: boolean | null;
+  packageDealsDescription: string | null;
   photoUrl: string | null;
   gallery: string[];
   verified: boolean;
+  isDraft: boolean;
   yearsExperience: number | null;
   availability: string | null;
   languages: string[];

@@ -149,6 +149,10 @@
       "hourlyRate": "Hourly Rate (PLN)",
       "hourlyRatePlaceholder": "e.g., 150",
       "hourlyRateOptional": "(optional)",
+      "packageDealsEnabled": "I offer package deals/hours",
+      "packageDealsDescription": "Package deals description",
+      "packageDealsPlaceholder": "e.g., 10-hour package: 1400 PLN (instead of 1500 PLN) - save 100 PLN!",
+      "packageDealsHint": "Describe your package deals (e.g., 10 sessions for the price of 9, monthly pass, etc.)",
       "yearsExperience": "Years of Experience",
       "yearsExperiencePlaceholder": "e.g., 5",
       "availability": "Availability",
@@ -176,9 +180,12 @@
       "galleryPlaceholder": "https://example.com/img1.jpg, https://example.com/img2.jpg",
       "saveProfile": "Save Profile",
       "saving": "Saving...",
+      "draftSaved": "Draft saved! Redirecting to preview...",
       "profileNotFound": "Profile not found",
       "updateSuccess": "Profile updated successfully!",
-      "updateError": "Failed to update profile"
+      "updateError": "Failed to update profile",
+      "profilePublished": "Profile published successfully!",
+      "profilePublishFailed": "Failed to publish profile"
     }
   },
   "Footer": {

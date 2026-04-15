@@ -1,6 +1,7 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -22,7 +23,7 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
     .toUpperCase();
 
   return (
-    <div className="block group cursor-default">
+    <Link href={`/${locale}/instructors/${instructor.username}`} className="block group">
       <Card className="bg-slate-900/50 border-slate-800 hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
         <div className="flex flex-col sm:flex-row gap-6 p-6">
           {/* Avatar Section */}
@@ -164,6 +165,6 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
           </div>
         </div>
       </Card>
-    </div>
+    </Link>
   );
 }
