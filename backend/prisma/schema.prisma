@@ -46,7 +46,8 @@ model InstructorProfile {
   location        String?  // Full address
   city            String?  // For filtering
   hourlyRate      Float?
-  packageDealsEnabled     Boolean? @default(false)
+  hourlyRateHidden Boolean  @default(false)  // Hide rate, show "Contact for pricing"
+  packageDealsEnabled     Boolean  @default(false)
   packageDealsDescription String?  @db.Text
   photoUrl        String?
   gallery         String[] // Array of photo URLs

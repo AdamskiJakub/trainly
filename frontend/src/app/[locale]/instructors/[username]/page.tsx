@@ -7,11 +7,13 @@ import { apiClient } from '@/lib/api';
 import { InstructorProfile } from '@/types';
 import { PublicInstructorProfile } from '@/components/instructors/profile/PublicInstructorProfile';
 import { useRouter } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export default function InstructorPublicProfilePage() {
   const params = useParams();
   const router = useRouter();
   const username = params?.username as string;
+  const t = useTranslations('InstructorProfile');
 
   const { data: profile, isLoading, error } = useQuery<InstructorProfile>({
     queryKey: ['instructor', username],
@@ -32,7 +34,7 @@ export default function InstructorPublicProfilePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="text-slate-300">Loading profile...</div>
+        <div className="text-slate-300">{t('loadingProfile')}</div>
       </div>
     );
   }
@@ -41,13 +43,13 @@ export default function InstructorPublicProfilePage() {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-center space-y-4">
-          <h1 className="text-3xl font-bold text-white">Instructor Not Found</h1>
-          <p className="text-slate-400">The instructor profile you're looking for doesn't exist.</p>
+          <h1 className="text-3xl font-bold text-white">{t('instructorNotFound')}</h1>
+          <p className="text-slate-400">{t('instructorNotFoundDescription')}</p>
           <button
             onClick={() => router.push('/instructors')}
             className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors"
           >
-            Browse All Instructors
+            {t('backToInstructors')}
           </button>
         </div>
       </div>

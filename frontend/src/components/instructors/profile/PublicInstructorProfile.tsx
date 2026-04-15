@@ -4,7 +4,7 @@ import { InstructorProfile } from '@/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Clock, DollarSign, Globe, Star } from 'lucide-react';
+import { MapPin, Globe, Star } from 'lucide-react';
 import { getSpecializationName } from '@/lib/config/specializations';
 import { getTagName, getTagById } from '@/lib/config/tags';
 import { getGoalName, getGoalById } from '@/lib/config/goals';
@@ -71,7 +71,7 @@ export function PublicInstructorProfile({ profile, isPreview = false }: PublicIn
               </div>
 
               {/* Price - PO PRAWEJ jak na listingu */}
-              {profile.hourlyRate && (
+              {!profile.hourlyRateHidden && profile.hourlyRate !== null && profile.hourlyRate !== undefined && (
                 <div className="text-right shrink-0">
                   <p className="text-2xl font-bold text-orange-500">
                     {profile.hourlyRate} zł
@@ -89,13 +89,13 @@ export function PublicInstructorProfile({ profile, isPreview = false }: PublicIn
             {/* Metadata Row */}
             <div className="flex flex-wrap items-center gap-3 text-sm">
               {/* Rating */}
-              {profile.averageRating && (
+              {profile.averageRating !== null && profile.averageRating !== undefined && (
                 <div className="flex items-center gap-1 text-orange-500">
                   <Star className="size-4 fill-orange-500" />
                   <span className="font-semibold">
                     {profile.averageRating.toFixed(1)}
                   </span>
-                  {profile.reviewCount && (
+                  {profile.reviewCount !== null && profile.reviewCount !== undefined && (
                     <span className="text-slate-400">
                       ({profile.reviewCount})
                     </span>
@@ -139,7 +139,7 @@ export function PublicInstructorProfile({ profile, isPreview = false }: PublicIn
               )}
 
               {/* Years Experience */}
-              {profile.yearsExperience && (
+              {profile.yearsExperience !== null && profile.yearsExperience !== undefined && (
                 <span className="text-slate-400">
                   {t('yearsExperience', { count: profile.yearsExperience })}
                 </span>

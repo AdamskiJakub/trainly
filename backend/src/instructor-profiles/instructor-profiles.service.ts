@@ -85,6 +85,7 @@ export class InstructorProfilesService {
         user: {
           username: username,
         },
+        isDraft: false,
       },
       include: {
         user: {

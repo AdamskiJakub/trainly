@@ -56,7 +56,7 @@ export default function PreviewProfilePage() {
   if (!profile) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-slate-400">Profile not found</div>
+        <div className="text-slate-400">{t('profileNotFound')}</div>
       </div>
     );
   }

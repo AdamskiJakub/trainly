@@ -50,7 +50,11 @@ export class UpdateInstructorProfileDto {
 
   @IsBoolean()
   @IsOptional()
-  packageDealsEnabled?: boolean | null;
+  hourlyRateHidden?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  packageDealsEnabled?: boolean;
 
   @IsString()
   @IsOptional()

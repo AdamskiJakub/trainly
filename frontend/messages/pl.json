@@ -149,6 +149,8 @@
       "hourlyRate": "Stawka godzinowa (PLN)",
       "hourlyRatePlaceholder": "np. 150",
       "hourlyRateOptional": "(opcjonalnie)",
+      "hourlyRateHidden": "Ukryj stawkę godzinową",
+      "hourlyRateHiddenHint": "Zamiast stawki będzie wyświetlane: \"Stawka ustalana indywidualnie\"",
       "packageDealsEnabled": "Oferuję pakiety zajęć/godzin",
       "packageDealsDescription": "Opis pakietów",
       "packageDealsPlaceholder": "np. Pakiet 10 godzin: 1400 zł (zamiast 1500 zł) - oszczędź 100 zł!",
@@ -318,6 +320,8 @@
     "verified": "Zweryfikowany",
     "yearsExperience": "{count} lat doświadczenia",
     "perHour": "zł/godzinę",
+    "hourlyRate": "Stawka za godzinę",
+    "contactForPricing": "Stawka ustalana indywidualnie",
     "availabilityOnline": "Online",
     "availabilityInPerson": "Spotkania stacjonarne",
     "availabilityBoth": "Online i osobiście",
@@ -327,6 +331,12 @@
     "iHelpYouAchieve": "Pomogę Ci osiągnąć",
     "languages": "Języki",
     "gallery": "Galeria",
-    "galleryImage": "Zdjęcie {number}"
+    "galleryImage": "Zdjęcie {number}",
+    "packageDeals": "Oferty pakietowe",
+    "profileNotFound": "Nie znaleziono profilu",
+    "instructorNotFound": "Instruktor nie został znaleziony",
+    "instructorNotFoundDescription": "Profil instruktora, którego szukasz, nie istnieje.",
+    "backToInstructors": "Wróć do listy instruktorów",
+    "loadingProfile": "Ładowanie profilu..."
   }
 }

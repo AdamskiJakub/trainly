@@ -13,7 +13,8 @@ export interface UpdateInstructorProfileData {
   location?: string | null;
   city?: string | null;
   hourlyRate?: number | null;
-  packageDealsEnabled?: boolean | null;
+  hourlyRateHidden?: boolean;
+  packageDealsEnabled?: boolean;
   packageDealsDescription?: string | null;
   photoUrl?: string | null;
   gallery?: string[];

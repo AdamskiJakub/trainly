@@ -2,7 +2,6 @@
 
 import { InstructorProfile } from '@/types';
 import { useLocale, useTranslations } from 'next-intl';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Globe, Star, Clock, Award, Target, Languages as LanguagesIcon } from 'lucide-react';
 import { getSpecializationName } from '@/lib/config/specializations';
@@ -66,11 +65,11 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
           {/* Key Stats */}
           <div className="space-y-3 text-sm">
             {/* Rating */}
-            {profile.averageRating && (
+            {profile.averageRating !== null && profile.averageRating !== undefined && (
               <div className="flex items-center gap-2 text-orange-500 justify-center">
                 <Star className="size-5 fill-orange-500" />
                 <span className="font-bold text-lg">{profile.averageRating.toFixed(1)}</span>
-                {profile.reviewCount && (
+                {profile.reviewCount !== null && profile.reviewCount !== undefined && (
                   <span className="text-slate-400">({profile.reviewCount})</span>
                 )}
               </div>
@@ -111,7 +110,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
             )}
 
             {/* Experience */}
-            {profile.yearsExperience && (
+            {profile.yearsExperience !== null && profile.yearsExperience !== undefined && (
               <div className="flex items-center gap-2 text-slate-300 justify-center">
                 <Clock className="size-4" />
                 <span>{t('yearsExperience', { count: profile.yearsExperience })}</span>
@@ -203,10 +202,10 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
         {/* RIGHT COLUMN: Price & Tags */}
         <div className="lg:col-span-3 space-y-6">
           {/* Price Card */}
-          {profile.hourlyRate && (
+          {!profile.hourlyRateHidden && profile.hourlyRate !== null && profile.hourlyRate !== undefined ? (
             <div className="bg-orange-500/10 border-2 border-orange-500/50 rounded-xl p-6 text-center">
               <p className="text-sm text-orange-400 mb-2 font-semibold uppercase tracking-wide">
-                Stawka za godzinę
+                {t('hourlyRate')}
               </p>
               <p className="text-4xl font-bold text-orange-500">
                 {profile.hourlyRate} zł
@@ -215,13 +214,22 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
                 {t('perHour')}
               </p>
             </div>
-          )}
+          ) : profile.hourlyRateHidden ? (
+            <div className="bg-orange-500/10 border-2 border-orange-500/50 rounded-xl p-6 text-center">
+              <p className="text-sm text-orange-400 mb-2 font-semibold uppercase tracking-wide">
+                {t('hourlyRate')}
+              </p>
+              <p className="text-xl font-bold text-orange-500">
+                {t('contactForPricing')}
+              </p>
+            </div>
+          ) : null}
 
           {/* Package Deals Card */}
           {profile.packageDealsEnabled && profile.packageDealsDescription && (
             <div className="bg-green-500/10 border-2 border-green-500/50 rounded-xl p-6">
               <p className="text-sm text-green-400 mb-3 font-semibold uppercase tracking-wide flex items-center gap-2">
-                <span>📦</span> Oferty pakietowe
+                <span>📦</span> {t('packageDeals')}
               </p>
               <p className="text-slate-300 text-sm whitespace-pre-wrap leading-relaxed">
                 {profile.packageDealsDescription}
