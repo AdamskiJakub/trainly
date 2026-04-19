@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from '@/i18n/routing';
 import { InstructorProfile, InstructorListing } from '@/types';
 import { useUpdateInstructorProfile } from '@/hooks/useUpdateInstructorProfile';
 import { toast } from 'sonner';
@@ -35,6 +36,7 @@ interface InstructorProfileFormProps {
 export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
   const t = useTranslations('Dashboard.profileForm');
   const locale = useLocale();
+  const router = useRouter();
   const { mutate: updateProfile, isPending } = useUpdateInstructorProfile();
   
   // State for multi-selects
@@ -58,6 +60,9 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
+    control,
     formState: { errors },
   } = useForm<InstructorProfileFormData>({
     resolver: zodResolver(instructorProfileSchema),
@@ -66,6 +71,9 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       tagline: profile?.tagline || '',
       city: profile?.city || '',
       hourlyRate: profile?.hourlyRate ?? undefined,
+      hourlyRateHidden: profile?.hourlyRateHidden || false,
+      packageDealsEnabled: profile?.packageDealsEnabled || false,
+      packageDealsDescription: profile?.packageDealsDescription || '',
       photoUrl: profile?.photoUrl || '',
       languages: profile?.languages?.join(', ') || '',
       gallery: profile?.gallery?.join(', ') || '',
@@ -81,6 +89,9 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
         tagline: profile.tagline || '',
         city: profile.city || '',
         hourlyRate: profile.hourlyRate ?? undefined,
+        hourlyRateHidden: profile.hourlyRateHidden || false,
+        packageDealsEnabled: profile.packageDealsEnabled || false,
+        packageDealsDescription: profile.packageDealsDescription || '',
         photoUrl: profile.photoUrl || '',
         languages: profile.languages?.join(', ') || '',
         gallery: profile.gallery?.join(', ') || '',
@@ -132,6 +143,9 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       goals: selectedGoals,
       availability: selectedAvailability,
       hourlyRate: data.hourlyRate ?? null,
+      hourlyRateHidden: data.hourlyRateHidden || false,
+      packageDealsEnabled: data.packageDealsEnabled || false,
+      packageDealsDescription: data.packageDealsEnabled ? data.packageDealsDescription : null,
       yearsExperience: data.yearsExperience ?? null,
       languages: typeof data.languages === 'string'
         ? (data.languages as string).split(',').map(s => s.trim()).filter(Boolean)
@@ -143,10 +157,11 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
     };
 
     updateProfile(
-      { profileId: profile.id, data: formattedData },
+      { profileId: profile.id, data: { ...formattedData, isDraft: true } },
       {
         onSuccess: () => {
-          toast.success(t('updateSuccess'));
+          toast.success(t('draftSaved'));
+          router.push('/dashboard/profile/preview');
         },
         onError: (error) => {
           toast.error(`${t('updateError')}: ${error.message}`);
@@ -409,7 +424,10 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
 
       {/* Hourly Rate */}
       <div className="space-y-2">
-        <Label htmlFor="hourlyRate" className="text-slate-200">
+        <Label 
+          htmlFor="hourlyRate" 
+          className={`${watch('hourlyRateHidden') ? 'text-slate-500' : 'text-slate-200'}`}
+        >
           {t('hourlyRate')} <span className="text-slate-400 text-xs font-normal">{t('hourlyRateOptional')}</span>
         </Label>
         <Input
@@ -420,10 +438,90 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
           type="number"
           step="0.01"
           placeholder={t('hourlyRatePlaceholder')}
-          className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500"
+          disabled={watch('hourlyRateHidden')}
+          className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500 disabled:opacity-50 disabled:cursor-not-allowed"
         />
         {errors.hourlyRate && (
           <p className="text-red-400 text-sm">{errors.hourlyRate.message}</p>
+        )}
+        
+        {/* Hide Hourly Rate Checkbox */}
+        <label className="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors border border-slate-700 mt-2">
+          <Controller
+            name="hourlyRateHidden"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={(checked) => field.onChange(checked === true)}
+                className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+              />
+            )}
+          />
+          <div className="flex flex-col">
+            <span className={`text-sm font-medium select-none ${
+              watch('hourlyRateHidden') 
+                ? 'bg-linear-to-r from-orange-500 to-red-500 bg-clip-text text-transparent' 
+                : 'text-slate-200'
+            }`}>
+              {t('hourlyRateHidden')}
+            </span>
+            <span className="text-xs text-slate-400">
+              {t('hourlyRateHiddenHint')}
+            </span>
+          </div>
+        </label>
+      </div>
+
+      {/* Package Deals Checkbox */}
+      <div className="space-y-3">
+        <label className="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors border border-slate-700">
+          <Controller
+            name="packageDealsEnabled"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={(checked) => {
+                  const isChecked = checked === true;
+                  field.onChange(isChecked);
+                  if (!isChecked) {
+                    setValue('packageDealsDescription', '');
+                  }
+                }}
+                className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+              />
+            )}
+          />
+          <span className={`text-base font-medium select-none ${
+            watch('packageDealsEnabled') 
+              ? 'bg-linear-to-r from-orange-500 to-red-500 bg-clip-text text-transparent' 
+              : 'text-slate-200'
+          }`}>
+            {t('packageDealsEnabled')}
+          </span>
+        </label>
+        
+        {/* Package Deals Description - pokazuje się tylko gdy checkbox zaznaczony */}
+        {watch('packageDealsEnabled') && (
+          <div className="ml-6 space-y-2">
+            <Label htmlFor="packageDealsDescription" className="text-slate-200 text-sm">
+              {t('packageDealsDescription')}
+            </Label>
+            <Textarea
+              {...register('packageDealsDescription')}
+              id="packageDealsDescription"
+              placeholder={t('packageDealsPlaceholder')}
+              rows={3}
+              className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500"
+            />
+            <p className="text-slate-400 text-xs">
+              {t('packageDealsHint')}
+            </p>
+            {errors.packageDealsDescription && (
+              <p className="text-red-400 text-sm">{errors.packageDealsDescription.message}</p>
+            )}
+          </div>
         )}
       </div>
 

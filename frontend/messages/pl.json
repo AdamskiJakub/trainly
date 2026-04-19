@@ -149,6 +149,12 @@
       "hourlyRate": "Stawka godzinowa (PLN)",
       "hourlyRatePlaceholder": "np. 150",
       "hourlyRateOptional": "(opcjonalnie)",
+      "hourlyRateHidden": "Ukryj stawkę godzinową",
+      "hourlyRateHiddenHint": "Zamiast stawki będzie wyświetlane: \"Stawka ustalana indywidualnie\"",
+      "packageDealsEnabled": "Oferuję pakiety zajęć/godzin",
+      "packageDealsDescription": "Opis pakietów",
+      "packageDealsPlaceholder": "np. Pakiet 10 godzin: 1400 zł (zamiast 1500 zł) - oszczędź 100 zł!",
+      "packageDealsHint": "Opisz swoje oferty pakietowe (np. 10 sesji w cenie 9, miesięczny karnet itp.)",
       "yearsExperience": "Lata doświadczenia",
       "yearsExperiencePlaceholder": "np. 5",
       "availability": "Dostępność",
@@ -176,9 +182,12 @@
       "galleryPlaceholder": "https://example.com/img1.jpg, https://example.com/img2.jpg",
       "saveProfile": "Zapisz Profil",
       "saving": "Zapisywanie...",
+      "draftSaved": "Szkic zapisany! Przekierowuję do podglądu...",
       "profileNotFound": "Nie znaleziono profilu",
       "updateSuccess": "Profil zaktualizowany pomyślnie!",
-      "updateError": "Nie udało się zaktualizować profilu"
+      "updateError": "Nie udało się zaktualizować profilu",
+      "profilePublished": "Profil opublikowany pomyślnie!",
+      "profilePublishFailed": "Nie udało się opublikować profilu"
     }
   },
   "Footer": {
@@ -297,5 +306,37 @@
   "Cookies": {
     "title": "Polityka Cookies",
     "comingSoon": "Strona w przygotowaniu"
+  },
+  "InstructorProfile": {
+    "previewBanner": "To jest podgląd tego, jak Twój profil będzie wyglądał po opublikowaniu",
+    "draftWarning": "Twój profil jest obecnie szkicem. Nie będzie widoczny dla użytkowników dopóki go nie opublikujesz.",
+    "previewTitle": "Podgląd Profilu",
+    "previewSubtitle": "Sprawdź jak Twój profil będzie wyglądał zanim go opublikujesz",
+    "listingCardPreview": "Karta w wyszukiwarce",
+    "profilePagePreview": "Strona profilowa",
+    "backToEdit": "Wróć do edycji",
+    "publishProfile": "Opublikuj profil",
+    "publishing": "Publikowanie...",
+    "verified": "Zweryfikowany",
+    "yearsExperience": "{count} lat doświadczenia",
+    "perHour": "zł/godzinę",
+    "hourlyRate": "Stawka za godzinę",
+    "contactForPricing": "Stawka ustalana indywidualnie",
+    "availabilityOnline": "Online",
+    "availabilityInPerson": "Spotkania stacjonarne",
+    "availabilityBoth": "Online i osobiście",
+    "aboutMe": "O mnie",
+    "additionalSpecializations": "Dodatkowe specjalizacje",
+    "skillsExpertise": "Umiejętności i doświadczenie",
+    "iHelpYouAchieve": "Pomogę Ci osiągnąć",
+    "languages": "Języki",
+    "gallery": "Galeria",
+    "galleryImage": "Zdjęcie {number}",
+    "packageDeals": "Oferty pakietowe",
+    "profileNotFound": "Nie znaleziono profilu",
+    "instructorNotFound": "Instruktor nie został znaleziony",
+    "instructorNotFoundDescription": "Profil instruktora, którego szukasz, nie istnieje.",
+    "backToInstructors": "Wróć do listy instruktorów",
+    "loadingProfile": "Ładowanie profilu..."
   }
 }

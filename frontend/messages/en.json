@@ -149,6 +149,12 @@
       "hourlyRate": "Hourly Rate (PLN)",
       "hourlyRatePlaceholder": "e.g., 150",
       "hourlyRateOptional": "(optional)",
+      "hourlyRateHidden": "Hide hourly rate",
+      "hourlyRateHiddenHint": "Instead of rate, will display: \"Contact for pricing\"",
+      "packageDealsEnabled": "I offer package deals/hours",
+      "packageDealsDescription": "Package deals description",
+      "packageDealsPlaceholder": "e.g., 10-hour package: 1400 PLN (instead of 1500 PLN) - save 100 PLN!",
+      "packageDealsHint": "Describe your package deals (e.g., 10 sessions for the price of 9, monthly pass, etc.)",
       "yearsExperience": "Years of Experience",
       "yearsExperiencePlaceholder": "e.g., 5",
       "availability": "Availability",
@@ -176,9 +182,12 @@
       "galleryPlaceholder": "https://example.com/img1.jpg, https://example.com/img2.jpg",
       "saveProfile": "Save Profile",
       "saving": "Saving...",
+      "draftSaved": "Draft saved! Redirecting to preview...",
       "profileNotFound": "Profile not found",
       "updateSuccess": "Profile updated successfully!",
-      "updateError": "Failed to update profile"
+      "updateError": "Failed to update profile",
+      "profilePublished": "Profile published successfully!",
+      "profilePublishFailed": "Failed to publish profile"
     }
   },
   "Footer": {
@@ -297,5 +306,37 @@
   "Cookies": {
     "title": "Cookie Policy",
     "comingSoon": "Page coming soon"
+  },
+  "InstructorProfile": {
+    "previewBanner": "This is a preview of how your profile will look when published",
+    "draftWarning": "Your profile is currently a draft. It will not be visible to users until you publish it.",
+    "previewTitle": "Profile Preview",
+    "previewSubtitle": "See how your profile will look before publishing",
+    "listingCardPreview": "Search Card",
+    "profilePagePreview": "Profile Page",
+    "backToEdit": "Back to Edit",
+    "publishProfile": "Publish Profile",
+    "publishing": "Publishing...",
+    "verified": "Verified",
+    "yearsExperience": "{count} years of experience",
+    "perHour": "PLN/hour",
+    "hourlyRate": "Hourly Rate",
+    "contactForPricing": "Contact for pricing",
+    "availabilityOnline": "Online",
+    "availabilityInPerson": "In-person meetings",
+    "availabilityBoth": "Online and in-person",
+    "aboutMe": "About Me",
+    "additionalSpecializations": "Additional Specializations",
+    "skillsExpertise": "Skills & Expertise",
+    "iHelpYouAchieve": "I Help You Achieve",
+    "languages": "Languages",
+    "gallery": "Gallery",
+    "galleryImage": "Photo {number}",
+    "packageDeals": "Package Deals",
+    "profileNotFound": "Profile not found",
+    "instructorNotFound": "Instructor Not Found",
+    "instructorNotFoundDescription": "The instructor profile you're looking for doesn't exist.",
+    "backToInstructors": "Back to Instructors",
+    "loadingProfile": "Loading profile..."
   }
 }

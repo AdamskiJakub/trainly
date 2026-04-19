@@ -18,7 +18,9 @@ export class InstructorProfilesService {
   constructor(private prisma: PrismaService) {}
 
   async findAll(filters: InstructorFilters) {
-    const where: any = {};
+    const where: any = {
+      isDraft: false, // Only show published profiles
+    };
 
     if (filters.city) {
       where.city = { 
@@ -83,6 +85,7 @@ export class InstructorProfilesService {
         user: {
           username: username,
         },
+        isDraft: false,
       },
       include: {
         user: {
@@ -163,6 +166,37 @@ export class InstructorProfilesService {
     return this.prisma.instructorProfile.update({
       where: { id: profileId },
       data: dto,
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            role: true,
+          },
+        },
+      },
+    });
+  }
+
+  async publish(profileId: string, userId: string) {
+    const profile = await this.prisma.instructorProfile.findUnique({
+      where: { id: profileId },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Instructor profile not found');
+    }
+
+    if (profile.userId !== userId) {
+      throw new ForbiddenException('You can only publish your own profile');
+    }
+
+    return this.prisma.instructorProfile.update({
+      where: { id: profileId },
+      data: { isDraft: false },
       include: {
         user: {
           select: {

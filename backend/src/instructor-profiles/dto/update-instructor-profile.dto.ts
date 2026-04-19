@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsArray,
   IsNumber,
+  IsBoolean,
   Min,
   ArrayMaxSize,
 } from 'class-validator';
@@ -47,6 +48,18 @@ export class UpdateInstructorProfileDto {
   @IsOptional()
   hourlyRate?: number | null;
 
+  @IsBoolean()
+  @IsOptional()
+  hourlyRateHidden?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  packageDealsEnabled?: boolean;
+
+  @IsString()
+  @IsOptional()
+  packageDealsDescription?: string | null;
+
   @IsString()
   @IsOptional()
   photoUrl?: string | null;
@@ -69,4 +82,11 @@ export class UpdateInstructorProfileDto {
   @Min(0)
   @IsOptional()
   yearsExperience?: number | null;
+
+  // Note: isDraft is allowed here for flexibility (e.g., save as draft flow).
+  // The dedicated PATCH /:id/publish endpoint is the primary way to publish,
+  // but this field enables direct draft/publish control if needed.
+  @IsBoolean()
+  @IsOptional()
+  isDraft?: boolean;
 }
