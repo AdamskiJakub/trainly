@@ -90,6 +90,8 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
         city: profile.city || '',
         hourlyRate: profile.hourlyRate ?? undefined,
         hourlyRateHidden: profile.hourlyRateHidden || false,
+        packageDealsEnabled: profile.packageDealsEnabled || false,
+        packageDealsDescription: profile.packageDealsDescription || '',
         photoUrl: profile.photoUrl || '',
         languages: profile.languages?.join(', ') || '',
         gallery: profile.gallery?.join(', ') || '',
@@ -451,7 +453,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
             render={({ field }) => (
               <Checkbox
                 checked={field.value}
-                onCheckedChange={field.onChange}
+                onCheckedChange={(checked) => field.onChange(checked === true)}
                 className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
               />
             )}
@@ -481,8 +483,9 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
               <Checkbox
                 checked={field.value}
                 onCheckedChange={(checked) => {
-                  field.onChange(checked);
-                  if (!checked) {
+                  const isChecked = checked === true;
+                  field.onChange(isChecked);
+                  if (!isChecked) {
                     setValue('packageDealsDescription', '');
                   }
                 }}

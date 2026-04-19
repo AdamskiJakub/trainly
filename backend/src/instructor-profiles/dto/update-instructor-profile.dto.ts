@@ -83,6 +83,9 @@ export class UpdateInstructorProfileDto {
   @IsOptional()
   yearsExperience?: number | null;
 
+  // Note: isDraft is allowed here for flexibility (e.g., save as draft flow).
+  // The dedicated PATCH /:id/publish endpoint is the primary way to publish,
+  // but this field enables direct draft/publish control if needed.
   @IsBoolean()
   @IsOptional()
   isDraft?: boolean;
