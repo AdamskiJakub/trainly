@@ -34,3 +34,18 @@ export interface ResultsSectionProps {
     value: InstructorFilters[K]
   ) => void;
 }
+
+export type MediaUploadVariant = 'avatar' | 'gallery';
+
+export interface MediaUploadProps {
+  variant: MediaUploadVariant;
+  currentMediaUrl?: string | null; // For avatar variant
+  currentMediaUrls?: string[]; // For gallery variant
+  onMediaChange: (url: string | string[]) => void;
+  onUpload: (file: File | File[]) => Promise<string | string[]>;
+  isUploading: boolean;
+  label: string;
+  hint?: string;
+  maxFiles?: number; // For gallery variant
+  acceptVideo?: boolean; // Allow video uploads
+}
