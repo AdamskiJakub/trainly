@@ -18,14 +18,14 @@ export class UploadController {
   @Post('profile-photo')
   @UseInterceptors(FileInterceptor('file'))
   async uploadProfilePhoto(@UploadedFile() file: Express.Multer.File) {
-    const url = await this.uploadService.uploadFile(file);
+    const url = await this.uploadService.uploadFile(file, false);
     return { url };
   }
 
   @Post('gallery')
   @UseInterceptors(FilesInterceptor('files', 10))
   async uploadGalleryPhotos(@UploadedFiles() files: Express.Multer.File[]) {
-    const urls = await this.uploadService.uploadMultipleFiles(files);
+    const urls = await this.uploadService.uploadMultipleFiles(files, true);
     return { urls };
   }
 }

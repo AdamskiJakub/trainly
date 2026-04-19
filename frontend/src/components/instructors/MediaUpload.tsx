@@ -1,0 +1,329 @@
+'use client';
+
+import { useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { Upload, X, Loader2, Play } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { MediaUploadProps } from './types';
+import { getMediaUrl, IS_DEVELOPMENT, isVideoUrl } from '@/lib/utils/media';
+
+export function MediaUpload({ 
+  variant,
+  currentMediaUrl,
+  currentMediaUrls = [],
+  onMediaChange, 
+  onUpload,
+  isUploading,
+  label,
+  hint,
+  maxFiles = 10,
+  acceptVideo = false
+}: MediaUploadProps) {
+  const t = useTranslations('Dashboard.profileForm');
+  const [previews, setPreviews] = useState<Array<{ url: string; type: 'image' | 'video'; isBlob?: boolean }>>(
+    variant === 'avatar' && currentMediaUrl
+      ? [{ url: currentMediaUrl, type: 'image', isBlob: false }]
+      : currentMediaUrls.map(url => ({
+          url,
+          type: url.endsWith('.mp4') || url.endsWith('.webm') ? 'video' : 'image',
+          isBlob: false
+        }))
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const getAcceptedTypes = () => {
+    const imageTypes = 'image/jpeg,image/png,image/webp';
+    const videoTypes = 'video/mp4,video/webm';
+    return acceptVideo ? `${imageTypes},${videoTypes}` : imageTypes;
+  };
+
+  const validateFile = (file: File): string | null => {
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    
+    if (file.size > maxSize) {
+      return t('maxFileSize');
+    }
+
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const allowedVideoTypes = ['video/mp4', 'video/webm'];
+    
+    if (file.type.startsWith('video/')) {
+      if (!acceptVideo || !allowedVideoTypes.includes(file.type)) {
+        return 'Invalid video format';
+      }
+      // TODO: Check video duration (requires loading video metadata)
+    } else if (!allowedImageTypes.includes(file.type)) {
+      return 'Invalid image format';
+    }
+
+    return null;
+  };
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) return;
+
+    // Validate files
+    for (const file of files) {
+      const error = validateFile(file);
+      if (error) {
+        alert(error);
+        return;
+      }
+    }
+
+    // For avatar variant, only allow one file
+    if (variant === 'avatar' && files.length > 1) {
+      alert('Only one file allowed for avatar');
+      return;
+    }
+
+    // For gallery variant, check max files
+    if (variant === 'gallery' && previews.length + files.length > maxFiles) {
+      alert(`Maximum ${maxFiles} files allowed`);
+      return;
+    }
+
+    try {
+      // Create previews
+      const newPreviews = files.map(file => ({
+        url: URL.createObjectURL(file),
+        type: file.type.startsWith('video/') ? 'video' as const : 'image' as const,
+        isBlob: true
+      }));
+
+      if (variant === 'avatar') {
+        setPreviews(newPreviews);
+      } else {
+        setPreviews([...previews, ...newPreviews]);
+      }
+
+      // Upload files
+      const uploadResult = await onUpload(variant === 'avatar' ? files[0] : files);
+      
+      console.log('✅ Upload result:', uploadResult);
+      
+      // Update with real URLs
+      if (variant === 'avatar' && typeof uploadResult === 'string') {
+        console.log('📸 Setting avatar URL:', uploadResult);
+        setPreviews([{ url: uploadResult, type: 'image', isBlob: false }]);
+        onMediaChange(uploadResult);
+      } else if (Array.isArray(uploadResult)) {
+        const newUrls = [...currentMediaUrls, ...uploadResult];
+        console.log('🖼️ Setting gallery URLs:', newUrls);
+        setPreviews(newUrls.map(url => ({
+          url,
+          type: url.endsWith('.mp4') || url.endsWith('.webm') ? 'video' : 'image',
+          isBlob: false
+        })));
+        onMediaChange(newUrls);
+      }
+    } catch (error) {
+      console.error('Upload failed:', error);
+      // Revert previews on error
+      if (variant === 'avatar') {
+        setPreviews(currentMediaUrl ? [{ url: currentMediaUrl, type: 'image', isBlob: false }] : []);
+      } else {
+        setPreviews(currentMediaUrls.map(url => ({
+          url,
+          type: url.endsWith('.mp4') || url.endsWith('.webm') ? 'video' : 'image',
+          isBlob: false
+        })));
+      }
+    }
+
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemove = (index?: number) => {
+    if (variant === 'avatar') {
+      setPreviews([]);
+      onMediaChange('');
+    } else if (index !== undefined) {
+      const newPreviews = previews.filter((_, i) => i !== index);
+      const newUrls = currentMediaUrls.filter((_, i) => i !== index);
+      setPreviews(newPreviews);
+      onMediaChange(newUrls);
+    }
+  };
+
+  if (variant === 'avatar') {
+    return (
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-slate-200">
+          {label}
+        </label>
+        {hint && <p className="text-sm text-slate-400">{hint}</p>}
+        
+        <div className="flex items-start gap-4">
+          {previews[0] ? (
+            <div className="relative size-32 rounded-lg overflow-hidden border-2 border-slate-600 bg-slate-800/50 shrink-0">
+              {previews[0].isBlob || IS_DEVELOPMENT ? (
+                <img
+                  src={previews[0].isBlob ? previews[0].url : getMediaUrl(previews[0].url)}
+                  alt="Profile preview"
+                  className="size-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={getMediaUrl(previews[0].url)!}
+                  alt="Profile preview"
+                  fill
+                  className="object-cover"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="size-32 rounded-lg border-2 border-dashed border-slate-600 bg-slate-800/30 flex items-center justify-center shrink-0">
+              <Upload className="size-8 text-slate-500" />
+            </div>
+          )}
+
+          <div className="flex flex-col gap-2 flex-1">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={getAcceptedTypes()}
+              onChange={handleFileSelect}
+              className="hidden"
+              disabled={isUploading}
+            />
+            <Button
+              type="button"
+              size="lg"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="w-full bg-linear-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold cursor-pointer"
+            >
+              {isUploading ? (
+                <>
+                  <Loader2 className="size-4 mr-2 animate-spin" />
+                  {t('uploading')}
+                </>
+              ) : previews[0] ? (
+                <>
+                  <Upload className="size-4 mr-2" />
+                  {t('changePhoto')}
+                </>
+              ) : (
+                <>
+                  <Upload className="size-4 mr-2" />
+                  {t('selectPhoto')}
+                </>
+              )}
+            </Button>
+            
+            {previews[0] && (
+              <Button
+                type="button"
+                variant="destructive"
+                size="lg"
+                onClick={() => handleRemove()}
+                disabled={isUploading}
+                className="w-full cursor-pointer"
+              >
+                <X className="size-4 mr-2" />
+                {t('removePhoto')}
+              </Button>
+            )}
+            
+            <p className="text-xs text-slate-400">
+              {t('maxFileSize')} • {acceptVideo ? t('acceptedFormatsWithVideo') : t('acceptedFormats')}
+              {acceptVideo && <><br />{t('videoMaxDuration')}</>}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Gallery variant
+  return (
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-slate-200">
+        {label}
+      </label>
+      {hint && <p className="text-sm text-slate-400">{hint}</p>}
+      
+      <div className="grid grid-cols-3 gap-4">
+        {previews.map((preview, index) => (
+          <div key={index} className="relative aspect-square rounded-lg overflow-hidden border-2 border-slate-600 bg-slate-800/50 group">
+            {preview.type === 'video' ? (
+              <div className="relative size-full">
+                <video
+                  src={getMediaUrl(preview.url)}
+                  className="size-full object-cover"
+                  muted
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <Play className="size-8 text-white" />
+                </div>
+              </div>
+            ) : preview.isBlob || IS_DEVELOPMENT ? (
+              <img
+                src={preview.isBlob ? preview.url : getMediaUrl(preview.url)}
+                alt={`Gallery ${index + 1}`}
+                className="size-full object-cover"
+              />
+            ) : (
+              <Image
+                src={getMediaUrl(preview.url)!}
+                alt={`Gallery ${index + 1}`}
+                fill
+                className="object-cover"
+              />
+            )}
+            
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => handleRemove(index)}
+              disabled={isUploading}
+              className="absolute top-2 right-2 size-6 bg-black/50 hover:bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+            >
+              <X className="size-4" />
+            </Button>
+          </div>
+        ))}
+        
+        {previews.length < maxFiles && (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="aspect-square rounded-lg border-2 border-dashed border-slate-600 bg-slate-800/30 hover:bg-slate-800/50 flex flex-col items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          >
+            {isUploading ? (
+              <Loader2 className="size-8 text-slate-500 animate-spin" />
+            ) : (
+              <>
+                <Upload className="size-8 text-slate-500" />
+                <span className="text-xs text-slate-500">{t('selectMedia')}</span>
+              </>
+            )}
+          </button>
+        )}
+      </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={getAcceptedTypes()}
+        onChange={handleFileSelect}
+        className="hidden"
+        disabled={isUploading}
+        multiple
+      />
+      
+      <p className="text-xs text-slate-500">
+        {t('maxFileSize')} • {acceptVideo ? t('acceptedFormatsWithVideo') : t('acceptedFormats')}
+        {acceptVideo && <> • {t('videoMaxDuration')}</>}
+      </p>
+    </div>
+  );
+}

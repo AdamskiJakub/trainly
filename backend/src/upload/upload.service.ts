@@ -7,17 +7,26 @@ import { join } from 'path';
 @Injectable()
 export class UploadService {
   private readonly uploadPath = join(process.cwd(), 'uploads');
-  private readonly allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  private readonly allowedImageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  private readonly allowedVideoMimeTypes = ['video/mp4', 'video/webm'];
   private readonly maxFileSize = 5 * 1024 * 1024; // 5MB
 
-  async uploadFile(file: Express.Multer.File): Promise<string> {
+  async uploadFile(file: Express.Multer.File, allowVideo = false): Promise<string> {
     // Validate file
     if (!file) {
       throw new BadRequestException('No file provided');
     }
 
-    if (!this.allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException('Invalid file type. Only JPEG, PNG, and WebP are allowed.');
+    const allowedMimeTypes = allowVideo 
+      ? [...this.allowedImageMimeTypes, ...this.allowedVideoMimeTypes]
+      : this.allowedImageMimeTypes;
+
+    if (!allowedMimeTypes.includes(file.mimetype)) {
+      throw new BadRequestException(
+        allowVideo 
+          ? 'Invalid file type. Only JPEG, PNG, WebP, MP4, and WebM are allowed.'
+          : 'Invalid file type. Only JPEG, PNG, and WebP are allowed.'
+      );
     }
 
     if (file.size > this.maxFileSize) {
@@ -43,7 +52,7 @@ export class UploadService {
     return `/uploads/${filename}`;
   }
 
-  async uploadMultipleFiles(files: Express.Multer.File[]): Promise<string[]> {
+  async uploadMultipleFiles(files: Express.Multer.File[], allowVideo = false): Promise<string[]> {
     if (!files || files.length === 0) {
       throw new BadRequestException('No files provided');
     }
@@ -52,7 +61,7 @@ export class UploadService {
       throw new BadRequestException('Maximum 10 files allowed');
     }
 
-    const uploadPromises = files.map(file => this.uploadFile(file));
+    const uploadPromises = files.map(file => this.uploadFile(file, allowVideo));
     return Promise.all(uploadPromises);
   }
 }
