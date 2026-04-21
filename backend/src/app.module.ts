@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { InstructorProfilesModule } from './instructor-profiles/instructor-profiles.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { InstructorProfilesModule } from './instructor-profiles/instructor-profi
     PrismaModule,
     AuthModule,
     InstructorProfilesModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

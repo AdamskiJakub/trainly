@@ -7,6 +7,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
 import { InstructorProfile, InstructorListing } from '@/types';
 import { useUpdateInstructorProfile } from '@/hooks/useUpdateInstructorProfile';
+import { useUploadProfilePhoto, useUploadGalleryPhotos } from '@/hooks/useFileUpload';
 import { toast } from 'sonner';
 import { instructorProfileSchema, type InstructorProfileFormData } from '@/lib/validations/schemas/instructor-profile';
 import { SPECIALIZATION_CATEGORIES } from '@/lib/config/specializations';
@@ -18,6 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { MediaUpload } from '@/components/instructors/MediaUpload';
 import {
   Select,
   SelectContent,
@@ -38,6 +40,8 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
   const locale = useLocale();
   const router = useRouter();
   const { mutate: updateProfile, isPending } = useUpdateInstructorProfile();
+  const { mutate: uploadPhoto, isPending: isUploadingPhoto } = useUploadProfilePhoto();
+  const { mutate: uploadGallery, isPending: isUploadingGallery } = useUploadGalleryPhotos();
   
   // State for multi-selects
   const [selectedPrimaryCategory, setSelectedPrimaryCategory] = useState<string | undefined>(
@@ -76,7 +80,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       packageDealsDescription: profile?.packageDealsDescription || '',
       photoUrl: profile?.photoUrl || '',
       languages: profile?.languages?.join(', ') || '',
-      gallery: profile?.gallery?.join(', ') || '',
+      gallery: profile?.gallery || [],
       yearsExperience: profile?.yearsExperience ?? undefined,
     },
   });
@@ -94,7 +98,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
         packageDealsDescription: profile.packageDealsDescription || '',
         photoUrl: profile.photoUrl || '',
         languages: profile.languages?.join(', ') || '',
-        gallery: profile.gallery?.join(', ') || '',
+        gallery: profile.gallery || [],
         yearsExperience: profile.yearsExperience ?? undefined,
       });
     }
@@ -150,9 +154,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       languages: typeof data.languages === 'string'
         ? (data.languages as string).split(',').map(s => s.trim()).filter(Boolean)
         : data.languages,
-      gallery: typeof data.gallery === 'string'
-        ? (data.gallery as string).split(',').map(s => s.trim()).filter(Boolean)
-        : data.gallery,
+      gallery: Array.isArray(data.gallery) ? data.gallery : [],
       photoUrl: data.photoUrl && data.photoUrl.trim() !== '' ? data.photoUrl.trim() : null,
     };
 
@@ -543,38 +545,58 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       </div>
 
       {/* Photo URL */}
-      <div className="space-y-2">
-        <Label htmlFor="photoUrl" className="text-slate-200">
-          {t('photoUrl')}
-        </Label>
-        <Input
-          {...register('photoUrl')}
-          id="photoUrl"
-          type="url"
-          placeholder={t('photoUrlPlaceholder')}
-          className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500"
-        />
-        {errors.photoUrl && (
-          <p className="text-red-400 text-sm">{errors.photoUrl.message}</p>
-        )}
-      </div>
+      <MediaUpload
+        variant="avatar"
+        currentMediaUrl={watch('photoUrl')}
+        onMediaChange={(url) => setValue('photoUrl', url as string)}
+        onUpload={async (file) => {
+          return new Promise<string>((resolve, reject) => {
+            uploadPhoto(file as File, {
+              onSuccess: (url) => {
+                toast.success(t('photoUploadSuccess'));
+                resolve(url);
+              },
+              onError: (error) => {
+                toast.error(t('photoUploadError'));
+                reject(error);
+              }
+            });
+          });
+        }}
+        isUploading={isUploadingPhoto}
+        label={t('photoUrl')}
+      />
+      {errors.photoUrl && (
+        <p className="text-red-400 text-sm">{errors.photoUrl.message}</p>
+      )}
 
       {/* Gallery */}
-      <div className="space-y-2">
-        <Label htmlFor="gallery" className="text-slate-200">
-          {t('gallery')}
-        </Label>
-        <Textarea
-          {...register('gallery')}
-          id="gallery"
-          rows={3}
-          placeholder={t('galleryPlaceholder')}
-          className="bg-slate-900/50 border-slate-600 text-slate-100 placeholder:text-slate-500 resize-none"
-        />
-        {errors.gallery && (
-          <p className="text-red-400 text-sm">{errors.gallery.message}</p>
-        )}
-      </div>
+      <MediaUpload
+        variant="gallery"
+        currentMediaUrls={Array.isArray(watch('gallery')) ? watch('gallery') as string[] : []}
+        onMediaChange={(urls) => setValue('gallery', urls as string[])}
+        onUpload={async (files) => {
+          return new Promise<string[]>((resolve, reject) => {
+            uploadGallery(files as File[], {
+              onSuccess: (urls) => {
+                toast.success(t('galleryUploadSuccess'));
+                resolve(urls);
+              },
+              onError: (error) => {
+                toast.error(t('galleryUploadError'));
+                reject(error);
+              }
+            });
+          });
+        }}
+        isUploading={isUploadingGallery}
+        label={t('gallery')}
+        maxFiles={10}
+        acceptVideo={true}
+      />
+      {errors.gallery && (
+        <p className="text-red-400 text-sm">{errors.gallery.message}</p>
+      )}
 
       {/* Submit Button */}
       <div className="pt-4">

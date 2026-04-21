@@ -1,20 +1,25 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth-store';
-
-const baseURL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : undefined);
-
-if (!baseURL) {
-  throw new Error('NEXT_PUBLIC_API_URL is not defined');
-}
+import { API_BASE_URL } from './utils/api-url';
 
 export const apiClient = axios.create({
-  baseURL,
+  baseURL: API_BASE_URL,
   withCredentials: true, // Send cookies with requests
-  headers: {
-    'Content-Type': 'application/json',
-  },
+});
+
+// Request interceptor to set Content-Type only for non-FormData requests
+apiClient.interceptors.request.use((config) => {
+  // Safely initialize headers if undefined
+  config.headers = config.headers || {};
+  
+  // Check if data is FormData (guard against non-browser environments)
+  const isFormData = typeof FormData !== 'undefined' && config.data instanceof FormData;
+  
+  // Only set Content-Type to JSON if not already set and not FormData
+  if (!config.headers['Content-Type'] && !isFormData) {
+    config.headers['Content-Type'] = 'application/json';
+  }
+  return config;
 });
 
 // Handle 401 errors (logout when the authenticated session is no longer valid)

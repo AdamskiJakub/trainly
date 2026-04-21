@@ -1,12 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { InstructorProfile } from '@/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Globe, Star, Clock, Award, Target, Languages as LanguagesIcon } from 'lucide-react';
+import { MapPin, Globe, Star, Clock, Award, Target, Languages as LanguagesIcon, Play } from 'lucide-react';
 import { getSpecializationName } from '@/lib/config/specializations';
 import { getTagName, getTagById } from '@/lib/config/tags';
 import { getGoalName, getGoalById } from '@/lib/config/goals';
+import { getMediaUrl, isVideoUrl } from '@/lib/utils/media';
+import { ImageLightbox } from '@/components/ui/image-lightbox';
 
 interface ProfileFullViewProps {
   profile: InstructorProfile;
@@ -15,6 +18,8 @@ interface ProfileFullViewProps {
 export function ProfileFullView({ profile }: ProfileFullViewProps) {
   const locale = useLocale();
   const t = useTranslations('InstructorProfile');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   
   const fullName = profile.user?.firstName && profile.user?.lastName
     ? `${profile.user.firstName} ${profile.user.lastName}`
@@ -22,6 +27,17 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
 
   const primarySpecialization = profile.specializations?.[0];
   const additionalSpecializations = profile.specializations?.slice(1) || [];
+
+  // Combine photoUrl and gallery for lightbox
+  const allMedia = [
+    ...(profile.photoUrl ? [profile.photoUrl] : []),
+    ...(profile.gallery || [])
+  ];
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
 
   return (
     <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden">
@@ -31,10 +47,15 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
         {/* LEFT COLUMN: Avatar & Basic Info */}
         <div className="lg:col-span-3 space-y-4">
           {/* Kwadratowe zdjęcie zamiast kółka */}
-          <div className="relative w-full aspect-square max-w-70 mx-auto rounded-2xl overflow-hidden border-4 border-orange-500 bg-slate-700">
+          <div 
+            className={`relative w-full aspect-square max-w-70 mx-auto rounded-2xl overflow-hidden border-4 border-orange-500 bg-slate-700 ${
+              profile.photoUrl ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''
+            }`}
+            onClick={() => profile.photoUrl && openLightbox(0)}
+          >
             {profile.photoUrl ? (
               <img 
-                src={profile.photoUrl} 
+                src={getMediaUrl(profile.photoUrl)} 
                 alt={fullName}
                 className="w-full h-full object-cover"
               />
@@ -263,18 +284,54 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
         <div className="border-t border-slate-700 p-8 bg-slate-900/30">
           <h2 className="text-xl font-bold text-white mb-4">{t('gallery')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {profile.gallery.map((url, idx) => (
-              <div key={idx} className="aspect-square bg-slate-900 rounded-lg overflow-hidden border border-slate-700">
-                <img 
-                  src={url} 
-                  alt={t('galleryImage', { number: idx + 1 })}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform"
-                />
-              </div>
-            ))}
+            {profile.gallery.map((url, idx) => {
+              const galleryIndex = profile.photoUrl ? idx + 1 : idx; // Offset if photoUrl exists
+              const isVideo = isVideoUrl(url);
+              
+              return (
+                <div 
+                  key={idx} 
+                  className="aspect-square bg-slate-900 rounded-lg overflow-hidden border border-slate-700 cursor-pointer hover:opacity-90 transition-opacity relative"
+                  onClick={() => openLightbox(galleryIndex)}
+                >
+                  {isVideo ? (
+                    <>
+                      {/* Video with first frame as poster */}
+                      <video 
+                        src={getMediaUrl(url)} 
+                        preload="metadata"
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
+                      {/* Play icon overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
+                        <div className="bg-white/90 rounded-full p-3">
+                          <Play className="size-8 text-slate-900 fill-slate-900" />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <img 
+                      src={getMediaUrl(url)} 
+                      alt={t('galleryImage', { number: idx + 1 })}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
+
+      {/* Image Lightbox */}
+      <ImageLightbox
+        images={allMedia}
+        initialIndex={lightboxIndex}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
     </div>
   );
 }

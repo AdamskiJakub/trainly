@@ -9,6 +9,7 @@ import { getCategoryById } from '@/lib/config/specializations';
 import { getCategoryName } from '@/lib/utils/localization';
 import { getTagById, getTagName } from '@/lib/config/tags';
 import { MapPinIcon, VideoIcon, UserIcon, StarIcon } from 'lucide-react';
+import { getMediaUrl } from '@/lib/utils/media';
 import type { InstructorCardProps } from './types';
 
 export function InstructorCard({ instructor }: InstructorCardProps) {
@@ -30,7 +31,7 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
           <div className="shrink-0">
             <Avatar className="w-24 h-24 sm:w-28 sm:h-28 border-2 border-slate-700 group-hover:border-orange-500 transition-colors">
               <AvatarImage
-                src={instructor.photoUrl || undefined}
+                src={getMediaUrl(instructor.photoUrl)}
                 alt={instructor.fullName}
               />
               <AvatarFallback className="bg-slate-800 text-white text-2xl font-bold">
