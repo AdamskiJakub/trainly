@@ -1,36 +1,42 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Upload, X, Loader2, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { MediaUploadProps } from './types';
 import { getMediaUrl, IS_DEVELOPMENT, isVideoUrl } from '@/lib/utils/media';
+import { toast } from 'sonner';
 
-export function MediaUpload({ 
-  variant,
-  currentMediaUrl,
-  currentMediaUrls = [],
-  onMediaChange, 
-  onUpload,
-  isUploading,
-  label,
-  hint,
-  maxFiles = 10,
-  acceptVideo = false
-}: MediaUploadProps) {
+export function MediaUpload(props: MediaUploadProps) {
+  const { variant, onMediaChange, onUpload, isUploading, label, hint, acceptVideo = false } = props;
+  const currentMediaUrl = variant === 'avatar' ? props.currentMediaUrl : undefined;
+  const currentMediaUrls = variant === 'gallery' ? (props.currentMediaUrls || []) : [];
+  const maxFiles = variant === 'gallery' ? (props.maxFiles || 10) : 1;
+
   const t = useTranslations('Dashboard.profileForm');
   const [previews, setPreviews] = useState<Array<{ url: string; type: 'image' | 'video'; isBlob?: boolean }>>(
     variant === 'avatar' && currentMediaUrl
       ? [{ url: currentMediaUrl, type: 'image', isBlob: false }]
       : currentMediaUrls.map(url => ({
           url,
-          type: url.endsWith('.mp4') || url.endsWith('.webm') ? 'video' : 'image',
+          type: isVideoUrl(url) ? 'video' : 'image',
           isBlob: false
         }))
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Cleanup blob URLs on unmount or when previews change
+  useEffect(() => {
+    return () => {
+      previews.forEach(preview => {
+        if (preview.isBlob) {
+          URL.revokeObjectURL(preview.url);
+        }
+      });
+    };
+  }, [previews]);
 
   const getAcceptedTypes = () => {
     const imageTypes = 'image/jpeg,image/png,image/webp';
@@ -50,11 +56,11 @@ export function MediaUpload({
     
     if (file.type.startsWith('video/')) {
       if (!acceptVideo || !allowedVideoTypes.includes(file.type)) {
-        return 'Invalid video format';
+        return t('invalidVideoFormat');
       }
       // TODO: Check video duration (requires loading video metadata)
     } else if (!allowedImageTypes.includes(file.type)) {
-      return 'Invalid image format';
+      return t('invalidImageFormat');
     }
 
     return null;
@@ -68,20 +74,20 @@ export function MediaUpload({
     for (const file of files) {
       const error = validateFile(file);
       if (error) {
-        alert(error);
+        toast.error(error);
         return;
       }
     }
 
     // For avatar variant, only allow one file
     if (variant === 'avatar' && files.length > 1) {
-      alert('Only one file allowed for avatar');
+      toast.error(t('onlyOneFile'));
       return;
     }
 
     // For gallery variant, check max files
     if (variant === 'gallery' && previews.length + files.length > maxFiles) {
-      alert(`Maximum ${maxFiles} files allowed`);
+      toast.error(t('maximumFilesReached'));
       return;
     }
 
@@ -95,32 +101,23 @@ export function MediaUpload({
 
       if (variant === 'avatar') {
         setPreviews(newPreviews);
-      } else {
-        setPreviews([...previews, ...newPreviews]);
-      }
-
-      // Upload files
-      const uploadResult = await onUpload(variant === 'avatar' ? files[0] : files);
-      
-      console.log('✅ Upload result:', uploadResult);
-      
-      // Update with real URLs
-      if (variant === 'avatar' && typeof uploadResult === 'string') {
-        console.log('📸 Setting avatar URL:', uploadResult);
+        // Upload single file for avatar
+        const uploadResult = await onUpload(files[0]);
         setPreviews([{ url: uploadResult, type: 'image', isBlob: false }]);
         onMediaChange(uploadResult);
-      } else if (Array.isArray(uploadResult)) {
+      } else {
+        setPreviews([...previews, ...newPreviews]);
+        // Upload multiple files for gallery
+        const uploadResult = await onUpload(files);
         const newUrls = [...currentMediaUrls, ...uploadResult];
-        console.log('🖼️ Setting gallery URLs:', newUrls);
         setPreviews(newUrls.map(url => ({
           url,
-          type: url.endsWith('.mp4') || url.endsWith('.webm') ? 'video' : 'image',
+          type: isVideoUrl(url) ? 'video' : 'image',
           isBlob: false
         })));
         onMediaChange(newUrls);
       }
     } catch (error) {
-      console.error('Upload failed:', error);
       // Revert previews on error
       if (variant === 'avatar') {
         setPreviews(currentMediaUrl ? [{ url: currentMediaUrl, type: 'image', isBlob: false }] : []);
@@ -141,9 +138,17 @@ export function MediaUpload({
 
   const handleRemove = (index?: number) => {
     if (variant === 'avatar') {
+      // Revoke blob URL if it exists
+      if (previews[0]?.isBlob) {
+        URL.revokeObjectURL(previews[0].url);
+      }
       setPreviews([]);
       onMediaChange('');
     } else if (index !== undefined) {
+      // Revoke blob URL if it exists
+      if (previews[index]?.isBlob) {
+        URL.revokeObjectURL(previews[index].url);
+      }
       const newPreviews = previews.filter((_, i) => i !== index);
       const newUrls = currentMediaUrls.filter((_, i) => i !== index);
       setPreviews(newPreviews);
@@ -285,6 +290,7 @@ export function MediaUpload({
               onClick={() => handleRemove(index)}
               disabled={isUploading}
               className="absolute top-2 right-2 size-6 bg-black/50 hover:bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              aria-label={t('removeMedia')}
             >
               <X className="size-4" />
             </Button>

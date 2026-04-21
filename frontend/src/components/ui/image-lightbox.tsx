@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Portal } from './portal';
 import { LightboxControls } from './lightbox-controls';
 import { LightboxMedia } from './lightbox-media';
@@ -23,6 +23,14 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose }: ImageLi
     setCurrentIndex(initialIndex);
   }, [initialIndex]);
 
+  const handlePrevious = useCallback(() => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+  }, [images.length]);
+
+  const handleNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+  }, [images.length]);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -39,21 +47,16 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose }: ImageLi
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [isOpen, currentIndex]);
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
-  };
+  }, [isOpen, onClose, handlePrevious, handleNext]);
 
   if (!isOpen) return null;
 
   return (
     <Portal>
       <div 
+        role="dialog"
+        aria-modal="true"
+        aria-label="Image lightbox"
         className="fixed inset-0 flex items-center justify-center bg-black/95"
         style={{ zIndex: 9999 }}
         onClick={onClose}

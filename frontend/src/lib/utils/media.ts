@@ -2,8 +2,9 @@
  * Media utilities for handling image and video URLs
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+import { API_BASE_URL, IS_DEVELOPMENT } from './api-url';
+
+export { IS_DEVELOPMENT };
 
 /**
  * Convert relative upload paths to full URLs
@@ -18,20 +19,29 @@ export function getMediaUrl(url: string | null | undefined): string | undefined 
     return url;
   }
   
-  // Relative path - prepend API base URL
-  return `${API_BASE_URL}${url}`;
+  // Normalize slashes to prevent double slashes or missing slashes
+  const normalizedBaseUrl = API_BASE_URL.replace(/\/+$/, ''); // Remove trailing slashes
+  const normalizedPath = url.startsWith('/') ? url : `/${url}`; // Ensure leading slash
+  
+  // Relative path - prepend normalized API base URL
+  return `${normalizedBaseUrl}${normalizedPath}`;
 }
 
 /**
  * Check if a file is a video based on URL
+ * Strips query strings and fragments, normalizes case
  */
 export function isVideoUrl(url: string): boolean {
-  return url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.mov');
-}
-
-/**
- * Check if a file is an image based on URL
- */
-export function isImageUrl(url: string): boolean {
-  return url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.png') || url.endsWith('.webp');
+  let pathname = url;
+  try {
+    // Try parsing as full URL
+    pathname = new URL(url, API_BASE_URL).pathname;
+  } catch {
+    // Fallback: strip query string and fragment manually
+    pathname = url.split('#')[0].split('?')[0];
+  }
+  
+  const normalizedPath = pathname.toLowerCase();
+  // Only mp4 and webm are supported by backend
+  return normalizedPath.endsWith('.mp4') || normalizedPath.endsWith('.webm');
 }

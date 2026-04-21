@@ -29,7 +29,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
   const additionalSpecializations = profile.specializations?.slice(1) || [];
 
   // Combine photoUrl and gallery for lightbox
-  const allImages = [
+  const allMedia = [
     ...(profile.photoUrl ? [profile.photoUrl] : []),
     ...(profile.gallery || [])
   ];
@@ -325,7 +325,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
 
       {/* Image Lightbox */}
       <ImageLightbox
-        images={allImages}
+        images={allMedia}
         initialIndex={lightboxIndex}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

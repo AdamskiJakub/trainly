@@ -1,8 +1,8 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { extname } from 'path';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join } from 'path';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UploadService {
@@ -10,6 +10,22 @@ export class UploadService {
   private readonly allowedImageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
   private readonly allowedVideoMimeTypes = ['video/mp4', 'video/webm'];
   private readonly maxFileSize = 5 * 1024 * 1024; // 5MB
+
+  /**
+   * Get file extension from MIME type
+   */
+  private getExtensionFromMimeType(mimetype: string): string {
+    const mimeToExt: Record<string, string> = {
+      'image/jpeg': '.jpg',
+      'image/jpg': '.jpg',
+      'image/png': '.png',
+      'image/webp': '.webp',
+      'video/mp4': '.mp4',
+      'video/webm': '.webm',
+    };
+
+    return mimeToExt[mimetype] || '.bin';
+  }
 
   async uploadFile(file: Express.Multer.File, allowVideo = false): Promise<string> {
     // Validate file
@@ -38,11 +54,10 @@ export class UploadService {
       await mkdir(this.uploadPath, { recursive: true });
     }
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const ext = extname(file.originalname);
-    const filename = `${timestamp}-${randomString}${ext}`;
+    // Generate unique filename using crypto.randomUUID() and extension from mimetype
+    const uuid = randomUUID();
+    const ext = this.getExtensionFromMimeType(file.mimetype);
+    const filename = `${uuid}${ext}`;
     const filepath = join(this.uploadPath, filename);
 
     // Save file

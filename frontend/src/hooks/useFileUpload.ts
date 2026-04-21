@@ -10,11 +10,8 @@ export function useUploadProfilePhoto() {
       const formData = new FormData();
       formData.append('file', file);
       
-      const response = await apiClient.post('/upload/profile-photo', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // Let browser set Content-Type with boundary automatically
+      const response = await apiClient.post('/upload/profile-photo', formData);
       
       return response.data.url as string;
     },
@@ -33,11 +30,8 @@ export function useUploadGalleryPhotos() {
         formData.append('files', file);
       });
       
-      const response = await apiClient.post('/upload/gallery', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // Let browser set Content-Type with boundary automatically
+      const response = await apiClient.post('/upload/gallery', formData);
       
       return response.data.urls as string[];
     },

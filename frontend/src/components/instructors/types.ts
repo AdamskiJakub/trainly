@@ -35,17 +35,30 @@ export interface ResultsSectionProps {
   ) => void;
 }
 
-export type MediaUploadVariant = 'avatar' | 'gallery';
-
-export interface MediaUploadProps {
-  variant: MediaUploadVariant;
-  currentMediaUrl?: string | null; // For avatar variant
-  currentMediaUrls?: string[]; // For gallery variant
-  onMediaChange: (url: string | string[]) => void;
-  onUpload: (file: File | File[]) => Promise<string | string[]>;
+// Base props shared by both variants
+interface BaseMediaUploadProps {
   isUploading: boolean;
   label: string;
   hint?: string;
-  maxFiles?: number; // For gallery variant
-  acceptVideo?: boolean; // Allow video uploads
+  acceptVideo?: boolean;
 }
+
+// Avatar variant - single file upload
+interface AvatarMediaUploadProps extends BaseMediaUploadProps {
+  variant: 'avatar';
+  currentMediaUrl?: string | null;
+  onMediaChange: (url: string) => void;
+  onUpload: (file: File) => Promise<string>;
+}
+
+// Gallery variant - multiple file upload
+interface GalleryMediaUploadProps extends BaseMediaUploadProps {
+  variant: 'gallery';
+  currentMediaUrls?: string[];
+  maxFiles?: number;
+  onMediaChange: (urls: string[]) => void;
+  onUpload: (files: File[]) => Promise<string[]>;
+}
+
+// Discriminated union type
+export type MediaUploadProps = AvatarMediaUploadProps | GalleryMediaUploadProps;

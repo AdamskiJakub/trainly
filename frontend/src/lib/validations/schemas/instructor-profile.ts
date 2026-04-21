@@ -1,22 +1,5 @@
 import { z } from 'zod';
 
-// Helper to validate comma-separated URLs
-const commaSeparatedUrls = z.string().refine(
-  (val) => {
-    if (!val || val.trim() === '') return true;
-    const urls = val.split(',').map(s => s.trim()).filter(Boolean);
-    return urls.every(url => {
-      try {
-        new URL(url);
-        return true;
-      } catch {
-        return false;
-      }
-    });
-  },
-  { message: 'All URLs must be valid' }
-);
-
 // Helper to validate comma-separated languages
 const commaSeparatedStrings = z.string().refine(
   (val) => {
@@ -34,8 +17,8 @@ export const instructorProfileSchema = z.object({
   hourlyRateHidden: z.boolean().optional(),
   packageDealsEnabled: z.boolean().optional(),
   packageDealsDescription: z.string().max(500).optional(),
-  photoUrl: z.string().optional().or(z.literal('')),
-  gallery: z.array(z.string()).optional().or(z.literal('')),
+  photoUrl: z.string().nullable().optional(),
+  gallery: z.array(z.string()).optional(),
   languages: commaSeparatedStrings.optional(),
   yearsExperience: z.number().min(0).max(100).optional().nullable(),
 });

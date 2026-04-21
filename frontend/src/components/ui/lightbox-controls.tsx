@@ -28,6 +28,7 @@ export function LightboxControls({
         size="icon"
         onClick={onClose}
         className="absolute top-4 right-4 z-10 text-white hover:bg-white/20"
+        aria-label="Close lightbox"
       >
         <X className="size-6" />
       </Button>
@@ -50,6 +51,7 @@ export function LightboxControls({
               onPrevious?.();
             }}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
+            aria-label="Previous image"
           >
             <ChevronLeft className="size-8" />
           </Button>
@@ -61,6 +63,7 @@ export function LightboxControls({
               onNext?.();
             }}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
+            aria-label="Next image"
           >
             <ChevronRight className="size-8" />
           </Button>

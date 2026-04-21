@@ -158,10 +158,6 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       photoUrl: data.photoUrl && data.photoUrl.trim() !== '' ? data.photoUrl.trim() : null,
     };
 
-    console.log('📤 Sending profile data:', formattedData);
-    console.log('📸 Photo URL:', formattedData.photoUrl);
-    console.log('🖼️ Gallery:', formattedData.gallery);
-
     updateProfile(
       { profileId: profile.id, data: { ...formattedData, isDraft: true } },
       {

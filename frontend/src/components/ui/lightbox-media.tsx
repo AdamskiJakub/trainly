@@ -12,6 +12,11 @@ export function LightboxMedia({ src, alt, onContentClick }: LightboxMediaProps) 
   const isVideo = isVideoUrl(src);
   const mediaUrl = getMediaUrl(src);
 
+  // Early return if no valid URL
+  if (!mediaUrl) {
+    return null;
+  }
+
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onContentClick?.(e);
