@@ -11,26 +11,32 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UploadService } from './upload.service';
 
-// Multer configuration for file upload limits and validation
-const multerOptions = {
+const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+const allowedVideoTypes = ['video/mp4', 'video/webm'];
+
+const createMulterOptions = (allowedTypes: string[], errorMessage: string) => ({
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB max file size
   },
   fileFilter: (_req: any, file: Express.Multer.File, callback: any) => {
-    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const allowedVideoTypes = ['video/mp4', 'video/webm'];
-    const allowedTypes = [...allowedImageTypes, ...allowedVideoTypes];
-
     if (!allowedTypes.includes(file.mimetype)) {
-      return callback(
-        new BadRequestException('Invalid file type. Only JPEG, PNG, WebP, MP4, and WebM are allowed.'),
-        false
-      );
+      return callback(new BadRequestException(errorMessage), false);
     }
-
     callback(null, true);
   },
-};
+});
+
+// Multer options for profile photo (images only)
+const profilePhotoMulterOptions = createMulterOptions(
+  allowedImageTypes,
+  'Invalid file type. Only JPEG, PNG, and WebP are allowed.'
+);
+
+// Multer options for gallery (images + videos)
+const galleryMulterOptions = createMulterOptions(
+  [...allowedImageTypes, ...allowedVideoTypes],
+  'Invalid file type. Only JPEG, PNG, WebP, MP4, and WebM are allowed.'
+);
 
 @Controller('upload')
 @UseGuards(JwtAuthGuard)
@@ -38,14 +44,14 @@ export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
   @Post('profile-photo')
-  @UseInterceptors(FileInterceptor('file', multerOptions))
+  @UseInterceptors(FileInterceptor('file', profilePhotoMulterOptions))
   async uploadProfilePhoto(@UploadedFile() file: Express.Multer.File) {
     const url = await this.uploadService.uploadFile(file, false);
     return { url };
   }
 
   @Post('gallery')
-  @UseInterceptors(FilesInterceptor('files', 10, multerOptions))
+  @UseInterceptors(FilesInterceptor('files', 10, galleryMulterOptions))
   async uploadGalleryPhotos(@UploadedFiles() files: Express.Multer.File[]) {
     const urls = await this.uploadService.uploadMultipleFiles(files, true);
     return { urls };

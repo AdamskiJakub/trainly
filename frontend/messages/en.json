@@ -188,7 +188,7 @@
       "removeMedia": "Remove",
       "maxFileSize": "Max 5MB",
       "acceptedFormats": "JPEG, PNG, WebP",
-      "acceptedFormatsWithVideo": "JPEG, PNG, WebP, MP4",
+      "acceptedFormatsWithVideo": "JPEG, PNG, WebP, MP4, WebM",
       "videoMaxDuration": "Video max 15 seconds",
       "galleryUploadSuccess": "Files uploaded successfully",
       "galleryUploadError": "Failed to upload files",

@@ -48,7 +48,9 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
         <div className="lg:col-span-3 space-y-4">
           {/* Kwadratowe zdjęcie zamiast kółka */}
           <div 
-            className="relative w-full aspect-square max-w-70 mx-auto rounded-2xl overflow-hidden border-4 border-orange-500 bg-slate-700 cursor-pointer hover:opacity-90 transition-opacity"
+            className={`relative w-full aspect-square max-w-70 mx-auto rounded-2xl overflow-hidden border-4 border-orange-500 bg-slate-700 ${
+              profile.photoUrl ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''
+            }`}
             onClick={() => profile.photoUrl && openLightbox(0)}
           >
             {profile.photoUrl ? (

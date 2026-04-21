@@ -188,7 +188,7 @@
       "removeMedia": "Usuń",
       "maxFileSize": "Maks. 5MB",
       "acceptedFormats": "JPEG, PNG, WebP",
-      "acceptedFormatsWithVideo": "JPEG, PNG, WebP, MP4",
+      "acceptedFormatsWithVideo": "JPEG, PNG, WebP, MP4, WebM",
       "videoMaxDuration": "Filmik max 15 sekund",
       "galleryUploadSuccess": "Pliki zostały przesłane pomyślnie",
       "galleryUploadError": "Nie udało się przesłać plików",
