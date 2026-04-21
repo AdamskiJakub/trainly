@@ -2,7 +2,6 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api';
-import { toast } from 'sonner';
 
 export function useUploadProfilePhoto() {
   return useMutation({
@@ -15,10 +14,7 @@ export function useUploadProfilePhoto() {
       
       return response.data.url as string;
     },
-    onError: (error: any) => {
-      const message = error.response?.data?.message || 'Failed to upload photo';
-      toast.error(message);
-    },
+    // Note: onError removed - let callers handle errors to avoid duplicate toasts
   });
 }
 
@@ -35,9 +31,6 @@ export function useUploadGalleryPhotos() {
       
       return response.data.urls as string[];
     },
-    onError: (error: any) => {
-      const message = error.response?.data?.message || 'Failed to upload photos';
-      toast.error(message);
-    },
+    // Note: onError removed - let callers handle errors to avoid duplicate toasts
   });
 }

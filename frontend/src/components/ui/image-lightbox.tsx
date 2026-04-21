@@ -19,6 +19,9 @@ interface ImageLightboxProps {
 export function ImageLightbox({ images, initialIndex, isOpen, onClose }: ImageLightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
+  // Early return if no images to display
+  if (!isOpen || images.length === 0) return null;
+
   useEffect(() => {
     setCurrentIndex(initialIndex);
   }, [initialIndex]);

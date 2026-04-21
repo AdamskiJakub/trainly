@@ -12,8 +12,11 @@ apiClient.interceptors.request.use((config) => {
   // Safely initialize headers if undefined
   config.headers = config.headers || {};
   
+  // Check if data is FormData (guard against non-browser environments)
+  const isFormData = typeof FormData !== 'undefined' && config.data instanceof FormData;
+  
   // Only set Content-Type to JSON if not already set and not FormData
-  if (!config.headers['Content-Type'] && !(config.data instanceof FormData)) {
+  if (!config.headers['Content-Type'] && !isFormData) {
     config.headers['Content-Type'] = 'application/json';
   }
   return config;

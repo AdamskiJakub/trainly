@@ -3,9 +3,17 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
-// Derive API URL from environment variable
+// Derive API URL from environment variable with better error handling
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-const url = new URL(apiUrl);
+const url = (() => {
+  try {
+    return new URL(apiUrl);
+  } catch {
+    throw new Error(
+      `Invalid NEXT_PUBLIC_API_URL: "${apiUrl}". Expected a fully qualified URL including the protocol, e.g. "http://localhost:3001" or "https://api.example.com".`
+    );
+  }
+})();
 
 const nextConfig: NextConfig = {
   images: {

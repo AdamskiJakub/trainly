@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Upload, X, Loader2, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { MediaUploadProps } from './types';
 import { getMediaUrl, IS_DEVELOPMENT, isVideoUrl } from '@/lib/utils/media';
 import { toast } from 'sonner';
@@ -167,20 +166,11 @@ export function MediaUpload(props: MediaUploadProps) {
         <div className="flex items-start gap-4">
           {previews[0] ? (
             <div className="relative size-32 rounded-lg overflow-hidden border-2 border-slate-600 bg-slate-800/50 shrink-0">
-              {previews[0].isBlob || IS_DEVELOPMENT ? (
-                <img
-                  src={previews[0].isBlob ? previews[0].url : getMediaUrl(previews[0].url)}
-                  alt="Profile preview"
-                  className="size-full object-cover"
-                />
-              ) : (
-                <Image
-                  src={getMediaUrl(previews[0].url)!}
-                  alt="Profile preview"
-                  fill
-                  className="object-cover"
-                />
-              )}
+              <img
+                src={previews[0].isBlob ? previews[0].url : getMediaUrl(previews[0].url)}
+                alt="Profile preview"
+                className="size-full object-cover"
+              />
             </div>
           ) : (
             <div className="size-32 rounded-lg border-2 border-dashed border-slate-600 bg-slate-800/30 flex items-center justify-center shrink-0">
@@ -268,18 +258,11 @@ export function MediaUpload(props: MediaUploadProps) {
                   <Play className="size-8 text-white" />
                 </div>
               </div>
-            ) : preview.isBlob || IS_DEVELOPMENT ? (
+            ) : (
               <img
                 src={preview.isBlob ? preview.url : getMediaUrl(preview.url)}
                 alt={`Gallery ${index + 1}`}
                 className="size-full object-cover"
-              />
-            ) : (
-              <Image
-                src={getMediaUrl(preview.url)!}
-                alt={`Gallery ${index + 1}`}
-                fill
-                className="object-cover"
               />
             )}
             

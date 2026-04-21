@@ -11,7 +11,8 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UploadService } from './upload.service';
 
-const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+// Match the allowed types with UploadService (include 'image/jpg' for JPEG compatibility)
+const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 const allowedVideoTypes = ['video/mp4', 'video/webm'];
 
 const createMulterOptions = (allowedTypes: string[], errorMessage: string) => ({

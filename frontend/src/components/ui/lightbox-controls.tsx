@@ -26,7 +26,10 @@ export function LightboxControls({
       <Button
         variant="ghost"
         size="icon"
-        onClick={onClose}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
         className="absolute top-4 right-4 z-10 text-white hover:bg-white/20"
         aria-label="Close lightbox"
       >
