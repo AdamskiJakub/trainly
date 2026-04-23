@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { InstructorProfilesModule } from './instructor-profiles/instructor-profiles.module';
 import { UploadModule } from './upload/upload.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UploadModule } from './upload/upload.module';
     AuthModule,
     InstructorProfilesModule,
     UploadModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

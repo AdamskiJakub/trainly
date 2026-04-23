@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api';
 import type { InstructorListing } from '@/types';
+import { useAuthStore } from '@/stores/auth-store';
 
 interface InstructorProfileResponse {
   id: string;
@@ -63,8 +64,10 @@ function transformToInstructorListing(profile: InstructorProfileResponse): Instr
 }
 
 export function useMyInstructorProfile(options?: { enabled?: boolean }) {
+  const { user } = useAuthStore();
+  
   return useQuery({
-    queryKey: ['instructor-profile', 'me'],
+    queryKey: ['instructor-profile', 'me', user?.id],
     queryFn: async () => {
       const response = await apiClient.get<InstructorProfileResponse>('/instructor-profiles/me');
       return transformToInstructorListing(response.data);
