@@ -188,6 +188,7 @@
     "settings": {
       "title": "Account Settings",
       "subtitle": "Manage your personal information and account settings",
+      "backToDashboard": "Back to Dashboard",
       "personalInfo": "Personal Information",
       "security": "Security",
       "dangerZone": "Danger Zone",

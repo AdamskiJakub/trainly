@@ -133,7 +133,7 @@ export default function SettingsPage() {
             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Powrót do panelu
+            {t('backToDashboard')}
           </Link>
           <div>
             <h1 className="text-4xl font-bold text-white mb-2">{t('title')}</h1>

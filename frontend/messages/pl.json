@@ -188,6 +188,7 @@
     "settings": {
       "title": "Ustawienia Konta",
       "subtitle": "Zarządzaj swoimi danymi osobowymi i ustawieniami konta",
+      "backToDashboard": "Powrót do panelu",
       "personalInfo": "Dane Osobowe",
       "security": "Bezpieczeństwo",
       "dangerZone": "Strefa Niebezpieczna",

@@ -1,3 +1,5 @@
+'use client';
+
 import { useMutation } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth-store';
@@ -12,8 +14,12 @@ export function useDeleteAccount() {
       const response = await apiClient.delete('/users/me');
       return response.data;
     },
-    onSuccess: () => {
-      // Logout and redirect to home
+    onSuccess: async () => {
+      try {
+        await apiClient.post('/auth/logout');
+      } catch (error) {
+        // Ignore logout errors - account is already deleted
+      }
       logout();
       router.push('/');
     },
