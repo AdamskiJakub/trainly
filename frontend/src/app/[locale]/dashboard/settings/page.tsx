@@ -10,6 +10,9 @@ import { useRouter } from '@/i18n/routing';
 import { motion } from 'framer-motion';
 import { User, Lock, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { Link } from '@/i18n/routing';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { createStrongPasswordSchema } from '@/lib/validations/schemas/auth-base';
@@ -155,61 +158,58 @@ export default function SettingsPage() {
 
           <form onSubmit={handleUpdateUser} noValidate className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  {t('firstName')}
-                </label>
-                <input
+              {/* First Name */}
+              <div className="space-y-2">
+                <Label htmlFor="firstName">{t('firstName')}</Label>
+                <Input
                   type="text"
                   name="firstName"
+                  id="firstName"
                   defaultValue={user.firstName || ''}
-                  className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  {t('lastName')}
-                </label>
-                <input
+              
+              {/* Last Name */}
+              <div className="space-y-2">
+                <Label htmlFor="lastName">{t('lastName')}</Label>
+                <Input
                   type="text"
                   name="lastName"
+                  id="lastName"
                   defaultValue={user.lastName || ''}
-                  className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                {t('email')}
-              </label>
-              <input
+            {/* Email */}
+            <div className="space-y-2">
+              <Label htmlFor="email">{t('email')}</Label>
+              <Input
                 type="email"
                 name="email"
+                id="email"
                 defaultValue={user.email}
-                className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                {t('phone')}
-              </label>
-              <input
+            {/* Phone */}
+            <div className="space-y-2">
+              <Label htmlFor="phone">{t('phone')}</Label>
+              <Input
                 type="tel"
                 name="phone"
+                id="phone"
                 placeholder={t('phonePlaceholder')}
-                className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={updateUserMutation.isPending}
-              className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors disabled:opacity-50"
+              className="bg-orange-500 hover:bg-orange-600 text-white"
             >
               {updateUserMutation.isPending ? t('saving') : t('saveChanges')}
-            </button>
+            </Button>
           </form>
         </motion.div>
 
@@ -227,25 +227,24 @@ export default function SettingsPage() {
           </div>
 
           <form onSubmit={handleUpdatePassword} noValidate className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                {t('currentPassword')}
-              </label>
-              <input
+            {/* Current Password */}
+            <div className="space-y-2">
+              <Label htmlFor="currentPassword">{t('currentPassword')}</Label>
+              <Input
                 type="password"
+                id="currentPassword"
                 value={passwordForm.currentPassword}
                 onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
-                className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                {t('newPassword')}
-              </label>
-              <input
+            {/* New Password */}
+            <div className="space-y-2">
+              <Label htmlFor="newPassword">{t('newPassword')}</Label>
+              <Input
                 type="password"
+                id="newPassword"
                 value={passwordForm.newPassword}
                 onChange={(e) => {
                   setPasswordForm({ ...passwordForm, newPassword: e.target.value });
@@ -253,30 +252,26 @@ export default function SettingsPage() {
                     setPasswordErrors(prev => ({ ...prev, newPassword: '' }));
                   }
                 }}
-                className={`w-full px-4 py-2 bg-slate-900 border rounded-lg text-white focus:outline-none focus:ring-2 ${
-                  passwordErrors.newPassword 
-                    ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-slate-700 focus:ring-purple-500'
-                }`}
+                aria-invalid={passwordErrors.newPassword ? 'true' : 'false'}
                 required
                 minLength={8}
               />
               {passwordErrors.newPassword && (
-                <p className="text-xs text-red-400 mt-1">{passwordErrors.newPassword}</p>
+                <p className="text-sm text-red-500">{passwordErrors.newPassword}</p>
               )}
               {!passwordErrors.newPassword && (
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-400">
                   Min 8 znaków, wielkie i małe litery, cyfry oraz znaki specjalne (@$!%*?&)
                 </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                {t('confirmPassword')}
-              </label>
-              <input
+            {/* Confirm Password */}
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">{t('confirmPassword')}</Label>
+              <Input
                 type="password"
+                id="confirmPassword"
                 value={passwordForm.confirmPassword}
                 onChange={(e) => {
                   setPasswordForm({ ...passwordForm, confirmPassword: e.target.value });
@@ -284,26 +279,22 @@ export default function SettingsPage() {
                     setPasswordErrors(prev => ({ ...prev, confirmPassword: '' }));
                   }
                 }}
-                className={`w-full px-4 py-2 bg-slate-900 border rounded-lg text-white focus:outline-none focus:ring-2 ${
-                  passwordErrors.confirmPassword 
-                    ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-slate-700 focus:ring-purple-500'
-                }`}
+                aria-invalid={passwordErrors.confirmPassword ? 'true' : 'false'}
                 required
                 minLength={8}
               />
               {passwordErrors.confirmPassword && (
-                <p className="text-xs text-red-400 mt-1">{passwordErrors.confirmPassword}</p>
+                <p className="text-sm text-red-500">{passwordErrors.confirmPassword}</p>
               )}
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={updatePasswordMutation.isPending}
-              className="px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors disabled:opacity-50"
+              className="bg-purple-500 hover:bg-purple-600 text-white"
             >
               {updatePasswordMutation.isPending ? t('updating') : t('updatePassword')}
-            </button>
+            </Button>
           </form>
         </motion.div>
 
@@ -324,29 +315,29 @@ export default function SettingsPage() {
           <p className="text-slate-300 mb-4">{t('deleteAccountDescription')}</p>
 
           {!showDeleteConfirm ? (
-            <button
+            <Button
               onClick={() => setShowDeleteConfirm(true)}
-              className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+              className="bg-red-500 hover:bg-red-600 text-white"
             >
               {t('deleteAccountButton')}
-            </button>
+            </Button>
           ) : (
             <div className="space-y-4">
               <p className="text-red-400 font-medium">{t('deleteAccountConfirm')}</p>
               <div className="flex gap-3">
-                <button
+                <Button
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+                  className="bg-slate-700 hover:bg-slate-600 text-white"
                 >
                   {t('cancel')}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleDeleteAccount}
                   disabled={deleteAccountMutation.isPending}
-                  className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
+                  className="bg-red-500 hover:bg-red-600 text-white"
                 >
                   {t('confirmDelete')}
-                </button>
+                </Button>
               </div>
             </div>
           )}
