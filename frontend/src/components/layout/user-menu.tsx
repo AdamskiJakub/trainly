@@ -21,6 +21,8 @@ import {
 } from '@/components/ui/sheet';
 import { User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import { apiClient } from '@/lib/api';
+import { useMyInstructorProfile } from '@/hooks/useMyInstructorProfile';
+import { getMediaUrl } from '@/lib/utils/media';
 
 function getInitials(firstName: string | null, lastName: string | null): string {
   const first = firstName?.charAt(0) || '';
@@ -33,6 +35,17 @@ export function UserMenu() {
   const router = useRouter();
   const t = useTranslations('Common');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Fetch instructor profile if user is an instructor (to get photoUrl)
+  // Important: Only fetch when user is INSTRUCTOR, otherwise instructorProfile should be undefined
+  const { data: instructorProfile } = useMyInstructorProfile({
+    enabled: isAuthenticated && user?.role === 'INSTRUCTOR',
+  });
+
+  // Use instructor's photoUrl if available AND user is actually an instructor
+  const avatarUrl = (user?.role === 'INSTRUCTOR' && instructorProfile?.photoUrl)
+    ? getMediaUrl(instructorProfile.photoUrl) 
+    : undefined;
 
   if (!isAuthenticated || !user) {
     return null;
@@ -49,8 +62,6 @@ export function UserMenu() {
       router.push('/');
     }
   };
-
-  const avatarUrl = undefined;
 
   return (
     <>

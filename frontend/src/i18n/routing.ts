@@ -49,6 +49,10 @@ export const routing = defineRouting({
       pl: '/panel/profil/podglad',
       en: '/dashboard/profile/preview',
     },
+    '/dashboard/settings': {
+      pl: '/panel/ustawienia',
+      en: '/dashboard/settings',
+    },
     '/instructors': {
       pl: '/instruktorzy',
       en: '/instructors',

@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 export interface UpdateInstructorProfileData {
   bio?: string | null;
@@ -25,11 +26,12 @@ export interface UpdateInstructorProfileData {
 }
 
 interface UseUpdateInstructorProfileOptions {
-  showToast?: boolean; // Allow callers to disable toast notifications
+  showToast?: boolean;
 }
 
 export function useUpdateInstructorProfile(options: UseUpdateInstructorProfileOptions = { showToast: false }) {
   const queryClient = useQueryClient();
+  const t = useTranslations('Dashboard.profileForm');
 
   return useMutation({
     mutationFn: async ({ profileId, data }: { profileId: string; data: UpdateInstructorProfileData }) => {
@@ -40,11 +42,11 @@ export function useUpdateInstructorProfile(options: UseUpdateInstructorProfileOp
       queryClient.invalidateQueries({ queryKey: ['instructor-profile', 'me'] });
       queryClient.invalidateQueries({ queryKey: ['instructors'] });
       if (options.showToast) {
-        toast.success('Profile updated successfully!');
+        toast.success(t('updateSuccess'));
       }
     },
     onError: (error: any) => {
-      const message = error.response?.data?.message || 'Failed to update profile';
+      const message = error.response?.data?.message || t('updateError');
       if (options.showToast) {
         toast.error(message);
       }
