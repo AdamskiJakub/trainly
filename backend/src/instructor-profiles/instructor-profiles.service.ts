@@ -80,7 +80,7 @@ export class InstructorProfilesService {
   }
 
   async findByUsername(username: string) {
-    return this.prisma.instructorProfile.findFirst({
+    const profile = await this.prisma.instructorProfile.findFirst({
       where: {
         user: {
           username: username,
@@ -88,17 +88,35 @@ export class InstructorProfilesService {
         isDraft: false,
       },
       include: {
-        user: {
-          select: {
-            id: true,
-            username: true,
-            firstName: true,
-            lastName: true,
-            role: true,
-          },
-        },
+        user: true, // Get full user to check showPhone/showEmail
       },
     });
+
+    if (!profile) {
+      throw new NotFoundException('Instructor profile not found');
+    }
+
+    // Conditionally include contact info based on settings
+    const userInfo: any = {
+      id: profile.user.id,
+      username: profile.user.username,
+      firstName: profile.user.firstName,
+      lastName: profile.user.lastName,
+      role: profile.user.role,
+    };
+
+    if (profile.showEmail) {
+      userInfo.email = profile.user.email;
+    }
+
+    if (profile.showPhone && profile.user.phone) {
+      userInfo.phone = profile.user.phone;
+    }
+
+    return {
+      ...profile,
+      user: userInfo,
+    };
   }
 
   async create(userId: string, dto: CreateInstructorProfileDto) {
@@ -143,6 +161,7 @@ export class InstructorProfilesService {
             username: true,
             firstName: true,
             lastName: true,
+            phone: true,
             role: true,
           },
         },

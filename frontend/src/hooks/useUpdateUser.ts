@@ -25,6 +25,7 @@ export function useUpdateUser() {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
+        phone: data.phone,
       });
 
       queryClient.invalidateQueries({ queryKey: ['instructor-profile'] });

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsArray, IsBoolean, MaxLength } from 'class-validator';
 
 export class CreateInstructorProfileDto {
   // userId is derived from JWT token in controller, not from request body
@@ -16,4 +16,17 @@ export class CreateInstructorProfileDto {
   @IsString()
   @IsOptional()
   city?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  showPhone?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  showEmail?: boolean;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(500)
+  contactMessage?: string;
 }

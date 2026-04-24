@@ -6,6 +6,7 @@ import {
   IsBoolean,
   Min,
   ArrayMaxSize,
+  MaxLength,
 } from 'class-validator';
 
 export class UpdateInstructorProfileDto {
@@ -82,6 +83,19 @@ export class UpdateInstructorProfileDto {
   @Min(0)
   @IsOptional()
   yearsExperience?: number | null;
+
+  @IsBoolean()
+  @IsOptional()
+  showPhone?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  showEmail?: boolean;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(500)
+  contactMessage?: string | null;
 
   // Note: isDraft is allowed here for flexibility (e.g., save as draft flow).
   // The dedicated PATCH /:id/publish endpoint is the primary way to publish,

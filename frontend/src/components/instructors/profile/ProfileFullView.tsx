@@ -10,6 +10,7 @@ import { getTagName, getTagById } from '@/lib/config/tags';
 import { getGoalName, getGoalById } from '@/lib/config/goals';
 import { getMediaUrl, isVideoUrl } from '@/lib/utils/media';
 import { ImageLightbox } from '@/components/ui/image-lightbox';
+import { ContactSection } from '@/components/instructors/profile/ContactSection';
 
 interface ProfileFullViewProps {
   profile: InstructorProfile;
@@ -218,6 +219,9 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
               </div>
             </div>
           )}
+
+          {/* Contact Section */}
+          <ContactSection profile={profile} />
         </div>
 
         {/* RIGHT COLUMN: Price & Tags */}

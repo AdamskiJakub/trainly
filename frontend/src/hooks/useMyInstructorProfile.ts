@@ -26,6 +26,9 @@ interface InstructorProfileResponse {
   yearsExperience: number | null;
   availability: string | null;
   languages: string[];
+  showPhone: boolean;
+  showEmail: boolean;
+  contactMessage: string | null;
   createdAt: string;
   updatedAt: string;
   user: {
@@ -34,6 +37,7 @@ interface InstructorProfileResponse {
     username: string;
     firstName: string | null;
     lastName: string | null;
+    phone: string | null;
     role: string;
   };
 }
@@ -58,6 +62,7 @@ function transformToInstructorListing(profile: InstructorProfileResponse): Instr
       username: profile.user.username,
       firstName: profile.user.firstName,
       lastName: profile.user.lastName,
+      phone: profile.user.phone,
       role: profile.user.role,
     },
   };

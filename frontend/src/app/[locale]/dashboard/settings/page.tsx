@@ -199,6 +199,7 @@ export default function SettingsPage() {
                 type="tel"
                 name="phone"
                 id="phone"
+                defaultValue={user.phone || ''}
                 placeholder={t('phonePlaceholder')}
               />
             </div>
