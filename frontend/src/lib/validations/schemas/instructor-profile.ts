@@ -41,8 +41,8 @@ export const instructorProfileSchema = z.object({
   gallery: z.array(uploadPathOrUrl).optional(),
   languages: commaSeparatedStrings.optional(),
   yearsExperience: z.number().min(0).max(100).optional().nullable(),
-  showPhone: z.boolean().default(false),
-  showEmail: z.boolean().default(false),
+  showPhone: z.boolean().optional(),
+  showEmail: z.boolean().optional(),
   contactMessage: z.string().max(500).optional(),
 });
 

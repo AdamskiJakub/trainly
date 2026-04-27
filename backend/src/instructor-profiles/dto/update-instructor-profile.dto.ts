@@ -92,8 +92,8 @@ export class UpdateInstructorProfileDto {
   @IsOptional()
   showEmail?: boolean;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   @MaxLength(500)
   contactMessage?: string | null;
 

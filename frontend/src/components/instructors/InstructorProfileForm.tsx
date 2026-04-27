@@ -34,7 +34,7 @@ const MAX_GOALS = 4;
 
 interface InstructorProfileFormProps {
   profile?: InstructorProfile | InstructorListing; // Accept both types for flexibility
-  user: User; // Add user prop
+  user: Pick<User, 'email' | 'phone'>; // Only require fields this form reads
 }
 
 export function InstructorProfileForm({ profile, user }: InstructorProfileFormProps) {
@@ -62,15 +62,7 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
     profile?.availability || 'both'
   );
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    setValue,
-    control,
-    formState: { errors },
-  } = useForm<InstructorProfileFormData>({
+  const form = useForm<InstructorProfileFormData>({
     resolver: zodResolver(instructorProfileSchema),
     defaultValues: {
       bio: profile?.bio || '',
@@ -89,6 +81,16 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
       contactMessage: profile?.contactMessage || '',
     },
   });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+  } = form;
 
   // Reset form when profile changes
   useEffect(() => {
@@ -554,7 +556,7 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
 
       {/* Contact Settings Section */}
       <ContactSettingsSection 
-        form={{ ...{ control, register, watch, formState: { errors } } } as any}
+        form={form}
         userPhone={user.phone}
         userEmail={user.email}
       />

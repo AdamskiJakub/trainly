@@ -19,7 +19,7 @@ export default function EditProfilePage() {
   const { data: profile, isLoading, error } = useMyInstructorProfile({
     enabled: isAuthenticated && user?.role === 'INSTRUCTOR',
   });
-  const { mutate: publishProfile, isPending: isPublishing } = usePublishInstructorProfile();
+  const { mutate: publishProfile, isPending: isPublishing } = usePublishInstructorProfile({ showToast: false });
 
   useEffect(() => {
     if (!isAuthenticated) {

@@ -4,7 +4,6 @@ import { InstructorProfile } from '@/types';
 import { useTranslations } from 'next-intl';
 import { Phone, Mail, MessageCircle, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuthStore } from '@/stores/auth-store';
 
 interface ContactSectionProps {
   profile: InstructorProfile;
@@ -12,7 +11,6 @@ interface ContactSectionProps {
 
 export function ContactSection({ profile }: ContactSectionProps) {
   const t = useTranslations('InstructorProfile');
-  const { isAuthenticated } = useAuthStore();
 
   // Don't show if no contact info is enabled
   if (!profile.showPhone && !profile.showEmail && !profile.contactMessage) {
@@ -92,7 +90,6 @@ export function ContactSection({ profile }: ContactSectionProps) {
             className="px-6 py-3 bg-linear-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg transition-all hover:scale-105 flex items-center justify-center gap-2 font-medium shadow-lg"
             onClick={() => {
               // TODO: Open booking modal
-              console.log('Open booking modal');
             }}
           >
             <Send className="size-5" />

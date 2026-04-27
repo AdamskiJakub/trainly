@@ -49,9 +49,9 @@ export interface InstructorProfile {
   yearsExperience: number | null;
   availability: string | null;
   languages: string[];
-  showPhone: boolean;
-  showEmail: boolean;
-  contactMessage: string | null;
+  showPhone?: boolean;
+  showEmail?: boolean;
+  contactMessage?: string | null;
   createdAt: string;
   updatedAt: string;
   averageRating?: number;

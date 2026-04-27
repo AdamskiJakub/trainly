@@ -23,6 +23,9 @@ export interface UpdateInstructorProfileData {
   availability?: string | null;
   languages?: string[];
   isDraft?: boolean;
+  showPhone?: boolean;
+  showEmail?: boolean;
+  contactMessage?: string | null;
 }
 
 interface UseUpdateInstructorProfileOptions {

@@ -88,7 +88,17 @@ export class InstructorProfilesService {
         isDraft: false,
       },
       include: {
-        user: true, // Get full user to check showPhone/showEmail
+        user: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            role: true,
+            email: true,
+            phone: true,
+          },
+        },
       },
     });
 
