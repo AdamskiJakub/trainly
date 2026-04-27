@@ -267,12 +267,12 @@
         "description": "Wybierz, które informacje kontaktowe będą widoczne na Twoim publicznym profilu",
         "showPhone": "Pokaż numer telefonu",
         "showPhoneHint": "Klienci zobaczą Twój numer telefonu na profilu",
-        "noPhone": "Nie masz ustawionego numeru telefonu w profilu użytkownika",
+        "noPhone": "Nie masz ustawionego numeru telefonu. Dodaj go w Ustawieniach konta.",
         "showEmail": "Pokaż adres email",
         "showEmailHint": "Klienci zobaczą Twój email na profilu",
         "messageLabel": "Dodatkowa wiadomość kontaktowa",
         "messagePlaceholder": "np. Najlepszy kontakt przez WhatsApp lub SMS po 18:00",
-        "messageHint": "Opcjonalna wiadomość o preferowanym sposobie kontaktu (widoczna tylko dla zalogowanych użytkowników)"
+        "messageHint": "Opcjonalna wiadomość o preferowanym sposobie kontaktu (widoczna dla wszystkich odwiedzających Twój profil)"
       },
       "optional": "(opcjonalnie)",
       "photoUrl": "Zdjęcie profilowe",

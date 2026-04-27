@@ -1,6 +1,6 @@
 -- AlterTable
--- These columns already exist in the database (added manually)
--- This migration file is created to sync Prisma migrations with the actual database state
-
--- showPhone, showEmail, contactMessage were added manually to the database
--- No SQL changes needed as columns already exist
+-- Add contact visibility and message fields to InstructorProfile
+ALTER TABLE "instructor_profiles" 
+  ADD COLUMN IF NOT EXISTS "showPhone" BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS "showEmail" BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS "contactMessage" TEXT;

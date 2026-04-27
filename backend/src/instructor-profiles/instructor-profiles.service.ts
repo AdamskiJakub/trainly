@@ -107,7 +107,15 @@ export class InstructorProfilesService {
     }
 
     // Conditionally include contact info based on settings
-    const userInfo: any = {
+    const userInfo: {
+      id: string;
+      username: string;
+      firstName: string | null;
+      lastName: string | null;
+      role: string;
+      email?: string;
+      phone?: string | null;
+    } = {
       id: profile.user.id,
       username: profile.user.username,
       firstName: profile.user.firstName,
@@ -123,8 +131,11 @@ export class InstructorProfilesService {
       userInfo.phone = profile.user.phone;
     }
 
+    // Remove contactMessage from public response (only for logged-in preview)
+    const { contactMessage, ...publicProfile } = profile;
+
     return {
-      ...profile,
+      ...publicProfile,
       user: userInfo,
     };
   }

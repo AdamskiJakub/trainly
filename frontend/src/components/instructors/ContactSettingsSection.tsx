@@ -34,7 +34,7 @@ export function ContactSettingsSection({
       </div>
 
       {/* Show Phone Toggle */}
-      {userPhone && (
+      {userPhone ? (
         <label className="flex items-start gap-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors border border-slate-700 bg-slate-900/50">
           <Controller
             name="showPhone"
@@ -66,6 +66,17 @@ export function ContactSettingsSection({
             </p>
           </div>
         </label>
+      ) : (
+        <div className="px-4 py-3 rounded-lg border border-slate-700 bg-slate-900/30">
+          <div className="flex items-start gap-3">
+            <Phone className="size-4 text-slate-500 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm text-slate-400">
+                {t('contactSettings.noPhone')}
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Show Email Toggle */}
