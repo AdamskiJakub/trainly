@@ -131,11 +131,9 @@ export class InstructorProfilesService {
       userInfo.phone = profile.user.phone;
     }
 
-    // Remove contactMessage from public response (only for logged-in preview)
-    const { contactMessage, ...publicProfile } = profile;
-
+    // contactMessage is always public if set (shown in contact section)
     return {
-      ...publicProfile,
+      ...profile,
       user: userInfo,
     };
   }

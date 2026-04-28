@@ -118,13 +118,13 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Nieprawidłowy email lub hasło');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const passwordValid = await bcrypt.compare(dto.password, user.password);
 
     if (!passwordValid) {
-      throw new UnauthorizedException('Nieprawidłowy email lub hasło');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const token = await this.generateToken(user.id, user.email, user.role);

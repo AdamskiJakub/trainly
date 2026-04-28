@@ -33,7 +33,11 @@ export function useLoginForm() {
       setAuth(user);
       router.push('/dashboard');
     } catch (err: any) {
-      const errorMessage = normalizeApiError(err, t('loginFailed'));
+      const backendMessage = err?.response?.data?.message;
+      // Map backend "Invalid credentials" to localized message
+      const errorMessage = backendMessage === 'Invalid credentials' 
+        ? t('loginFailed')
+        : normalizeApiError(err, t('loginFailed'));
       setError(errorMessage);
       
       // Set errors on both fields since we don't know which one is wrong
@@ -45,7 +49,7 @@ export function useLoginForm() {
         type: 'manual',
         message: ''
       });
-      
+    } finally {
       setIsLoading(false);
     }
   };

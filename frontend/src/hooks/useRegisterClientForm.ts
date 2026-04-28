@@ -46,6 +46,7 @@ export function useRegisterClientForm() {
       } else {
         setError(normalizeApiError(err, t('registrationFailed')));
       }
+    } finally {
       setIsLoading(false);
     }
   };
