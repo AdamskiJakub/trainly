@@ -56,6 +56,9 @@ model InstructorProfile {
   yearsExperience Int?
   availability    String?  // "online" | "in-person" | "both"
   languages       String[] // ["pl", "en"]
+  showPhone       Boolean  @default(false) // Show phone number on public profile
+  showEmail       Boolean  @default(false) // Show email on public profile
+  contactMessage  String?  @db.Text // Optional custom contact message
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 
 export default function LoginPage() {
   const t = useTranslations('auth');
-  const { form, isLoading, error, onSubmit } = useLoginForm();
+  const { form, isLoading, error, onSubmit, clearServerError } = useLoginForm();
   const { register, formState: { errors } } = form;
 
   return (
@@ -31,18 +31,20 @@ export default function LoginPage() {
 
         {/* Form Card */}
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 shadow-2xl">
-          <form onSubmit={onSubmit} className="space-y-6">
+          <form onSubmit={onSubmit} noValidate className="space-y-6">
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">{t('email')}</Label>
               <Input
-                {...register('email')}
+                {...register('email', {
+                  onChange: clearServerError,
+                })}
                 id="email"
                 type="email"
                 placeholder="you@example.com"
                 aria-invalid={errors.email ? 'true' : 'false'}
               />
-              {errors.email && (
+              {errors.email && errors.email.message && (
                 <p className="text-sm text-red-500">
                   {errors.email.message}
                 </p>
@@ -53,13 +55,15 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="password">{t('password')}</Label>
               <Input
-                {...register('password')}
+                {...register('password', {
+                  onChange: clearServerError,
+                })}
                 id="password"
                 type="password"
                 placeholder="••••••••"
                 aria-invalid={errors.password ? 'true' : 'false'}
               />
-              {errors.password && (
+              {errors.password && errors.password.message && (
                 <p className="text-sm text-red-500">
                   {errors.password.message}
                 </p>

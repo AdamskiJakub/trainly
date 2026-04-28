@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
-import { InstructorProfile, InstructorListing } from '@/types';
+import { InstructorProfile, InstructorListing, User } from '@/types';
 import { useUpdateInstructorProfile } from '@/hooks/useUpdateInstructorProfile';
 import { useUploadProfilePhoto, useUploadGalleryPhotos } from '@/hooks/useFileUpload';
 import { toast } from 'sonner';
@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { MediaUpload } from '@/components/instructors/MediaUpload';
+import { ContactSettingsSection } from '@/components/instructors/ContactSettingsSection';
 import {
   Select,
   SelectContent,
@@ -33,9 +34,10 @@ const MAX_GOALS = 4;
 
 interface InstructorProfileFormProps {
   profile?: InstructorProfile | InstructorListing; // Accept both types for flexibility
+  user: Pick<User, 'email' | 'phone'>; // Only require fields this form reads
 }
 
-export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
+export function InstructorProfileForm({ profile, user }: InstructorProfileFormProps) {
   const t = useTranslations('Dashboard.profileForm');
   const locale = useLocale();
   const router = useRouter();
@@ -60,15 +62,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
     profile?.availability || 'both'
   );
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    setValue,
-    control,
-    formState: { errors },
-  } = useForm<InstructorProfileFormData>({
+  const form = useForm<InstructorProfileFormData>({
     resolver: zodResolver(instructorProfileSchema),
     defaultValues: {
       bio: profile?.bio || '',
@@ -82,8 +76,21 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       languages: profile?.languages?.join(', ') || '',
       gallery: profile?.gallery || [],
       yearsExperience: profile?.yearsExperience ?? undefined,
+      showPhone: profile?.showPhone || false,
+      showEmail: profile?.showEmail || false,
+      contactMessage: profile?.contactMessage || '',
     },
   });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+  } = form;
 
   // Reset form when profile changes
   useEffect(() => {
@@ -100,6 +107,9 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
         languages: profile.languages?.join(', ') || '',
         gallery: profile.gallery || [],
         yearsExperience: profile.yearsExperience ?? undefined,
+        showPhone: profile.showPhone || false,
+        showEmail: profile.showEmail || false,
+        contactMessage: profile.contactMessage || '',
       });
     }
   }, [profile, reset]);
@@ -173,7 +183,7 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
   };
 
   return ( 
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form id="instructor-profile-form" onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div className="space-y-2">
         <label htmlFor="tagline" className="block text-sm font-medium text-slate-200">
           {t('tagline')}
@@ -544,6 +554,13 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
         )}
       </div>
 
+      {/* Contact Settings Section */}
+      <ContactSettingsSection 
+        form={form}
+        userPhone={user.phone}
+        userEmail={user.email}
+      />
+
       {/* Photo URL */}
       <MediaUpload
         variant="avatar"
@@ -597,18 +614,6 @@ export function InstructorProfileForm({ profile }: InstructorProfileFormProps) {
       {errors.gallery && (
         <p className="text-red-400 text-sm">{errors.gallery.message}</p>
       )}
-
-      {/* Submit Button */}
-      <div className="pt-4">
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full bg-linear-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold"
-          size="lg"
-        >
-          {isPending ? t('saving') : t('saveProfile')}
-        </Button>
-      </div>
     </form>
   );
 }

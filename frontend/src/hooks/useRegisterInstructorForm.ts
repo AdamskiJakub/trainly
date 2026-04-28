@@ -18,6 +18,7 @@ export function useRegisterInstructorForm() {
 
   const form = useForm<RegisterInstructorFormData>({
     resolver: zodResolver(createRegisterInstructorSchema(t)),
+    mode: 'onSubmit',
   });
 
   const onSubmit = async (data: RegisterInstructorFormData) => {
