@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { InstructorProfilesModule } from './instructor-profiles/instructor-profiles.module';
 import { UploadModule } from './upload/upload.module';
 import { UsersModule } from './users/users.module';
+import { BookingsModule } from './bookings/bookings.module';
+import { AvailabilityModule } from './availability/availability.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { UsersModule } from './users/users.module';
     InstructorProfilesModule,
     UploadModule,
     UsersModule,
+    BookingsModule,
+    AvailabilityModule,
   ],
   controllers: [AppController],
   providers: [AppService],

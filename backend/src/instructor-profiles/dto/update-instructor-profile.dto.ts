@@ -103,4 +103,24 @@ export class UpdateInstructorProfileDto {
   @IsBoolean()
   @IsOptional()
   isDraft?: boolean;
+
+  // BOOKING SETTINGS
+  @IsNumber()
+  @Min(15)
+  @IsOptional()
+  sessionDuration?: number; // Duration in minutes (30, 60, 90, 120)
+
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  sessionPrice?: number | null; // Price per session in PLN
+
+  @IsBoolean()
+  @IsOptional()
+  isBookingEnabled?: boolean; // Whether instructor accepts bookings
+
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  minNoticeHours?: number; // Minimum hours notice before booking
 }

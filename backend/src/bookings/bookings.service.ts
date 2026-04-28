@@ -136,6 +136,13 @@ export class BookingsService {
         dayEndTime = weeklySlot.endTime;
       }
 
+      // Skip if no valid time range
+      if (!dayStartTime || !dayEndTime) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        currentDate.setHours(0, 0, 0, 0);
+        continue;
+      }
+
       // Generate slots for this day
       const [startHour, startMinute] = dayStartTime.split(':').map(Number);
       const [endHour, endMinute] = dayEndTime.split(':').map(Number);
