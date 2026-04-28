@@ -4,39 +4,39 @@ import { API_BASE_URL } from './utils/api-url';
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true, // Send cookies with requests
+  withCredentials: true, 
 });
 
-// Request interceptor to set Content-Type only for non-FormData requests
 apiClient.interceptors.request.use((config) => {
-  // Safely initialize headers if undefined
   config.headers = config.headers || {};
   
-  // Check if data is FormData (guard against non-browser environments)
   const isFormData = typeof FormData !== 'undefined' && config.data instanceof FormData;
-  
-  // Only set Content-Type to JSON if not already set and not FormData
+
   if (!config.headers['Content-Type'] && !isFormData) {
     config.headers['Content-Type'] = 'application/json';
   }
   return config;
 });
 
-// Handle 401 errors (logout when the authenticated session is no longer valid)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      useAuthStore.getState().logout();
+      const isAuthEndpoint = error.config?.url?.includes('/auth/login') || 
+                             error.config?.url?.includes('/auth/register');
+      
+      if (!isAuthEndpoint) {
+        useAuthStore.getState().logout();
 
-      if (typeof window !== 'undefined') {
-        setTimeout(() => {
-          if (!useAuthStore.getState().isAuthenticated) {
-            const segments = window.location.pathname.split('/').filter(Boolean);
-            const locale = segments[0] || 'pl';
-            window.location.href = `/${locale}/login`;
-          }
-        }, 100);
+        if (typeof window !== 'undefined') {
+          setTimeout(() => {
+            if (!useAuthStore.getState().isAuthenticated) {
+              const segments = window.location.pathname.split('/').filter(Boolean);
+              const locale = segments[0] || 'pl';
+              window.location.href = `/${locale}/login`;
+            }
+          }, 100);
+        }
       }
     }
     return Promise.reject(error);

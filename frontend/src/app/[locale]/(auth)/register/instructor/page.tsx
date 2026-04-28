@@ -43,7 +43,7 @@ export default function RegisterInstructorPage() {
           </div>
 
           {/* Form */}
-          <form className="space-y-6" onSubmit={onSubmit}>
+          <form className="space-y-6" onSubmit={onSubmit} noValidate>
             {error && (
               <div className="rounded-lg bg-red-500/10 border border-red-500/50 p-4">
                 <p className="text-sm text-red-400">{error}</p>

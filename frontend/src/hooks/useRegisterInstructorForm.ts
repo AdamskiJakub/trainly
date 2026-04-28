@@ -18,6 +18,7 @@ export function useRegisterInstructorForm() {
 
   const form = useForm<RegisterInstructorFormData>({
     resolver: zodResolver(createRegisterInstructorSchema(t)),
+    mode: 'onSubmit',
   });
 
   const onSubmit = async (data: RegisterInstructorFormData) => {
@@ -45,7 +46,6 @@ export function useRegisterInstructorForm() {
       } else {
         setError(normalizeApiError(err, t('registrationFailed')));
       }
-    } finally {
       setIsLoading(false);
     }
   };

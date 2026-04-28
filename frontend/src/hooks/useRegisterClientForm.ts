@@ -18,6 +18,7 @@ export function useRegisterClientForm() {
 
   const form = useForm<RegisterClientFormData>({
     resolver: zodResolver(createRegisterClientSchema(t)),
+    mode: 'onSubmit',
   });
 
   const onSubmit = async (data: RegisterClientFormData) => {
@@ -45,7 +46,6 @@ export function useRegisterClientForm() {
       } else {
         setError(normalizeApiError(err, t('registrationFailed')));
       }
-    } finally {
       setIsLoading(false);
     }
   };

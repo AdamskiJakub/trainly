@@ -17,11 +17,14 @@ export function useLoginForm() {
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(createLoginSchema(t)),
+    mode: 'onSubmit',
   });
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setError(null);
+    // Clear any previous manual errors
+    form.clearErrors();
 
     try {
       const response = await apiClient.post('/auth/login', data);
@@ -30,8 +33,19 @@ export function useLoginForm() {
       setAuth(user);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(normalizeApiError(err, t('loginFailed')));
-    } finally {
+      const errorMessage = normalizeApiError(err, t('loginFailed'));
+      setError(errorMessage);
+      
+      // Set errors on both fields since we don't know which one is wrong
+      form.setError('email', { 
+        type: 'manual',
+        message: '' // Don't show duplicate message, server error box will show it
+      });
+      form.setError('password', { 
+        type: 'manual',
+        message: ''
+      });
+      
       setIsLoading(false);
     }
   };
@@ -41,5 +55,9 @@ export function useLoginForm() {
     isLoading,
     error,
     onSubmit: form.handleSubmit(onSubmit),
+    clearServerError: () => {
+      setError(null);
+      form.clearErrors(['email', 'password']);
+    },
   };
 }
