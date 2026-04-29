@@ -207,6 +207,11 @@ export class BookingsService {
       throw new NotFoundException('Instructor not found');
     }
 
+    // Prevent self-booking: instructor cannot book session with themselves
+    if (profile.userId === userId) {
+      throw new BadRequestException('You cannot book a session with yourself');
+    }
+
     if (!profile.isBookingEnabled) {
       throw new BadRequestException('Instructor does not accept bookings');
     }
