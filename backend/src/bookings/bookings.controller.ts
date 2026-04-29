@@ -8,6 +8,7 @@ import {
   Query,
   UseGuards,
   Request,
+  BadRequestException,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { BookingsService } from './bookings.service';
@@ -28,11 +29,16 @@ export class BookingsController {
     const startDate = new Date(query.startDate);
     const endDate = new Date(query.endDate);
 
+    // Validate end date is after start date
+    if (endDate <= startDate) {
+      throw new BadRequestException('End date must be after start date');
+    }
+
     // Validate date range (max 30 days)
     const daysDiff =
       (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
     if (daysDiff > 30) {
-      throw new Error('Date range cannot exceed 30 days');
+      throw new BadRequestException('Date range cannot exceed 30 days');
     }
 
     return this.bookingsService.getAvailableSlots(
@@ -49,7 +55,7 @@ export class BookingsController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async createBooking(@Request() req, @Body() dto: CreateBookingDto) {
-    return this.bookingsService.createBooking(req.user.userId, dto);
+    return this.bookingsService.createBooking(req.user.id, dto);
   }
 
   /**
@@ -60,7 +66,7 @@ export class BookingsController {
   @Get('my')
   async getMyBookings(@Request() req, @Query('role') role?: string) {
     const userRole = role === 'instructor' ? 'instructor' : 'client';
-    return this.bookingsService.getMyBookings(req.user.userId, userRole);
+    return this.bookingsService.getMyBookings(req.user.id, userRole);
   }
 
   /**
@@ -70,7 +76,7 @@ export class BookingsController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getBooking(@Request() req, @Param('id') id: string) {
-    return this.bookingsService.getBookingById(id, req.user.userId);
+    return this.bookingsService.getBookingById(id, req.user.id);
   }
 
   /**
@@ -80,7 +86,7 @@ export class BookingsController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id/confirm')
   async confirmBooking(@Request() req, @Param('id') id: string) {
-    return this.bookingsService.confirmBooking(id, req.user.userId);
+    return this.bookingsService.confirmBooking(id, req.user.id);
   }
 
   /**
@@ -90,7 +96,7 @@ export class BookingsController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id/complete')
   async completeBooking(@Request() req, @Param('id') id: string) {
-    return this.bookingsService.completeBooking(id, req.user.userId);
+    return this.bookingsService.completeBooking(id, req.user.id);
   }
 
   /**
@@ -104,7 +110,7 @@ export class BookingsController {
     @Param('id') id: string,
     @Body() dto: CancelBookingDto,
   ) {
-    return this.bookingsService.cancelBooking(id, req.user.userId, dto);
+    return this.bookingsService.cancelBooking(id, req.user.id, dto);
   }
 
   /**
@@ -124,7 +130,7 @@ export class BookingsController {
     },
   ) {
     return this.bookingsService.createManualBlock(
-      req.user.userId,
+      req.user.id,
       body.instructorId,
       new Date(body.startTime),
       new Date(body.endTime),

@@ -293,7 +293,9 @@ export class BookingsService {
    */
   async getMyBookings(userId: string, role: 'client' | 'instructor') {
     const where =
-      role === 'client' ? { clientId: userId } : { instructorId: userId };
+      role === 'client'
+        ? { clientId: userId }
+        : { instructor: { userId } }; // Query via instructor profile's userId
 
     const bookings = await this.prisma.booking.findMany({
       where,

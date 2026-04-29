@@ -44,7 +44,7 @@ export class AvailabilityController {
     @Body() dto: CreateAvailabilityDto,
   ) {
     return this.availabilityService.createWeeklyAvailability(
-      req.user.userId,
+      req.user.id,
       instructorId,
       dto,
     );
@@ -62,7 +62,7 @@ export class AvailabilityController {
     @Body() dto: UpdateAvailabilityDto,
   ) {
     return this.availabilityService.updateWeeklyAvailability(
-      req.user.userId,
+      req.user.id,
       id,
       dto,
     );
@@ -76,7 +76,7 @@ export class AvailabilityController {
   @Delete('weekly/:id')
   async deleteWeeklyAvailability(@Request() req, @Param('id') id: string) {
     return this.availabilityService.deleteWeeklyAvailability(
-      req.user.userId,
+      req.user.id,
       id,
     );
   }
@@ -115,7 +115,7 @@ export class AvailabilityController {
     @Body() dto: CreateAvailabilityExceptionDto,
   ) {
     return this.availabilityService.createAvailabilityException(
-      req.user.userId,
+      req.user.id,
       instructorId,
       dto,
     );
@@ -133,7 +133,7 @@ export class AvailabilityController {
     @Body() dto: UpdateAvailabilityExceptionDto,
   ) {
     return this.availabilityService.updateAvailabilityException(
-      req.user.userId,
+      req.user.id,
       id,
       dto,
     );
@@ -147,7 +147,7 @@ export class AvailabilityController {
   @Delete('exceptions/:id')
   async deleteAvailabilityException(@Request() req, @Param('id') id: string) {
     return this.availabilityService.deleteAvailabilityException(
-      req.user.userId,
+      req.user.id,
       id,
     );
   }
