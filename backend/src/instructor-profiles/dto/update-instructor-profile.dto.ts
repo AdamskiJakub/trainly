@@ -3,10 +3,12 @@ import {
   IsOptional,
   IsArray,
   IsNumber,
+  IsInt,
   IsBoolean,
   Min,
   ArrayMaxSize,
   MaxLength,
+  ValidateIf,
 } from 'class-validator';
 
 export class UpdateInstructorProfileDto {
@@ -103,4 +105,25 @@ export class UpdateInstructorProfileDto {
   @IsBoolean()
   @IsOptional()
   isDraft?: boolean;
+
+  // BOOKING SETTINGS
+  @IsInt()
+  @Min(15)
+  @IsOptional()
+  sessionDuration?: number; // Duration in minutes (30, 60, 90, 120)
+
+  @ValidateIf((o) => o.sessionPrice !== null)
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  sessionPrice?: number | null; // Price per session in PLN
+
+  @IsBoolean()
+  @IsOptional()
+  isBookingEnabled?: boolean; // Whether instructor accepts bookings
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  minNoticeHours?: number; // Minimum hours notice before booking
 }

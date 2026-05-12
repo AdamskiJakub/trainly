@@ -12,15 +12,8 @@ interface ImageLightboxProps {
   onClose: () => void;
 }
 
-/**
- * Image Lightbox component with navigation
- * Supports images and videos, keyboard navigation, and click-to-close
- */
 export function ImageLightbox({ images, initialIndex, isOpen, onClose }: ImageLightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-
-  // Early return if no images to display
-  if (!isOpen || images.length === 0) return null;
 
   useEffect(() => {
     setCurrentIndex(initialIndex);
@@ -52,7 +45,8 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose }: ImageLi
     };
   }, [isOpen, onClose, handlePrevious, handleNext]);
 
-  if (!isOpen) return null;
+  // Early return AFTER all hooks
+  if (!isOpen || images.length === 0) return null;
 
   return (
     <Portal>
