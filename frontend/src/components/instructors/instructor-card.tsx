@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { getCategoryById } from '@/lib/config/specializations';
-import { getCategoryName } from '@/lib/utils/localization';
-import { getTagById, getTagName } from '@/lib/config/tags';
+import {
+  getSpecializationById,
+  getSpecializationName,
+  getTagById,
+  getTagName,
+} from '@/hooks/useConfig';
 import { MapPinIcon, VideoIcon, UserIcon, StarIcon } from 'lucide-react';
 import { getMediaUrl } from '@/lib/utils/media';
 import type { InstructorCardProps } from './types';
@@ -16,7 +19,7 @@ export function InstructorCard({ instructor, disableLink = false }: InstructorCa
   const locale = useLocale();
   const t = useTranslations('InstructorsPage.card');
 
-  const primaryCategory = getCategoryById(instructor.primarySpecialization);
+  const primaryCategory = getSpecializationById(instructor.primarySpecialization);
   const initials = instructor.fullName
     .split(' ')
     .map((n) => n[0])
@@ -58,7 +61,7 @@ export function InstructorCard({ instructor, disableLink = false }: InstructorCa
                 </h3>
                 {primaryCategory && (
                   <p className="text-sm text-slate-400 mt-1">
-                    {primaryCategory.icon} {getCategoryName(primaryCategory, locale)}
+                    {primaryCategory.icon} {getSpecializationName(primaryCategory, locale)}
                   </p>
                 )}
               </div>

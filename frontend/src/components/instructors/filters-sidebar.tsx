@@ -9,9 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { GOALS, getGoalName } from '@/lib/config/goals';
-import { getAllTagsSorted, getTagName } from '@/lib/config/tags';
+import { useTags, useGoals, getTagName, getGoalName } from '@/hooks/useConfig';
 import type { FiltersSidebarProps } from './types';
+import { LoadingSpinner } from '../ui/loading-spinner';
 
 export function FiltersSidebar({
   filters,
@@ -23,7 +23,16 @@ export function FiltersSidebar({
 }: FiltersSidebarProps) {
   const t = useTranslations('InstructorsPage');
   const locale = useLocale();
-  const availableTags = getAllTagsSorted(filters.specialization || undefined);
+  const { tags, loading: tagsLoading } = useTags();
+  const { goals, loading: goalsLoading } = useGoals();
+
+  const availableTags = filters.specialization
+    ? tags.filter((tag) => tag.categories.includes(filters.specialization!))
+    : tags;
+
+  if (tagsLoading || goalsLoading) {
+    return <LoadingSpinner />
+  }
 
   return (
     <aside className="lg:col-span-1" role="region" aria-label={t('filters.ariaLabel')}>
@@ -93,7 +102,7 @@ export function FiltersSidebar({
               role="group" 
               aria-labelledby="goals-heading"
             >
-              {GOALS.map((goal) => {
+              {goals.map((goal) => {
                 const isChecked = filters.goals?.includes(goal.id) || false;
                 return (
                   <label

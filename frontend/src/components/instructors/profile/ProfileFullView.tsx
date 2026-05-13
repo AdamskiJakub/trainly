@@ -4,9 +4,13 @@ import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Globe, Star, Clock, Award, Target, Languages as LanguagesIcon, Play } from 'lucide-react';
-import { getSpecializationName } from '@/lib/config/specializations';
-import { getTagName, getTagById } from '@/lib/config/tags';
-import { getGoalName, getGoalById } from '@/lib/config/goals';
+import {
+  getSpecializationNameById,
+  getTagNameById,
+  getGoalNameById,
+  getTagById,
+  getGoalById,
+} from '@/hooks/useConfig';
 import { getMediaUrl, isVideoUrl } from '@/lib/utils/media';
 import { ImageLightbox } from '@/components/ui/image-lightbox';
 import { ContactSection } from '@/components/instructors/profile/ContactSection';
@@ -75,7 +79,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
             </h1>
             {primarySpecialization && (
               <p className="text-sm text-slate-400 font-medium">
-                {getSpecializationName(primarySpecialization, locale)}
+                {getSpecializationNameById(primarySpecialization, locale)}
               </p>
             )}
           </div>
@@ -168,7 +172,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
               <div className="flex flex-wrap gap-2">
                 {additionalSpecializations.map((spec) => (
                   <Badge key={spec} variant="secondary" className="bg-slate-700 text-slate-200">
-                    {getSpecializationName(spec, locale)}
+                    {getSpecializationNameById(spec, locale)}
                   </Badge>
                 ))}
               </div>
@@ -189,7 +193,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
                   const goal = getGoalById(goalId);
                   return goal ? (
                     <Badge key={goalId} variant="outline" className="border-orange-500/50 text-orange-400">
-                      {goal.icon} {getGoalName(goal, locale)}
+                      {goal.icon} {getGoalNameById(goalId, locale)}
                     </Badge>
                   ) : null;
                 })}
@@ -269,7 +273,7 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
                   const tag = getTagById(tagId);
                   return tag ? (
                     <Badge key={tagId} variant="outline" className="border-slate-600 text-slate-300 text-xs">
-                      {getTagName(tag, locale)}
+                      {getTagNameById(tagId, locale)}
                     </Badge>
                   ) : null;
                 })}

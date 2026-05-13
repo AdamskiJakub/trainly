@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations, useLocale } from 'next-intl';
@@ -10,9 +10,7 @@ import { useUpdateInstructorProfile } from '@/hooks/useUpdateInstructorProfile';
 import { useUploadProfilePhoto, useUploadGalleryPhotos } from '@/hooks/useFileUpload';
 import { toast } from 'sonner';
 import { instructorProfileSchema, type InstructorProfileFormData } from '@/lib/validations/schemas/instructor-profile';
-import { SPECIALIZATION_CATEGORIES } from '@/lib/config/specializations';
-import { getAllTagsSorted, getTagName } from '@/lib/config/tags';
-import { GOALS, getGoalName } from '@/lib/config/goals';
+import { useTags, useSpecializations, useGoals, getTagName, getGoalName } from '@/hooks/useConfig';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -28,9 +26,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { se } from 'date-fns/locale';
 
 const MAX_TAGS = 8;
 const MAX_GOALS = 4;
+const MAX_ADDITIONAL_SPECIALIZATIONS = 2;
 
 interface InstructorProfileFormProps {
   profile?: InstructorProfile | InstructorListing; // Accept both types for flexibility
@@ -44,6 +44,10 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
   const { mutate: updateProfile, isPending } = useUpdateInstructorProfile();
   const { mutate: uploadPhoto, isPending: isUploadingPhoto } = useUploadProfilePhoto();
   const { mutate: uploadGallery, isPending: isUploadingGallery } = useUploadGalleryPhotos();
+
+  const { tags, loading: tagsLoading } = useTags();
+  const { specializations, loading: specsLoading } = useSpecializations();
+  const { goals, loading: goalsLoading } = useGoals();
   
   // State for multi-selects
   const [selectedPrimaryCategory, setSelectedPrimaryCategory] = useState<string | undefined>(
@@ -52,15 +56,21 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
   const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(
     profile?.specializations?.slice(1) || [] // Exclude primary to avoid duplication
   );
-  const [selectedTags, setSelectedTags] = useState<string[]>(
-    profile?.tags?.filter((tag: string) => getAllTagsSorted().some(t => t.id === tag)) || []
-  );
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
   const [selectedGoals, setSelectedGoals] = useState<string[]>(
     profile?.goals || []
   );
   const [selectedAvailability, setSelectedAvailability] = useState<string>(
     profile?.availability || 'both'
   );
+
+  useEffect(() => { 
+    if (!tagsLoading && tags.length > 0 && profile?.tags) {
+      const validTags = profile.tags.filter((tag: string) => tags.some(t => t.id === tag));
+      setSelectedTags(validTags);
+    }
+  }, [tagsLoading, tags, profile?.tags]);
 
   const form = useForm<InstructorProfileFormData>({
     resolver: zodResolver(instructorProfileSchema),
@@ -115,17 +125,17 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
   }, [profile, reset]);
 
   // Get available tags based on primary category
-  const availableTags = getAllTagsSorted(selectedPrimaryCategory);
-  
-  // Get subcategories for selected primary category
-  const selectedCategory = SPECIALIZATION_CATEGORIES.find(c => c.id === selectedPrimaryCategory);
-  const subcategories = selectedCategory?.subcategories || [];
+  const availableTags = selectedPrimaryCategory
+  ? tags.filter(tag => tag.categories.includes(selectedPrimaryCategory))
+  : tags;
 
   // Toggle functions
   const toggleSpecialization = (id: string) => {
-    setSelectedSpecializations(prev =>
-      prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
-    );
+    if (selectedSpecializations.includes(id)) {
+      setSelectedSpecializations(prev => prev.filter(s => s !== id));
+    } else if (selectedSpecializations.length < MAX_ADDITIONAL_SPECIALIZATIONS) {
+      setSelectedSpecializations(prev => [...prev, id]);
+    }
   };
 
   const toggleTag = (id: string) => {
@@ -261,7 +271,7 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
             <SelectValue placeholder={t('primarySpecializationPlaceholder')} />
           </SelectTrigger>
           <SelectContent className="bg-slate-900 border-slate-700">
-            {SPECIALIZATION_CATEGORIES.map((category) => (
+            {specializations.map((category) => (
               <SelectItem
                 key={category.id}
                 value={category.id}
@@ -274,38 +284,49 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
         </Select>
       </div>
 
-      {/* Additional Specializations (Subcategories) */}
-      {subcategories.length > 0 && (
+      {/* Additional Specializations */}
+      {selectedPrimaryCategory && (
         <div className="bg-slate-900/30 border border-slate-700 rounded-lg p-5">
-          <h3 className="text-base font-semibold text-white mb-3">
-            {t('specializations')}
+          <h3 className="text-base font-semibold text-white mb-2">
+            Additional Specializations
           </h3>
-          <p className="text-xs text-slate-400 mb-3">{t('specializationsHint')}</p>
+          <p className="text-xs text-slate-400 mb-3">
+            Select up to {MAX_ADDITIONAL_SPECIALIZATIONS} additional areas of expertise
+            {selectedSpecializations.length >= MAX_ADDITIONAL_SPECIALIZATIONS && (
+              <span className="text-orange-400 ml-2">(Maximum reached)</span>
+            )}
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {subcategories.map((sub) => {
-              const isChecked = selectedSpecializations.includes(sub.id);
-              return (
-                <label
-                  key={sub.id}
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors group"
-                >
-                  <Checkbox
-                    checked={isChecked}
-                    onCheckedChange={() => toggleSpecialization(sub.id)}
-                    className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
-                  />
-                  <span
-                    className={`text-sm select-none transition-colors ${
-                      isChecked
-                        ? 'font-semibold bg-linear-to-r from-orange-500 to-red-500 bg-clip-text text-transparent'
-                        : 'text-slate-300 group-hover:text-white'
+            {specializations
+              .filter(spec => spec.id !== selectedPrimaryCategory)
+              .map((spec) => {
+                const isChecked = selectedSpecializations.includes(spec.id);
+                const isDisabled = !isChecked && selectedSpecializations.length >= MAX_ADDITIONAL_SPECIALIZATIONS;
+                return (
+                  <label
+                    key={spec.id}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors group ${
+                      isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-slate-800/50'
                     }`}
                   >
-                    {locale === 'pl' ? sub.namePl : sub.nameEn}
-                  </span>
-                </label>
-              );
-            })}
+                    <Checkbox
+                      checked={isChecked}
+                      disabled={isDisabled}
+                      onCheckedChange={() => toggleSpecialization(spec.id)}
+                      className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+                    />
+                    <span
+                      className={`text-sm select-none transition-colors ${
+                        isChecked
+                          ? 'font-semibold bg-linear-to-r from-orange-500 to-red-500 bg-clip-text text-transparent'
+                          : 'text-slate-300 group-hover:text-white'
+                      }`}
+                    >
+                      {spec.icon} {locale === 'pl' ? spec.namePl : spec.nameEn}
+                    </span>
+                  </label>
+                );
+              })}
           </div>
         </div>
       )}
@@ -367,7 +388,7 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
           )}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {GOALS.map((goal) => {
+          {goals.map((goal) => {
             const isChecked = selectedGoals.includes(goal.id);
             const isDisabled = !isChecked && selectedGoals.length >= MAX_GOALS;
             return (
