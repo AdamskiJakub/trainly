@@ -2,6 +2,7 @@ import { Injectable, ConflictException, NotFoundException, ForbiddenException } 
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateInstructorProfileDto } from './dto/create-instructor-profile.dto';
 import { UpdateInstructorProfileDto } from './dto/update-instructor-profile.dto';
+import { StaticConfigService } from '../config/config.service';
 
 interface InstructorFilters {
   city?: string;
@@ -15,11 +16,14 @@ interface InstructorFilters {
 
 @Injectable()
 export class InstructorProfilesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private configService: StaticConfigService,
+  ) {}
 
   async findAll(filters: InstructorFilters) {
     const where: any = {
-      isDraft: false, // Only show published profiles
+      isDraft: false,
     };
 
     if (filters.city) {
@@ -76,7 +80,16 @@ export class InstructorProfilesService {
       },
     });
 
-    return profiles;
+    const filteredProfiles = profiles.map(profile => ({
+      ...profile,
+      tags: profile.tags.filter((tag) => this.configService.isValidTag(tag)),
+      specializations: profile.specializations.filter((spec) => 
+        this.configService.isValidSpecialization(spec)
+      ),
+      goals: profile.goals.filter((goal) => this.configService.isValidGoal(goal)),
+    }))
+
+    return filteredProfiles;
   }
 
   async findByUsername(username: string) {
@@ -134,6 +147,11 @@ export class InstructorProfilesService {
     // contactMessage is always public if set (shown in contact section)
     return {
       ...profile,
+      tags: profile.tags.filter((tag) => this.configService.isValidTag(tag)),
+      specializations: profile.specializations.filter((spec) =>
+        this.configService.isValidSpecialization(spec)
+      ),
+      goals: profile.goals.filter((goal) => this.configService.isValidGoal(goal)),
       user: userInfo,
     };
   }

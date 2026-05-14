@@ -1,16 +1,11 @@
 'use client';
 
-import { InstructorProfile } from '@/types';
 import { useTranslations } from 'next-intl';
+import { Calendar } from 'lucide-react';
+import { useRouter } from '@/i18n/routing';
 import { ProfileFullView } from './ProfileFullView';
 import { BottomNavBar } from '@/components/ui/bottom-nav-bar';
-
-interface PublicInstructorProfileProps {
-  profile: InstructorProfile;
-  isPreview?: boolean;
-  source?: string | null;
-  isOwnProfile?: boolean;
-}
+import { PublicInstructorProfileProps, NAV_SOURCE } from './types';
 
 export function PublicInstructorProfile({ 
   profile, 
@@ -19,19 +14,36 @@ export function PublicInstructorProfile({
   isOwnProfile = false
 }: PublicInstructorProfileProps) {
   const t = useTranslations('InstructorProfile');
+  const router = useRouter();
 
   const getBackHref = () => {
-    if (isOwnProfile && source === 'dashboard') {
+    if (isOwnProfile && source === NAV_SOURCE.DASHBOARD) {
       return '/dashboard';
     }
     return '/instructors';
   };
 
   const getBackText = () => {
-    if (isOwnProfile && source === 'dashboard') {
+    if (isOwnProfile && source === NAV_SOURCE.DASHBOARD) {
       return t('backToDashboard');
     }
     return t('backToListing');
+  };
+
+  const shouldShowBookingButton = 
+    profile.isBookingEnabled && 
+    profile.user?.username &&
+    (!isOwnProfile || source === NAV_SOURCE.DASHBOARD);
+
+  const handleBookingClick = () => {
+    if (!profile.user?.username) {
+      console.error('Cannot navigate to booking: username is missing');
+      return;
+    }
+    // TODO: Add /instructors/[username]/book route to src/i18n/routing.ts
+    // For now, use direct navigation to avoid TypeScript error
+    const locale = window.location.pathname.split('/')[1];
+    window.location.href = `/${locale}/instructors/${profile.user.username}/book`;
   };
 
   return (
@@ -52,6 +64,16 @@ export function PublicInstructorProfile({
         <BottomNavBar
           backText={getBackText()}
           backHref={getBackHref()}
+          actionButton={
+            shouldShowBookingButton
+              ? {
+                  text: t('contact.bookSession'),
+                  icon: <Calendar className="size-5" />,
+                  variant: 'primary',
+                  onClick: handleBookingClick,
+                }
+              : undefined
+          }
         />
       )}
     </>

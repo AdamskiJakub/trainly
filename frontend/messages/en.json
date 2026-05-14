@@ -48,7 +48,8 @@
     "editProfile": "Edit Profile",
     "settings": "Settings",
     "homeAriaLabel": "Trainly - home page",
-    "changeLanguage": "Change language. Current language"
+    "changeLanguage": "Change language. Current language",
+    "loading": "Loading..."
   },
   "auth": {
     "loginSubtitle": "Sign in to your account",
@@ -546,7 +547,17 @@
       "phone": "Phone",
       "email": "Email",
       "sendEmail": "Send Email",
+      "callNow": "Call Now",
       "bookSession": "Book a Session"
+    },
+    "booking": {
+      "ctaTitle": "Ready for Change?",
+      "ctaSubtitle": "Book your first session today!",
+      "bookSessionButton": "Book a Session",
+      "sessionDuration": "Duration",
+      "sessionPrice": "Session Price",
+      "bookingNotEnabled": "Booking Unavailable",
+      "bookingNotEnabledDescription": "This instructor is not currently accepting online bookings. Please contact them directly."
     },
     "profileNotFound": "Profile not found",
     "instructorNotFound": "Instructor Not Found",
@@ -555,5 +566,8 @@
     "backToDashboard": "Back to Dashboard",
     "backToListing": "Back to Listing",
     "loadingProfile": "Loading profile..."
+  },
+  "InstructorPage": {
+    "instructorsFailed": "Failed to load instructors. Please try again later."
   }
 }
