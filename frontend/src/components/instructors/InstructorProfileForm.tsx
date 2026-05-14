@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations, useLocale } from 'next-intl';
@@ -14,7 +14,6 @@ import { useTags, useSpecializations, useGoals, getTagName, getGoalName } from '
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { MediaUpload } from '@/components/instructors/MediaUpload';
@@ -26,28 +25,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { se } from 'date-fns/locale';
 
 const MAX_TAGS = 8;
 const MAX_GOALS = 4;
 const MAX_ADDITIONAL_SPECIALIZATIONS = 2;
 
 interface InstructorProfileFormProps {
-  profile?: InstructorProfile | InstructorListing; // Accept both types for flexibility
-  user: Pick<User, 'email' | 'phone'>; // Only require fields this form reads
+  profile?: InstructorProfile | InstructorListing;
+  user: Pick<User, 'email' | 'phone'>;
 }
 
 export function InstructorProfileForm({ profile, user }: InstructorProfileFormProps) {
   const t = useTranslations('Dashboard.profileForm');
+  const tCommon = useTranslations('Common');
   const locale = useLocale();
   const router = useRouter();
-  const { mutate: updateProfile, isPending } = useUpdateInstructorProfile();
+  const { mutate: updateProfile } = useUpdateInstructorProfile();
   const { mutate: uploadPhoto, isPending: isUploadingPhoto } = useUploadProfilePhoto();
   const { mutate: uploadGallery, isPending: isUploadingGallery } = useUploadGalleryPhotos();
 
   const { tags, loading: tagsLoading } = useTags();
-  const { specializations, loading: specsLoading } = useSpecializations();
+  const { specializations, loading: specializationsLoading } = useSpecializations();
   const { goals, loading: goalsLoading } = useGoals();
+  
+  const isLoadingConfig = tagsLoading || specializationsLoading || goalsLoading;
   
   // State for multi-selects
   const [selectedPrimaryCategory, setSelectedPrimaryCategory] = useState<string | undefined>(
@@ -266,9 +267,12 @@ export function InstructorProfileForm({ profile, user }: InstructorProfileFormPr
             setSelectedSpecializations([]); // Reset subcategories when changing primary
             setSelectedTags([]); // Reset tags when changing primary
           }}
+          disabled={specializationsLoading}
         >
           <SelectTrigger className="w-full bg-slate-900/50 border-slate-600 text-slate-100">
-            <SelectValue placeholder={t('primarySpecializationPlaceholder')} />
+            <SelectValue 
+              placeholder={specializationsLoading ? tCommon('loading') : t('primarySpecializationPlaceholder')} 
+            />
           </SelectTrigger>
           <SelectContent className="bg-slate-900 border-slate-700">
             {specializations.map((category) => (

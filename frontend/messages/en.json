@@ -48,7 +48,8 @@
     "editProfile": "Edit Profile",
     "settings": "Settings",
     "homeAriaLabel": "Trainly - home page",
-    "changeLanguage": "Change language. Current language"
+    "changeLanguage": "Change language. Current language",
+    "loading": "Loading..."
   },
   "auth": {
     "loginSubtitle": "Sign in to your account",
@@ -565,5 +566,8 @@
     "backToDashboard": "Back to Dashboard",
     "backToListing": "Back to Listing",
     "loadingProfile": "Loading profile..."
+  },
+  "InstructorPage": {
+    "instructorsFailed": "Failed to load instructors. Please try again later."
   }
 }

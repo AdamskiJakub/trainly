@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { useEffect } from 'react';
 import {
   getSpecializationById,
   getSpecializationName,
   getTagById,
   getTagName,
+  prefetchConfig,
 } from '@/hooks/useConfig';
 import { MapPinIcon, VideoIcon, UserIcon, StarIcon } from 'lucide-react';
 import { getMediaUrl } from '@/lib/utils/media';
@@ -18,6 +20,11 @@ import type { InstructorCardProps } from './types';
 export function InstructorCard({ instructor, disableLink = false }: InstructorCardProps) {
   const locale = useLocale();
   const t = useTranslations('InstructorsPage.card');
+
+  // Ensure config is loaded before rendering
+  useEffect(() => {
+    prefetchConfig();
+  }, []);
 
   const primaryCategory = getSpecializationById(instructor.primarySpecialization);
   const initials = instructor.fullName

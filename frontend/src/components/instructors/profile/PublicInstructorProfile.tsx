@@ -32,7 +32,19 @@ export function PublicInstructorProfile({
 
   const shouldShowBookingButton = 
     profile.isBookingEnabled && 
+    profile.user?.username &&
     (!isOwnProfile || source === NAV_SOURCE.DASHBOARD);
+
+  const handleBookingClick = () => {
+    if (!profile.user?.username) {
+      console.error('Cannot navigate to booking: username is missing');
+      return;
+    }
+    // TODO: Add /instructors/[username]/book route to src/i18n/routing.ts
+    // For now, use direct navigation to avoid TypeScript error
+    const locale = window.location.pathname.split('/')[1];
+    window.location.href = `/${locale}/instructors/${profile.user.username}/book`;
+  };
 
   return (
     <>
@@ -58,9 +70,7 @@ export function PublicInstructorProfile({
                   text: t('contact.bookSession'),
                   icon: <Calendar className="size-5" />,
                   variant: 'primary',
-                  onClick: () => {
-                    router.push(`/instructors/${profile.user?.username}/book` as any);
-                  },
+                  onClick: handleBookingClick,
                 }
               : undefined
           }

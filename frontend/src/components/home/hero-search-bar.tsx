@@ -15,6 +15,7 @@ import { useSpecializations, getSpecializationName } from '@/hooks/useConfig';
 
 export function HeroSearchBar() {
   const t = useTranslations('HomePage');
+  const tCommon = useTranslations('Common');
   const locale = useLocale();
   const { city, setCity, specialization, search, setSearch, setSpecialization, handleSearch } =
     useHomeSearch();
@@ -50,7 +51,7 @@ export function HeroSearchBar() {
               className="h-14 text-lg bg-slate-800/50 border-2 border-slate-700 text-white focus-visible:border-orange-500 w-full px-4"
               aria-label={t('hero.specializationLabel')}
             >
-              <SelectValue placeholder={loading ? 'Loading...' : t('hero.specializationPlaceholder')} />
+              <SelectValue placeholder={loading ? tCommon('loading') : t('hero.specializationPlaceholder')} />
             </SelectTrigger>
             <SelectContent
               position="popper"

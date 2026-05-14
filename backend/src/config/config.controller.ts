@@ -1,24 +1,22 @@
-import { Controller, Get } from "@nestjs/common";
-import { ConfigService } from "./config.service";
-
+import { Controller, Get } from '@nestjs/common';
+import { StaticConfigService } from './config.service';
 
 @Controller('config')
 export class ConfigController {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: StaticConfigService) {}
 
-    @Get('tags')
-    getTags() {
-      return this.configService.getAllTags();
-    }
+  @Get('tags')
+  getTags() {
+    return this.configService.getAllTags();
+  }
 
-    @Get('specializations')
-    getSpecializations() {
-      return this.configService.getAllSpecializations();
-    }
+  @Get('specializations')
+  getSpecializations() {
+    return this.configService.getAllSpecializations();
+  }
 
-    @Get('goals')
-    getGoals() {
-      return this.configService.getAllGoals();
-    }
-
+  @Get('goals')
+  getGoals() {
+    return this.configService.getAllGoals();
+  }
 }

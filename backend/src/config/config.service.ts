@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ConfigService {
+export class StaticConfigService {
   private readonly tags = [
     {
       id: 'strength-training',
@@ -365,15 +365,26 @@ export class ConfigService {
   ];
 
   private readonly goals = [
-  { id: 'weight_loss', nameEn: 'Weight Loss', namePl: 'Redukcja wagi', icon: '🎯' },
-  { id: 'muscle_gain', nameEn: 'Muscle Gain', namePl: 'Budowa masy mięśniowej', icon: '💪' },
-  { id: 'endurance', nameEn: 'Endurance', namePl: 'Wytrzymałość', icon: '🏃' },
-  { id: 'flexibility', nameEn: 'Flexibility', namePl: 'Elastyczność', icon: '🧘' },
-  { id: 'strength', nameEn: 'Strength', namePl: 'Siła', icon: '💪' },
-  { id: 'health', nameEn: 'General Health', namePl: 'Ogólne zdrowie', icon: '❤️' },
-  { id: 'sport_performance', nameEn: 'Sport Performance', namePl: 'Wyniki sportowe', icon: '⚡' },
-];
+    { id: 'weight_loss', nameEn: 'Weight Loss', namePl: 'Redukcja wagi', icon: '🎯' },
+    { id: 'muscle_gain', nameEn: 'Muscle Gain', namePl: 'Budowa masy mięśniowej', icon: '💪' },
+    { id: 'endurance', nameEn: 'Endurance', namePl: 'Wytrzymałość', icon: '🏃' },
+    { id: 'flexibility', nameEn: 'Flexibility', namePl: 'Elastyczność', icon: '🧘' },
+    { id: 'strength', nameEn: 'Strength', namePl: 'Siła', icon: '💪' },
+    { id: 'health', nameEn: 'General Health', namePl: 'Ogólne zdrowie', icon: '❤️' },
+    { id: 'sport_performance', nameEn: 'Sport Performance', namePl: 'Wyniki sportowe', icon: '⚡' },
+  ];
 
+  // Pre-computed Sets for O(1) validation lookup
+  private readonly validTagIds: Set<string>;
+  private readonly validSpecializationIds: Set<string>;
+  private readonly validGoalIds: Set<string>;
+
+  constructor() {
+    // Initialize Sets once for fast lookups
+    this.validTagIds = new Set(this.tags.map((tag) => tag.id));
+    this.validSpecializationIds = new Set(this.specializations.map((spec) => spec.id));
+    this.validGoalIds = new Set(this.goals.map((goal) => goal.id));
+  }
 
   getAllTags() {
     return this.tags;
@@ -388,15 +399,15 @@ export class ConfigService {
   }
 
   isValidTag(tagId: string): boolean {
-    return this.tags.some(tag => tag.id === tagId)
+    return this.validTagIds.has(tagId);
   }
 
   isValidSpecialization(specializationId: string): boolean {
-    return this.specializations.some(spec => spec.id === specializationId)
+    return this.validSpecializationIds.has(specializationId);
   }
 
   isValidGoal(goalId: string): boolean {
-    return this.goals.some(goal => goal.id === goalId)
+    return this.validGoalIds.has(goalId);
   }
 
   getTagsByCategory(categoryId: string) {

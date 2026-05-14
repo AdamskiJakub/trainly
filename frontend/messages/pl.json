@@ -48,7 +48,8 @@
     "editProfile": "Edytuj profil",
     "settings": "Ustawienia",
     "homeAriaLabel": "Trainly - strona główna",
-    "changeLanguage": "Zmień język. Aktualny język"
+    "changeLanguage": "Zmień język. Aktualny język",
+    "loading": "Ładowanie..."
   },
   "auth": {
     "loginSubtitle": "Zaloguj się do swojego konta",
@@ -561,9 +562,13 @@
     "profileNotFound": "Nie znaleziono profilu",
     "instructorNotFound": "Instruktor nie został znaleziony",
     "instructorNotFoundDescription": "Profil instruktora, którego szukasz, nie istnieje.",
+    "instructorsFailed": "Nie można załadować listy instruktorów. Spróbuj ponownie później.",
     "backToInstructors": "Wróć do listy instruktorów",
     "backToDashboard": "Powrót do panelu",
     "backToListing": "Powrót do listy",
     "loadingProfile": "Ładowanie profilu..."
+  },
+  "InstructorPage": {
+    "instructorsFailed": "Nie można załadować listy instruktorów. Spróbuj ponownie później."
   }
 }

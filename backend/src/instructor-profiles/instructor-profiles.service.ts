@@ -2,7 +2,7 @@ import { Injectable, ConflictException, NotFoundException, ForbiddenException } 
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateInstructorProfileDto } from './dto/create-instructor-profile.dto';
 import { UpdateInstructorProfileDto } from './dto/update-instructor-profile.dto';
-import { ConfigService } from '../config/config.service';
+import { StaticConfigService } from '../config/config.service';
 
 interface InstructorFilters {
   city?: string;
@@ -18,12 +18,12 @@ interface InstructorFilters {
 export class InstructorProfilesService {
   constructor(
     private prisma: PrismaService,
-    private configService: ConfigService
+    private configService: StaticConfigService,
   ) {}
 
   async findAll(filters: InstructorFilters) {
     const where: any = {
-      isDraft: false, // Only show published profiles
+      isDraft: false,
     };
 
     if (filters.city) {

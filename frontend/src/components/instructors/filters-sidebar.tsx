@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/select';
 import { useTags, useGoals, getTagName, getGoalName } from '@/hooks/useConfig';
 import type { FiltersSidebarProps } from './types';
-import { LoadingSpinner } from '../ui/loading-spinner';
 
 export function FiltersSidebar({
   filters,
@@ -30,13 +29,16 @@ export function FiltersSidebar({
     ? tags.filter((tag) => tag.categories.includes(filters.specialization!))
     : tags;
 
-  if (tagsLoading || goalsLoading) {
-    return <LoadingSpinner />
-  }
+  const isLoading = tagsLoading || goalsLoading;
 
   return (
     <aside className="lg:col-span-1" role="region" aria-label={t('filters.ariaLabel')}>
       <div className="sticky top-24 space-y-4">
+        {isLoading && (
+          <div className="flex items-center justify-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+          </div>
+        )}
         <div className="flex items-center justify-between pt-0 md:pt-2">
           <h2 className="text-xl font-semibold text-white">{t('filters.title')}</h2>
           {hasActiveFilters && (

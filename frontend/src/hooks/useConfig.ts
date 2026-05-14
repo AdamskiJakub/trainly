@@ -31,27 +31,52 @@ let tagsCache: Tag[] | null = null;
 let specializationsCache: Specialization[] | null = null;
 let goalsCache: Goal[] | null = null;
 
+// In-flight promise cache to prevent duplicate fetches
+let tagsPromise: Promise<Tag[]> | null = null;
+let specializationsPromise: Promise<Specialization[]> | null = null;
+let goalsPromise: Promise<Goal[]> | null = null;
+
+function fetchTags(): Promise<Tag[]> {
+    if (tagsCache) {
+        return Promise.resolve(tagsCache);
+    }
+    
+    if (tagsPromise) {
+        return tagsPromise;
+    }
+
+    tagsPromise = fetch(`${API_BASE_URL}/config/tags`)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Failed to fetch tags');
+            }
+            return res.json();
+        })
+        .then((data: Tag[]) => {
+            tagsCache = data;
+            tagsPromise = null;
+            return data;
+        })
+        .catch((err) => {
+            tagsPromise = null;
+            throw err;
+        });
+
+    return tagsPromise;
+}
+
 export function useTags() {
-    const [tags, setTags] = useState<Tag[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [tags, setTags] = useState<Tag[]>(tagsCache || []);
+    const [loading, setLoading] = useState(!tagsCache);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (tagsCache) {
-            setTags(tagsCache);
-            setLoading(false);
             return;
         }
 
-        fetch(`${API_BASE_URL}/config/tags`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch tags');
-                }
-                return res.json();
-            })
-            .then((data: Tag[]) => {
-                tagsCache = data; // Cache the tags
+        fetchTags()
+            .then((data) => {
                 setTags(data);
                 setLoading(false);
             })
@@ -64,27 +89,47 @@ export function useTags() {
     return { tags, loading, error };
 }
 
+function fetchSpecializations(): Promise<Specialization[]> {
+    if (specializationsCache) {
+        return Promise.resolve(specializationsCache);
+    }
+    
+    if (specializationsPromise) {
+        return specializationsPromise;
+    }
+
+    specializationsPromise = fetch(`${API_BASE_URL}/config/specializations`)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Failed to fetch specializations');
+            }
+            return res.json();
+        })
+        .then((data: Specialization[]) => {
+            specializationsCache = data;
+            specializationsPromise = null;
+            return data;
+        })
+        .catch((err) => {
+            specializationsPromise = null;
+            throw err;
+        });
+
+    return specializationsPromise;
+}
+
 export function useSpecializations() {
-    const [specializations, setSpecializations] = useState<Specialization[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [specializations, setSpecializations] = useState<Specialization[]>(specializationsCache || []);
+    const [loading, setLoading] = useState(!specializationsCache);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (specializationsCache) {
-            setSpecializations(specializationsCache);
-            setLoading(false);
             return;
         }
 
-        fetch(`${API_BASE_URL}/config/specializations`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch specializations');
-                }
-                return res.json();
-            })
-            .then((data: Specialization[]) => {
-                specializationsCache = data; // Cache the specializations
+        fetchSpecializations()
+            .then((data) => {
                 setSpecializations(data);
                 setLoading(false);
             })
@@ -97,27 +142,47 @@ export function useSpecializations() {
     return { specializations, loading, error };
 }
 
+function fetchGoals(): Promise<Goal[]> {
+    if (goalsCache) {
+        return Promise.resolve(goalsCache);
+    }
+    
+    if (goalsPromise) {
+        return goalsPromise;
+    }
+
+    goalsPromise = fetch(`${API_BASE_URL}/config/goals`)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Failed to fetch goals');
+            }
+            return res.json();
+        })
+        .then((data: Goal[]) => {
+            goalsCache = data;
+            goalsPromise = null;
+            return data;
+        })
+        .catch((err) => {
+            goalsPromise = null;
+            throw err;
+        });
+
+    return goalsPromise;
+}
+
 export function useGoals() {
-    const [goals, setGoals] = useState<Goal[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [goals, setGoals] = useState<Goal[]>(goalsCache || []);
+    const [loading, setLoading] = useState(!goalsCache);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (goalsCache) {
-            setGoals(goalsCache);
-            setLoading(false);
             return;
         }
 
-        fetch(`${API_BASE_URL}/config/goals`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch goals');
-                }
-                return res.json();
-            })
-            .then((data: Goal[]) => {
-                goalsCache = data; // Cache the goals
+        fetchGoals()
+            .then((data) => {
                 setGoals(data);
                 setLoading(false);
             })
@@ -128,6 +193,29 @@ export function useGoals() {
     }, []);
 
     return { goals, loading, error };
+}
+
+// ============= PREFETCH FUNCTIONS =============
+// These ensure cache is populated before components try to use helper functions
+
+export function prefetchConfig() {
+    return Promise.all([
+        fetchTags(),
+        fetchSpecializations(),
+        fetchGoals(),
+    ]);
+}
+
+export function prefetchTags() {
+    return fetchTags();
+}
+
+export function prefetchSpecializations() {
+    return fetchSpecializations();
+}
+
+export function prefetchGoals() {
+    return fetchGoals();
 }
 
 // ============= HELPER FUNCTIONS =============

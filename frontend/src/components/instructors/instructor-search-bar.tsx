@@ -21,6 +21,7 @@ export function InstructorSearchBar({
   onSearchChange,
 }: InstructorSearchBarProps) {
   const t = useTranslations('HomePage');
+  const tCommon = useTranslations('Common');
   const locale = useLocale();
   const { specializations, loading } = useSpecializations();
 
@@ -53,7 +54,7 @@ export function InstructorSearchBar({
             className="h-12 text-base bg-slate-800/50 border-2 border-slate-700 text-white focus-visible:border-orange-500 w-full px-4"
             aria-label={t('hero.specializationLabel')}
           >
-            <SelectValue placeholder={loading ? 'Loading...' : t('hero.specializationPlaceholder')} />
+            <SelectValue placeholder={loading ? tCommon('loading') : t('hero.specializationPlaceholder')} />
           </SelectTrigger>
           <SelectContent
             position="popper"

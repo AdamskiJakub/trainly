@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Globe, Star, Clock, Award, Target, Languages as LanguagesIcon, Play } from 'lucide-react';
@@ -10,6 +10,7 @@ import {
   getGoalNameById,
   getTagById,
   getGoalById,
+  prefetchConfig,
 } from '@/hooks/useConfig';
 import { getMediaUrl, isVideoUrl } from '@/lib/utils/media';
 import { ImageLightbox } from '@/components/ui/image-lightbox';
@@ -21,6 +22,11 @@ export function ProfileFullView({ profile }: ProfileFullViewProps) {
   const t = useTranslations('InstructorProfile');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  
+  // Ensure config is loaded before rendering
+  useEffect(() => {
+    prefetchConfig();
+  }, []);
   
   const fullName = profile.user?.firstName && profile.user?.lastName
     ? `${profile.user.firstName} ${profile.user.lastName}`
